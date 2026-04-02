@@ -41,3 +41,20 @@ The bootstrap currently uses the machine `LocalHostName` as the default config n
 - `nix-darwin` uses Determinate's Darwin module, so the initial framework does not manage `nix.*` directly.
 - Homebrew is scaffolded but disabled until the Homebrew migration topic is implemented.
 - If you want to suppress Determinate installer diagnostics, export `NIX_INSTALLER_DIAGNOSTIC_ENDPOINT=""` before running `./install`.
+
+## Shell Environment
+
+The shell migration keeps ownership split deliberately:
+
+- `nix-darwin` owns machine-level zsh facts, including enabling zsh and keeping the login shell at `/bin/zsh`.
+- Home Manager owns the user zsh files and interactive behavior.
+
+The temporary local-only shell hook is:
+
+```sh
+~/.config/links/zsh-local
+```
+
+If that file exists, interactive zsh will source it. It is intentionally outside tracked declarative state so local secrets and machine-only shell tweaks do not end up in the Nix store.
+
+Existing `~/.zshenv`, `~/.zprofile`, `~/.zshrc`, and `~/.p10k.zsh` files on a machine are not treated as disposable state. If those files already exist during the first Home Manager activation, move or back them up before switching so they are preserved explicitly rather than overwritten.
