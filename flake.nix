@@ -41,6 +41,9 @@
             home-manager.darwinModules.home-manager
             ./modules/darwin/base.nix
             {
+              # Preserve existing dotfiles on first activation instead of
+              # replacing them or requiring a destructive cleanup step.
+              home-manager.backupFileExtension = "hm-backup";
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = {

@@ -57,4 +57,4 @@ The temporary local-only shell hook is:
 
 If that file exists, interactive zsh will source it. It is intentionally outside tracked declarative state so local secrets and machine-only shell tweaks do not end up in the Nix store.
 
-Existing `~/.zshenv`, `~/.zprofile`, `~/.zshrc`, and `~/.p10k.zsh` files on a machine are not treated as disposable state. If those files already exist during the first Home Manager activation, move or back them up before switching so they are preserved explicitly rather than overwritten.
+Existing `~/.zshenv`, `~/.zprofile`, `~/.zshrc`, and `~/.p10k.zsh` files on a machine are not treated as disposable state. During the first Home Manager activation, any conflicting file is moved aside with the `.hm-backup` suffix rather than being overwritten in place.
