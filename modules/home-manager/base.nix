@@ -3,6 +3,7 @@
 {
   imports = [
     ./packages.nix
+    ./shell.nix
   ];
 
   home.username = host.username;

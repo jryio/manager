@@ -4,6 +4,7 @@
   imports = [
     ./packages.nix
     ./homebrew.nix
+    ./shell.nix
   ];
 
   determinateNix.enable = true;
