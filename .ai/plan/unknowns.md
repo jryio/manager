@@ -15,12 +15,8 @@ Open questions collected while comparing the overview plan against `~/dotfiles` 
 
 ## 02 Shell Environment
 
-- Is the absence of a repo-backed `.zshenv` intentional?
-- Are bash startup files still in scope, or is zsh the only target?
-- Should the end state keep Oh My Zsh plus Powerlevel10k, or simplify the stack?
-- Which external version managers survive the first pass?
-- How should the secret-bearing `op.sh` flow be preserved without putting secrets in the
-  store?
+No topic-level policy unknowns remain. The settled decisions are documented in
+`02-shell-environment.md`.
 
 ## 03 Dotfiles & App Configuration
 
