@@ -59,9 +59,13 @@ fi
 
 unset MAILCHECK
 
-if tty -s 2>/dev/null; then
-  export GPG_TTY="$(tty)"
+gpg_tty="$(tty 2>/dev/null || true)"
+if [[ "$gpg_tty" == /dev/* ]]; then
+  export GPG_TTY="$gpg_tty"
+elif [[ "${GPG_TTY-}" != /dev/* ]]; then
+  unset GPG_TTY
 fi
+unset gpg_tty
 
 if [[ -r "$HOME/.p10k.zsh" ]]; then
   source "$HOME/.p10k.zsh"

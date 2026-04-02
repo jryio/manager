@@ -9,37 +9,12 @@ let
       pkgs."fzf-tab"
     else
       throw "No fzf-tab package found in pkgs";
-  interactiveInit = lib.concatStringsSep "\n\n" [
-    ''
-      source_first_existing_script() {
-        local script
-
-        for script in "$@"; do
-          if [[ -r "$script" ]]; then
-            source "$script"
-            return 0
-          fi
-        done
-
-        return 1
-      }
-
-      source_first_existing_script \
-        ${pkgs."zsh-powerlevel10k"}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme \
-        ${pkgs."zsh-powerlevel10k"}/share/powerlevel10k/powerlevel10k.zsh-theme \
-        ${pkgs."zsh-powerlevel10k"}/powerlevel10k.zsh-theme
-
-      source_first_existing_script \
-        ${fzfTabPackage}/share/fzf-tab/fzf-tab.plugin.zsh \
-        ${fzfTabPackage}/fzf-tab.plugin.zsh
-
-      source_first_existing_script \
-        ${pkgs."zsh-autosuggestions"}/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
-        ${pkgs."zsh-autosuggestions"}/zsh-autosuggestions.zsh
-
-      unfunction source_first_existing_script
-    ''
-    (builtins.readFile ./shell/init.zsh)
+  zshInitContent = lib.mkMerge [
+    (lib.mkOrder 550 (builtins.readFile ./shell/before-compinit.zsh))
+    (lib.mkOrder 850 ''
+      source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme
+    '')
+    (lib.mkOrder 1000 (builtins.readFile ./shell/init.zsh))
   ];
 in
 {
@@ -47,11 +22,19 @@ in
     enable = true;
     dotDir = homeDir;
     enableCompletion = true;
+    autosuggestion.enable = true;
 
     envExtra = builtins.readFile ./shell/env.zsh;
     profileExtra = builtins.readFile ./shell/profile.zsh;
-    initExtraBeforeCompInit = builtins.readFile ./shell/before-compinit.zsh;
-    initContent = interactiveInit;
+    initContent = zshInitContent;
+
+    plugins = [
+      {
+        name = "fzf-tab";
+        src = fzfTabPackage;
+        file = "share/fzf-tab/fzf-tab.plugin.zsh";
+      }
+    ];
 
     oh-my-zsh = {
       enable = true;
