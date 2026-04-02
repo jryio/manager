@@ -20,11 +20,22 @@ No topic-level policy unknowns remain. The settled decisions are documented in
 
 ## 03 Dotfiles & App Configuration
 
-- Is Ghostty actually in active use, or only present as a candidate config?
-- Does `~/.tmux-osx.conf` still exist somewhere outside the repo?
-- Is `nvim/config.lua` still live, or only leftover LunarVim history?
-- Are Zed, gh, gh-dash, television, and jujutsu intentionally unmanaged today?
-- The `lvim.work` path references `/Users/bigbrother`; is that file stale?
+- No topic-level intent unknowns remain. Topic 03 policy is settled in
+  `03-dotfiles-app-configuration.md`.
+- The remaining execution question is whether the target tmux build on macOS will happily
+  consume Home Manager's `~/.config/tmux/tmux.conf`, or whether Topic 03 should add a small
+  `~/.tmux.conf` compatibility shim that sources the XDG path.
+- Neovim bootstrap remains unresolved across Topic 03 and Topic 14: should the first pass
+  keep a committed `autoload/plug.vim` copy and rely on a one-time `:PlugInstall`, or should
+  some other bootstrap path be documented?
+- LunarVim installation and launcher ownership remain unresolved across Topic 03 and Topic
+  14. The live `~/.local/bin/lvim` is installer-managed today and does not match the tracked
+  wrapper scripts.
+- The live television `default_channels.toml` does not map directly to Home Manager's
+  `programs.television.channels` output path. Topic 03 still needs a deliberate decision on
+  whether to preserve any of those channels or leave them as upstream/default behavior.
+- Package ownership for Ghostty, Zed, `gh-dash`, television, jujutsu, tmux, `btop`, and
+  `htop` remains blocked on Topics 01 and 15.
 
 ## 04 Git Configuration
 
