@@ -5,6 +5,9 @@
   - be extremely terse, reference tickets, plans, etc. focus on the post important takeaway so other readers can distill information quickly and efficienty.
 
 ## Decisions
+- [manager-4.1.1]: fixed the Topic 13 control-plane boundary around Determinate ownership
+  - `.ai/plan/13-nix-infrastructure.md` now treats `determinateNix.customSettings` and `determinateNix.determinateNixd` as the only supported machine-level Nix surfaces; generic nix-darwin `nix.*` ownership assumptions were stale.
+  - `.ai/plan/unknowns.md` now narrows Topic 13 open questions to Determinate-compatible trust, registry, lifecycle, and package-set policy instead of "where does the flake live?" style bootstrap questions.
 - [manager-4]: rebased the migration backlog around actual repo state
   - Closed stale `manager-1`/`manager-2`/`manager-3` after confirming bootstrap and Topic 02 shell work are already implemented; Topic 03 planning is complete in `.ai/plan/03-dotfiles-app-configuration*.md`.
   - Created epic `manager-4` plus ordered child issues for Topics 13, 15, 01, 10, and 03 so future work starts with control-plane and package ownership instead of skipping ahead to app-config modules.

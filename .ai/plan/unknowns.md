@@ -129,12 +129,22 @@ No topic-level policy unknowns remain. The settled decisions are documented in
 
 ## 13 Nix Infrastructure Itself
 
-- Where will the Darwin flake actually live?
+- The control-plane ownership boundary is now settled: Determinate owns the base
+  `/etc/nix/nix.conf`, repo-approved CLI settings must go through
+  `determinateNix.customSettings`, and Determinate Nixd behavior must go through
+  `determinateNix.determinateNixd`.
 - Should the current personal and work split become separate Darwin configurations, separate
   Home Manager modules, or parameterized profiles?
-- Which current Brew items must remain Homebrew-managed rather than moving to Nix packages?
-- What caches, trusted keys, and `allowUnfree` policy are required?
-- What GC and optimization cadence is desired for this machine?
+- Which extra machine-level Nix CLI settings are actually required beyond Determinate defaults,
+  especially `trusted-users`, `trusted-substituters`, `trusted-public-keys`, and any explicit
+  `flake-registry` posture?
+- Should lifecycle policy accept Determinate Nixd's automatic garbage collector, disable it, or
+  add a later custom launchd cadence outside nix-darwin's disabled `nix.gc.*` and
+  `nix.optimise.*` helpers?
+- Should this repo materialize a system flake registry and related `NIX_PATH` behavior through
+  Determinate-compatible surfaces, or intentionally leave both unset?
+- Does the repo-wide `nixpkgs.config.allowUnfree = true` default remain the only package-set
+  exception for now, or is any additional package-set policy actually required?
 
 ## 14 Development Environment
 
