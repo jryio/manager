@@ -20,3 +20,6 @@
 - [manager-4.4]: turned Topic 15 implementation into a gated Homebrew bridge epic
   - Recast `manager-4.4` as an implementation epic that explicitly depends on `manager-4.3.4`, preserves the Determinate-backed Darwin architecture, and makes shell/docs alignment plus `testaccount` validation part of the phase contract instead of optional cleanup.
   - Added `manager-4.4.1` through `manager-4.4.4` for bridge structure, authoritative inventory encoding, shell/bootstrap/operator workflow alignment, and validation closeout so `manager-4.5` inherits a stable implementation boundary rather than reopening Topic 15 policy.
+- [manager-4.5]: turned Topic 01 into a real package-classification epic with an explicit handoff
+  - Recast `manager-4.5` as an epic grounded in actual repo state: package modules are still empty, Topic 15 now owns Homebrew bridge policy/implementation separately, and the Brewfiles still referenced in `.ai/plan/01-packages-applications.md` / `.ai/plan/15-homebrew-itself.md` do not exist in this repo.
+  - Added `manager-4.5.1` through `manager-4.5.5` to sequence inventory-truth research, ownership-boundary research, canonical ledger construction, final ownership freezing, and the downstream handoff to `manager-4.6` / `manager-4.7` so Topic 01 implementation does not invent package ownership on the fly.
