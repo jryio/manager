@@ -8,3 +8,6 @@
 - [manager-4]: rebased the migration backlog around actual repo state
   - Closed stale `manager-1`/`manager-2`/`manager-3` after confirming bootstrap and Topic 02 shell work are already implemented; Topic 03 planning is complete in `.ai/plan/03-dotfiles-app-configuration*.md`.
   - Created epic `manager-4` plus ordered child issues for Topics 13, 15, 01, 10, and 03 so future work starts with control-plane and package ownership instead of skipping ahead to app-config modules.
+- [manager-4.1]: turned Topic 13 into a real policy epic with a gated child backlog
+  - Recast `manager-4.1` as an epic focused on Determinate-backed Nix control-plane policy, using current repo state from `flake.nix`, `modules/darwin/base.nix`, `README.md`, and `.ai/plan/13-nix-infrastructure.md`.
+  - Added `manager-4.1.1` through `manager-4.1.5` to sequence Determinate-boundary research, host/profile split research, trust/cache/registry policy, nixpkgs/overlay policy, and the final `manager-4.2` implementation handoff.
