@@ -14,3 +14,6 @@
 - [manager-4.2]: split Topic 13 implementation into a real execution epic
   - Converted `manager-4.2` from a single feature stub into an implementation epic tied to the current repo surfaces in `flake.nix`, `modules/darwin/base.nix`, `modules/darwin/homebrew.nix`, `modules/darwin/packages.nix`, `modules/home-manager/base.nix`, `README.md`, and `.ai/plan/13-nix-infrastructure.md`.
   - Added `manager-4.2.1` through `manager-4.2.4` for module seams, machine-level Determinate-compatible policy, package-set/Home Manager Nix ergonomics, and docs plus validation closeout, with dependencies routed through `manager-4.1.5`.
+- [manager-4.3]: turned Topic 15 into a real Homebrew policy epic
+  - Recast `manager-4.3` as an epic grounded in current repo state: `modules/darwin/homebrew.nix` is still disabled, `modules/home-manager/shell/profile.zsh` still expects Homebrew, and the legacy Brewfiles referenced in `.ai/plan/15-homebrew-itself.md` / `.ai/plan/01-packages-applications.md` do not exist in this repo.
+  - Added `manager-4.3.1` through `manager-4.3.4` to sequence missing-manifest research, official Homebrew bridge-boundary research, policy synthesis, and the final `manager-4.4` handoff so Topic 15 implementation does not invent inventory truth or bridge behavior on the fly.
