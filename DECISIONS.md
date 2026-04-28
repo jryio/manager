@@ -41,3 +41,6 @@
 - [manager-4.10 child backlog]: finalized the Topic 03 editor/Zed child issue bodies without changing phase scope
   - Rewrote `manager-4.10.1` through `manager-4.10.5` from the allowed source set only: `bd show manager-4.10`, `.ai/plan/03-dotfiles-app-configuration*.md`, `.ai/plan/14-development-environment.md`, `README.md`, and `modules/home-manager/base.nix`.
   - The child IDs and dependency graph already existed cleanly in beads, so the correct move was to preserve that structure and tighten the issue bodies instead of creating duplicate children.
+- [codex workflow]: added a reusable Codex session prompt and two-terminal operator guide
+  - Added `.ai/codex-agentic-workflow.md` with one pasteable prompt, session-slice rules, context-loading rules, safe parallelization windows, and explicit shared-file ownership guidance for lead vs builder terminals.
+  - The workflow is optimized around the actual `manager-4.*` dependency program: substrate in session 1, app-config in session 2, and only sibling tickets with disjoint write scopes run in parallel.
