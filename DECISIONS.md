@@ -17,3 +17,6 @@
 - [manager-4.3]: turned Topic 15 into a real Homebrew policy epic
   - Recast `manager-4.3` as an epic grounded in current repo state: `modules/darwin/homebrew.nix` is still disabled, `modules/home-manager/shell/profile.zsh` still expects Homebrew, and the legacy Brewfiles referenced in `.ai/plan/15-homebrew-itself.md` / `.ai/plan/01-packages-applications.md` do not exist in this repo.
   - Added `manager-4.3.1` through `manager-4.3.4` to sequence missing-manifest research, official Homebrew bridge-boundary research, policy synthesis, and the final `manager-4.4` handoff so Topic 15 implementation does not invent inventory truth or bridge behavior on the fly.
+- [manager-4.4]: turned Topic 15 implementation into a gated Homebrew bridge epic
+  - Recast `manager-4.4` as an implementation epic that explicitly depends on `manager-4.3.4`, preserves the Determinate-backed Darwin architecture, and makes shell/docs alignment plus `testaccount` validation part of the phase contract instead of optional cleanup.
+  - Added `manager-4.4.1` through `manager-4.4.4` for bridge structure, authoritative inventory encoding, shell/bootstrap/operator workflow alignment, and validation closeout so `manager-4.5` inherits a stable implementation boundary rather than reopening Topic 15 policy.
