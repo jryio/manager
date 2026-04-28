@@ -11,3 +11,6 @@
 - [manager-4.1]: turned Topic 13 into a real policy epic with a gated child backlog
   - Recast `manager-4.1` as an epic focused on Determinate-backed Nix control-plane policy, using current repo state from `flake.nix`, `modules/darwin/base.nix`, `README.md`, and `.ai/plan/13-nix-infrastructure.md`.
   - Added `manager-4.1.1` through `manager-4.1.5` to sequence Determinate-boundary research, host/profile split research, trust/cache/registry policy, nixpkgs/overlay policy, and the final `manager-4.2` implementation handoff.
+- [manager-4.2]: split Topic 13 implementation into a real execution epic
+  - Converted `manager-4.2` from a single feature stub into an implementation epic tied to the current repo surfaces in `flake.nix`, `modules/darwin/base.nix`, `modules/darwin/homebrew.nix`, `modules/darwin/packages.nix`, `modules/home-manager/base.nix`, `README.md`, and `.ai/plan/13-nix-infrastructure.md`.
+  - Added `manager-4.2.1` through `manager-4.2.4` for module seams, machine-level Determinate-compatible policy, package-set/Home Manager Nix ergonomics, and docs plus validation closeout, with dependencies routed through `manager-4.1.5`.
