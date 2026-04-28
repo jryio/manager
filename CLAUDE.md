@@ -30,6 +30,10 @@ This repository is the source of truth for the macOS setup. Determinate provides
 - Validate the bootstrap path on a clean macOS install before relying on higher-level modules.
 - If Nix is not yet installed on the active machine, expect validation to be limited to static checks until a real install is performed under `testaccount`.
 
+## Decision Log
+
+There exists @DECISIONS.md which you must use upon completing work. What were the major changes that others should know about. What worked? What did not work? Why did it not work? What should others know about your attempt and what should they do differently. You MUST add to this at the end of every single completed session.
+
 ## Issue Tracking
 
 This project uses `bd` (beads) for issue tracking.
