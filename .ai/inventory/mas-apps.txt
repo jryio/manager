@@ -1,0 +1,49 @@
+# source: ls /Applications/*.app/Contents/_MASReceipt
+# captured-at: 2026-05-18
+# machine: AVA
+# captured-by: inventory-apps agent
+com.khanov.BlockerX  1Blocker.app
+com.1password.safari  1Password for Safari.app
+com.adobe.mas.lightroomCC  Adobe Lightroom.app
+com.if.Amphetamine  Amphetamine.app
+cc.anybox.Anybox  Anybox.app
+Archagon.Backgroundifier  Backgroundifier.app
+com.kruegersystems.calca.mac  Calca.app
+com.flexibits.cardhop.mac  Cardhop.app
+com.nscoding.ColorPicker  Color Picker.app
+com.lukilabs.lukiapp  Craft.app
+com.samuellaska.CryptoWatch  Crypto Pro.app
+com.charliemchapman.dark-noise  Dark Noise.app
+com.bloombuilt.dayone-mac  Day One.app
+com.junecloud.mac.Deliveries  Deliveries.app
+app.figr.figr  Figr.app
+net.ro-z.FitFileExplorer  FitFileExplorer.app
+com.flightyapp.flighty  Flighty.app
+au.com.michaeltigas.FocusedWork  Focused Work.app
+com.algebraiclabs.foodnoms  Foodnoms.app
+com.apple.garageband10  GarageBand.app
+com.paewel.GeoTagsterr  GeoTagster.app
+com.dreamer.Habits  Habits.app
+com.ifunography.HealthExport  Health Auto Export.app
+pro.writer.mac  iA Writer.app
+com.apple.iMovieApp  iMovie.app
+com.instapaper.Instapaper-Mac  Instapaper Save.app
+com.bjango.iStatMini  iStat Mini.app
+com.apple.iWork.Keynote  Keynote.app
+com.microsoft.Excel  Microsoft Excel.app
+com.microsoft.Word  Microsoft Word.app
+nl.jeffreykuiken.NoirApp.mac  Noir.app
+com.apple.iWork.Pages  Pages.app
+com.mr-brightside.ParcelOSX  Parcel Classic.app
+de.APPenzeller.PiPifier  PiPifier.app
+app.portal.ios.v1  Portal.app
+com.nothingmagical.redacted-mac  Redacted.app
+com.shortery-app.Shortery  Shortery.app
+com.tinyspeck.slackmacgap  Slack.app
+app.soulver.appstore.mac  Soulver 3.app
+io.tailscale.ipn.macos  Tailscale.app
+com.culturedcode.ThingsMac  Things3.app
+com.TickTick.task.mac  TickTick.app
+com.joehribar.toggl  Timery.app
+net.televator.Vimari  Vimari.app
+com.apple.dt.Xcode  Xcode.app

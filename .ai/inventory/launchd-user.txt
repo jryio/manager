@@ -1,0 +1,39 @@
+# source: ls -1 ~/Library/LaunchAgents; launchctl list (current user, no sudo)
+# captured-at: 2026-05-18
+# machine: AVA (macOS 15.5)
+# captured-by: inventory-launchd agent
+# note: load-state derived for current user only; "LOADED" means label appears in `launchctl list`
+
+com.backblaze.bzbmenu.plist               LOADED      KEEP       Backblaze menu-bar agent (active backup product)
+com.bjango.istatmenus.agent.plist         LOADED      KEEP       iStat Menus user agent (active)
+com.bjango.istatmenus.status.plist        LOADED      KEEP       iStat Menus status helper (active)
+com.dropbox.dropboxmacupdate.agent.plist  UNLOADED    RETIRE     Dropbox legacy updater agent; superseded by DropboxUpdater.wake
+com.dropbox.dropboxmacupdate.xpcservice.plist  UNLOADED  RETIRE   Dropbox legacy updater XPC; superseded
+com.dropbox.DropboxUpdater.wake.plist     LOADED      KEEP       Dropbox current updater wake agent
+com.github.facebook.watchman.plist        LOADED      UNKNOWN    Watchman file-watch service; verify dev workflow still needs it
+com.google.GoogleUpdater.wake.plist       LOADED      UNKNOWN    Google updater wake (Chrome/Drive); KEEP if Chrome/Drive still in use
+com.google.keystone.agent.plist           UNLOADED    RETIRE     Legacy Google Keystone updater; replaced by GoogleUpdater
+com.google.keystone.xpcservice.plist      UNLOADED    RETIRE     Legacy Google Keystone XPC; replaced by GoogleUpdater
+com.mailspring.plist                      UNLOADED    RETIRE     mailspring app per D15 stale list
+com.skype.skype.shareagent.plist          LOADED      RETIRE     skype per D15 stale list (Skype EOL May 2025)
+com.valvesoftware.steamclean.plist        LOADED      UNKNOWN    Steam cleanup helper; KEEP if Steam still installed, otherwise RETIRE
+homebrew.mxcl.mysql.plist                 LOADED      UNKNOWN    Current brew mysql; KEEP only if a live mysql workload depends on it
+homebrew.mxcl.mysql@5.6.plist             LOADED      RETIRE     mysql@5.6 per D15 stale list (exit code 78, EOL)
+homebrew.mxcl.postgresql.plist            LOADED      UNKNOWN    Generic brew postgresql formula (errored, exit 78); verify vs postgresql@14 daemon
+homebrew.mxcl.postgresql@9.6.plist        LOADED      RETIRE     postgresql@9.6 per D15 stale list (exit code 78, EOL)
+keybase.kbfs.devel.plist                  LOADED      RETIRE     keybase.kbfs.devel per D15 stale list (dev variant)
+keybase.kbfs.plist                        LOADED      UNKNOWN    Keybase KBFS production agent; KEEP only if Keybase still in active use
+keybase.service.devel.plist               LOADED      RETIRE     Keybase dev service; companion to kbfs.devel
+keybase.service.plist                     LOADED      UNKNOWN    Keybase production service; KEEP only if Keybase still in active use
+keybase.updater.plist                     LOADED      UNKNOWN    Keybase updater; gates on keybase decision
+mega.mac.megaupdater.plist                LOADED      RETIRE     mega per D15 stale list (exit code 78)
+net.pulsesecure.SetupClient.plist         LOADED      UNKNOWN    Pulse Secure VPN setup client; KEEP if still used for work VPN
+org.virtualbox.vboxwebsrv.plist           UNLOADED    RETIRE     virtualbox per D15 stale list
+us.zoom.updater.gui.501.login.check.plist LOADED      KEEP       Zoom login-check updater (Zoom still installed/active)
+us.zoom.updater.gui.501.plist             LOADED      KEEP       Zoom GUI updater (Zoom still installed/active)
+
+## Summary
+- Total: 27
+- KEEP: 5
+- RETIRE: 12
+- UNKNOWN: 10

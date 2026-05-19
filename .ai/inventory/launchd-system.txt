@@ -1,0 +1,53 @@
+# source: ls -1 /Library/LaunchAgents; ls -1 /Library/LaunchDaemons; launchctl list (current user only)
+# captured-at: 2026-05-18
+# machine: AVA (macOS 15.5)
+# captured-by: inventory-launchd agent
+# note: load-state for [Daemons] is best-effort; root context not queried (no sudo per instructions). Daemons shown UNLOADED were not present in the current user's `launchctl list`; their real boot state requires sudo to confirm.
+
+[Agents] at.obdev.littlesnitch.agent.plist              LOADED      KEEP       Little Snitch user agent (active firewall product)
+[Agents] com.google.keystone.agent.plist                UNLOADED    RETIRE     Legacy Google Keystone (system copy); replaced by GoogleUpdater
+[Agents] com.google.keystone.xpcservice.plist           UNLOADED    RETIRE     Legacy Google Keystone XPC (system copy)
+[Agents] com.haystacksoftware.ArqMonitor.plist          LOADED      KEEP       Arq Backup monitor (active backup product)
+[Agents] com.logi.optionsplus.plist                     UNLOADED    UNKNOWN    Logi Options+ agent; KEEP if Logitech mouse/keyboard in use
+[Agents] com.logitech.LogiRightSight.Agent.plist        LOADED      UNKNOWN    Logitech RightSight camera agent; KEEP if Logitech camera in use
+[Agents] com.malwarebytes.mbam.frontend.agent.plist     LOADED      UNKNOWN    Malwarebytes front-end agent; verify intent
+[Agents] com.razer.rzupdater.plist                      UNLOADED    UNKNOWN    Razer updater; RETIRE if no Razer hardware attached
+[Agents] com.razerzone.rzdeviceengine.plist             UNLOADED    UNKNOWN    Razer device engine; RETIRE if no Razer hardware attached
+[Agents] org.gpgtools.Libmacgpg.xpc.plist               LOADED      KEEP       GPG Suite XPC service (D10 signing path)
+[Agents] org.gpgtools.macgpg2.fix.plist                 LOADED      KEEP       GPG Suite first-run fix agent
+[Agents] org.gpgtools.macgpg2.shutdown-gpg-agent.plist  LOADED      KEEP       GPG Suite gpg-agent shutdown handler
+[Agents] org.gpgtools.updater.plist                     LOADED      KEEP       GPG Suite updater
+[Agents] org.xquartz.startx.plist                       LOADED      UNKNOWN    XQuartz startx; KEEP if X11 workflow still needed, otherwise RETIRE
+
+[Daemons] at.obdev.littlesnitch.daemon.plist            UNLOADED    KEEP       Little Snitch root daemon (active firewall product, runs in root context)
+[Daemons] com.actualtechnologies.ODBCManagerHelper.plist UNLOADED   UNKNOWN    Actual Technologies ODBC manager helper; verify if any ODBC driver still in use
+[Daemons] com.backblaze.bzserv.plist                    UNLOADED    KEEP       Backblaze root backup daemon (active product)
+[Daemons] com.bjango.istatmenus.daemon.plist            UNLOADED    KEEP       iStat Menus root daemon (active product)
+[Daemons] com.bjango.istatmenus.installer.plist         UNLOADED    KEEP       iStat Menus installer hook
+[Daemons] com.bjango.istatmenus.installerhelper.plist   UNLOADED    KEEP       iStat Menus installer helper
+[Daemons] com.daisydiskapp.DaisyDiskStandAlone.AdminHelper.plist UNLOADED UNKNOWN  DaisyDisk admin helper; KEEP only if DaisyDisk still used
+[Daemons] com.docker.socket.plist                       UNLOADED    UNKNOWN    Docker Desktop socket daemon; KEEP if Docker still in use
+[Daemons] com.google.GoogleUpdater.wake.system.plist    UNLOADED    UNKNOWN    Google updater system wake; gates on Google app usage
+[Daemons] com.google.keystone.daemon.plist              UNLOADED    RETIRE     Legacy Google Keystone daemon; replaced by GoogleUpdater
+[Daemons] com.haystacksoftware.arqagent.plist           UNLOADED    KEEP       Arq Backup root agent (active product)
+[Daemons] com.logi.optionsplus.updater.plist            UNLOADED    UNKNOWN    Logi Options+ updater; gates on Logitech hardware
+[Daemons] com.malwarebytes.mbam.rtprotection.daemon.plist UNLOADED  UNKNOWN    Malwarebytes real-time protection daemon; verify intent
+[Daemons] com.malwarebytes.mbam.settings.daemon.plist   UNLOADED    UNKNOWN    Malwarebytes settings daemon; verify intent
+[Daemons] com.tclementdev.timemachineeditor.scheduler.plist UNLOADED KEEP      TimeMachineEditor scheduler (D31 declares cask; backup destination manual)
+[Daemons] homebrew.mxcl.black.plist                     UNLOADED    RETIRE     Brew black formatter as a system daemon is unusual; almost certainly stale
+[Daemons] homebrew.mxcl.postgresql@14.plist             UNLOADED    UNKNOWN    Postgres 14 daemon; KEEP if a current workload depends on it, otherwise RETIRE
+[Daemons] keybase.Helper.plist                          UNLOADED    UNKNOWN    Keybase privileged helper; gates on keybase keep/retire decision
+[Daemons] net.mullvad.daemon.plist                      UNLOADED    UNKNOWN    Mullvad VPN daemon; KEEP if Mullvad still used
+[Daemons] net.tunnelblick.tunnelblick.tunnelblickd.plist UNLOADED   UNKNOWN    Tunnelblick (OpenVPN GUI) daemon; KEEP if Tunnelblick still used
+[Daemons] ngrok.plist                                   UNLOADED    UNKNOWN    ngrok system daemon; non-standard install location, verify
+[Daemons] org.eyebeam.SelfControl.plist                 UNLOADED    UNKNOWN    SelfControl app daemon; KEEP if app still used
+[Daemons] org.eyebeam.selfcontrold.plist                UNLOADED    UNKNOWN    SelfControl backing daemon; gates on SelfControl decision
+[Daemons] org.openvpn.client.plist                      UNLOADED    KEEP       OpenVPN client daemon (companion to Tunnelblick/openvpn workflow)
+[Daemons] org.openvpn.helper.plist                      UNLOADED    KEEP       OpenVPN privileged helper
+[Daemons] org.xquartz.privileged_startx.plist           UNLOADED    UNKNOWN    XQuartz privileged startx; gates on XQuartz/X11 decision
+
+## Summary
+- Total: 40 (14 Agents + 26 Daemons)
+- KEEP: 14
+- RETIRE: 5
+- UNKNOWN: 21

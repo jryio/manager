@@ -1,0 +1,122 @@
+# source: /Applications/*.app minus MAS receipts minus brew --cask matches
+# captured-at: 2026-05-18
+# machine: AVA
+# captured-by: inventory-apps agent
+1Password.app   candidate-cask: 1password
+Advantage360 SmartSet App macOS v1.0.2.app   candidate-cask: -
+Alfred 5.app   candidate-cask: alfred
+Antigravity.app   candidate-cask: -
+Arc.app   candidate-cask: arc
+Arq.app   candidate-cask: arq
+Backblaze.app   candidate-cask: backblaze
+BackblazeRestore.app   candidate-cask: -
+BackgroundifierBuddy.app   candidate-cask: -
+Bartender 6.app   candidate-cask: bartender
+BetterDisplay.app   candidate-cask: betterdisplay
+Cap.app   candidate-cask: cap
+Capture One 21.app   candidate-cask: capture-one
+ChatGPT.app   candidate-cask: chatgpt
+Choosy.app   candidate-cask: choosy
+Claude.app   candidate-cask: claude
+CleanShot X.app   candidate-cask: cleanshot
+Conductor.app   candidate-cask: -
+Context.app   candidate-cask: -
+Copilot.app   candidate-cask: -
+Cursor.app   candidate-cask: cursor
+DaisyDisk.app   candidate-cask: daisydisk
+Dash.app   candidate-cask: dash
+Discord.app   candidate-cask: discord
+Docker.app   candidate-cask: docker
+Dropbox.app   candidate-cask: dropbox
+Electrum.app   candidate-cask: electrum
+Ethereum Wallet.app   candidate-cask: ethereum-wallet
+Fantastical.app   candidate-cask: fantastical
+Figma.app   candidate-cask: figma
+Firefox.app   candidate-cask: firefox
+FontForge.app   candidate-cask: fontforge
+Geotag Photos Pro 2.app   candidate-cask: -
+Google Chrome.app   candidate-cask: google-chrome
+Google Earth Pro.app   candidate-cask: google-earth-pro
+Hazel.app   candidate-cask: hazel
+HEY.app   candidate-cask: hey
+HTTPie.app   candidate-cask: httpie
+IINA.app   candidate-cask: iina
+iStat Menus 6.app   candidate-cask: istat-menus
+iStat Menus.app   candidate-cask: istat-menus
+Keybase.app   candidate-cask: keybase
+Ledger Live.app   candidate-cask: ledger-live
+Lens.app   candidate-cask: lens
+Linear.app   candidate-cask: linear-linear
+Little Snitch.app   candidate-cask: little-snitch
+LM Studio.app   candidate-cask: lm-studio
+logioptionsplus.app   candidate-cask: logi-options-plus
+MacDown.app   candidate-cask: macdown
+MacWhisper.app   candidate-cask: macwhisper
+Malwarebytes.app   candidate-cask: malwarebytes
+Mesh.app   candidate-cask: -
+Micro Snitch.app   candidate-cask: micro-snitch
+Mochi.app   candidate-cask: mochi
+MonitorControl.app   candidate-cask: monitorcontrol
+Mullvad VPN.app   candidate-cask: mullvad-vpn
+Multitui.app   candidate-cask: -
+Notion Calendar.app   candidate-cask: notion-calendar
+Notion.app   candidate-cask: notion
+Obsidian.app   candidate-cask: obsidian
+Ollama.app   candidate-cask: ollama-app
+OpenVPN Connect.app   candidate-cask: openvpn-connect
+PDF Expert.app   candidate-cask: pdf-expert
+Raycast.app   candidate-cask: raycast
+Rectangle.app   candidate-cask: rectangle
+Rocket.app   candidate-cask: rocket
+Safari.app   candidate-cask: -
+SelfControl.app   candidate-cask: selfcontrol
+SF Symbols.app   candidate-cask: sf-symbols
+Shapr3D.app   candidate-cask: shapr3d
+Signal.app   candidate-cask: signal
+Solo.app   candidate-cask: -
+Spotify.app   candidate-cask: spotify
+Steam.app   candidate-cask: steam
+Sublime Text.app   candidate-cask: sublime-text
+SynologyAssistant.app   candidate-cask: synology-assistant
+TablePlus.app   candidate-cask: tableplus
+ThingsMacSandboxHelper.app   candidate-cask: -
+Tydlig.app   candidate-cask: -
+Wally.app   candidate-cask: wally
+WebTorrent.app   candidate-cask: webtorrent
+XDeck.app   candidate-cask: -
+Zed.app   candidate-cask: zed
+Zen.app   candidate-cask: zen
+ZMK Studio.app   candidate-cask: zmk-studio
+Zulip.app   candidate-cask: zulip
+
+## Summary
+
+Totals (over 137 top-level /Applications/*.app entries; MIGRATION.md ground-truth says 141 /Applications entries — the delta is the 4 non-.app entries: Apps/, Utilities/, OpenVPN Connect/, DaisyDisk.localized/):
+- MAS: 45
+- BREW: 6 (Codex, Ghostty, GPG Keychain, MarkEdit, PowerShell, TimeMachineEditor)
+- MANUAL: 86
+
+Brew casks not currently producing /Applications/*.app entries at top level (so excluded from the cask matches above): 1password-cli, alacritty, gcloud-cli, gitify, macfuse, miniconda, ngrok, vagrant, wireshark-app, xquartz (xquartz lives under /Applications/Utilities/, the rest are CLI casks).
+
+Notes on bundle-id-driven re-classification candidates (info only, no action):
+- 1Password.app: appears in MANUAL but cask `1password` clearly maps; flagged for manager-4.19 to fold into homebrew bridge.
+- BackgroundifierBuddy.app: companion to MAS Backgroundifier — likely auto-installed by it, not separately installable.
+- BackblazeRestore.app: companion installer dropped by Backblaze; not separately distributed.
+- ThingsMacSandboxHelper.app: helper bundle for Things3 (MAS); not separately installable.
+- Antigravity.app: Google's new Antigravity IDE; no homebrew cask as of capture date. Manual install via Google.
+- Conductor.app, Context.app, Copilot.app, Mesh.app, Multitui.app, Solo.app, XDeck.app: niche apps without obvious homebrew casks; likely manual installers.
+
+### Obvious stale candidates (commentary only — not removing)
+
+- `Advantage360 SmartSet App macOS v1.0.2.app` — versioned vendor configurator for a keyboard; ZMK Studio supersedes it for many users. Unsigned/versioned naming suggests one-off download.
+- `Geotag Photos Pro 2.app` — overlaps with MAS `GeoTagster`; likely older replacement.
+- `iStat Menus 6.app` AND `iStat Menus.app` — duplicate, the un-suffixed one is current major version; "6" suffix is the legacy bundle.
+- `Ethereum Wallet.app` — Mist/Ethereum Wallet was deprecated by the Ethereum Foundation in 2019; almost certainly stale.
+- `Keybase.app` — Keybase has been effectively unmaintained since the Zoom acquisition; gitego still references a `keybase` profile per MIGRATION.md so flagged-not-stale until Topic 04 review.
+- `WebTorrent.app` — Desktop client development has been intermittent; possibly stale.
+- `MacDown.app` — Project is largely unmaintained; superseded by MarkEdit (already brew cask) and iA Writer (MAS).
+- `Wally.app` — ErgoDox/Moonlander firmware flasher; only relevant if those keyboards still in active use.
+- `Backgroundifier.app` + `BackgroundifierBuddy.app` — niche utility; one-time-use category.
+- `FontForge.app` — heavyweight, last touched only sporadically by user; may be stale.
+- `OpenVPN Connect.app` — legacy alongside Mullvad VPN + Tailscale; may be obsolete depending on remaining VPN endpoints.
+- `Electrum.app` — Bitcoin wallet; keep if user still holds BTC, otherwise security risk to leave stale.

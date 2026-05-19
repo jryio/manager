@@ -1,0 +1,740 @@
+# command: gpg --list-keys && gpg --list-secret-keys
+# captured-at: 2026-05-18
+# machine: AVA (macOS 15.5)
+# captured-by: inventory-gpg agent
+# SAFETY: this artifact contains key metadata only — fingerprints, capabilities, UIDs, expirations, and pubkey ASCII armor are OK; secret-key material is NOT exported.
+
+## gpg --list-keys (public keyring)
+
+/Users/CASE/.gnupg/pubring.kbx
+------------------------------
+pub   rsa4096 2019-08-14 [SC] [expired: 2023-08-14]
+      207E157D06B0C2DF8A0A54B322CEBC6C3DB53189
+uid           [ expired] deadwood git key <cori@keyba.se>
+
+pub   rsa4096 2015-07-31 [SCA] [expired: 2025-07-28]
+      5FDB08D3088CFB45F2FC16A4D81110D19D139F88
+uid           [ expired] keybase.io/01 <01@keybase.io>
+
+pub   rsa4096 2017-05-18 [SC] [expired: 2025-05-16]
+      3FEF9748469ADBE15DA7CA80AC2D62742012EA22
+uid           [ expired] Code signing for 1Password <codesign@1password.com>
+
+pub   rsa4096 2019-03-22 [SC] [expires: 2035-03-18]
+      56BE16D9656A3614F16EF181F95CEBE37B01E9B3
+uid           [ unknown] Adriana Babakanian  <ababakanian@berkeley.edu>
+uid           [ unknown] Adriana Babakanian  <adrib08@yahoo.com>
+sub   rsa4096 2019-03-22 [E] [expires: 2035-03-18]
+
+pub   rsa4096 2014-10-24 [SCA] [expired: 2024-10-21]
+      9E607BFF4501A04B9A2229776359958614FB86FC
+uid           [ expired] keybase.io/adamjspooner <adamjspooner@keybase.io>
+
+pub   rsa4096 2016-09-29 [SC]
+      1EAE7AA9B3A68788F60148E886E20E7335B29F6F
+uid           [ unknown] Alexander Kern <alex@kern.io>
+
+pub   rsa4096 2017-07-14 [SC]
+      8457C7954AF5AFCD8B98215BB868A17FE05AD176
+uid           [ unknown] Ron Bhattacharyay <aranibatta@berkeley.edu>
+uid           [ unknown] Ron Bhattacharyay <abhattacharyay@zenreach.com>
+uid           [ unknown] Ron Bhattacharyay <aranibatta@gmail.com>
+
+pub   rsa4096 2014-02-14 [SCEA] [expired: 2024-02-12]
+      419877544E88410632624ACB4F04069FE2052317
+uid           [ expired] keybase.io/aston <aston@keybase.io>
+
+pub   rsa4096 2017-03-02 [SC] [expires: 2033-02-26]
+      7BE9327E547D546144036BD29FE05C1D022A38A4
+uid           [ unknown] Daniel Ayoub <danny.a95@gmail.com>
+uid           [ unknown] Daniel Ayoub <daniel@ayoubd.com>
+sub   rsa4096 2017-03-02 [E] [expires: 2033-02-26]
+
+pub   rsa4096 2014-12-01 [SCEA]
+      04E5646B09852F02DBA9D1B0F6441CB377646F68
+uid           [ unknown] keybase.io/barmstrong <barmstrong@keybase.io>
+
+pub   rsa4096 2015-09-09 [SC]
+      90BD230B5676B8058D9A30B1067C1D1A2864D6C3
+uid           [ unknown] keybase.io/bastianallgeier <bastianallgeier@keybase.io>
+
+pub   rsa2048 2011-07-27 [SC] [expired: 2014-08-09]
+      BDE7D5083BB35EDC7A66BD97388CE229FAC78CF7
+uid           [ expired] Yan Zhu <yan@eff.org>
+uid           [ expired] Yan Zhu <yan@mit.edu>
+uid           [ expired] Yan Zhu <yan@torproject.org>
+uid           [ expired] Yan (Keybase) <bcrypt@keybase.io>
+uid           [ expired] Yan Zhu <zyan@mit.edu>
+uid           [ expired] Yan Zhu (gmail) <jenuis@gmail.com>
+uid           [ expired] Yan Zhu <t@lk-to.me>
+
+pub   rsa4096 2017-09-25 [SC]
+      15BAB5433F2B427AC8DF377382652D8B4A9D587A
+uid           [ unknown] Bjørn Erik Pedersen <bjorn.erik.pedersen@gmail.com>
+
+pub   rsa4096 2014-03-01 [SCEA] [expired: 2024-02-27]
+      8638C01EDE05F97DA7A689E2FF1F407C0D3C2430
+uid           [ expired] Brian Hicks <brian@brianthicks.com>
+uid           [ expired] keybase.io/brianhicks (v0.0.1) <brianhicks@keybase.io>
+uid           [ expired] Brian Hicks <brian.hicks@couponfactory.com>
+uid           [ expired] Brian Hicks <therealcaffeine@gmail.com>
+uid           [ expired] Brian Hicks <brian.hicks@rockfishdigital.com>
+uid           [ expired] Brian Hicks <brian.hicks@rockfishinteractive.com>
+
+pub   rsa4096 2015-03-01 [SCA] [expired: 2025-02-26]
+      71394C8ECA4AB1BEB85EB202B83EE2D55C50C6B2
+uid           [ expired] keybase.io/brwyatt <brwyatt@keybase.io>
+uid           [ expired] Bryan Wyatt <brwyatt@brwyatt.net>
+uid           [ expired] Bryan Wyatt <brwyatt@brwyatt.me>
+uid           [ expired] Bryan Wyatt <brwyatt@gmail.com>
+
+pub   rsa4096 2016-12-21 [SC] [expired: 2020-12-21]
+      7227BE27D44302889A131C51B19BCCD6E4598D3D
+uid           [ expired] Canary - Info <info@canarymail.io>
+
+pub   rsa4096 2015-07-20 [SC]
+      CF5E1DD31A8381A8B2DA91DE72FE18E0C2DD3694
+uid           [ unknown] keybase.io/cecileb <cecileb@keybase.io>
+uid           [ unknown] Cécile Boucheron <cecile@keyba.se>
+uid           [ unknown] Cécile Boucheron <cecileboucheron@gmail.com>
+uid           [ unknown] Cécile Boucheron <cecile.boucheron@yahoo.com>
+
+pub   rsa4096 2018-08-29 [C]
+      F1DA0D0FD84CDA4C6FE052E365F6C6C95459F55E
+uid           [ unknown] Christopher Cooper <christopher.c.cooper@gmail.com>
+uid           [ unknown] Christopher Cooper <cooperc@ocf.berkeley.edu>
+uid           [ unknown] Christopher Cooper <cooperc@berkeley.edu>
+
+pub   rsa4096 2013-10-07 [SCEA] [expires: 2027-10-09]
+      94AA3A5BDBD40EA549CABAF9FBC07D6A97016CB3
+uid           [ unknown] Chris Coyne <chris@chriscoyne.com>
+uid           [ unknown] Chris Coyne <chris@okcupid.com>
+uid           [ unknown] Chris Coyne <ccoyne77@gmail.com>
+uid           [ unknown] keybase.io/chris <chris@keybase.io>
+sub   rsa4096 2013-10-07 [SEA] [expires: 2027-10-13]
+
+pub   rsa4096 2015-06-04 [SCEA]
+      9D8AF41B53DB01245209BB227085DA86E49ED968
+uid           [ unknown] keybase.io/chrisnojima <chrisnojima@keybase.io>
+
+pub   rsa4096 2011-10-05 [SC]
+      AAC4A63123E940C6A7CD13497341619ED337160C
+uid           [ unknown] Chris Ball <chris@printf.net>
+uid           [ unknown] Chris Ball <cjb@kernel.org>
+uid           [ unknown] Chris Ball <cjb@laptop.org>
+sub   rsa4096 2011-10-05 [E]
+
+pub   rsa4096 2019-04-19 [SC] [expired: 2021-04-18]
+      E1DFD2717421F30DD78E7A6017035891181F17F2
+uid           [ expired] client4
+
+pub   rsa4096 2015-01-26 [SCEA]
+      AD4833210AB05DB1E7D4A8C4C73F1C17F994AB30
+uid           [ unknown] keybase.io/coinbase <coinbase@keybase.io>
+
+pub   rsa4096 2018-11-10 [SC]
+      8A60BDAABDBBC66229434D829099D7339CBD8B9E
+uid           [ unknown] Daniel Awai <dawai343@gmail.com>
+sub   rsa4096 2018-11-10 [E]
+
+pub   rsa4096 2014-07-27 [SCA] [expired: 2024-07-24]
+      10EABF8E35E29F8D69C6DA366C991C70C73A15BC
+uid           [ expired] keybase.io/donaldguy <donaldguy@keybase.io>
+
+pub   rsa4096 2017-11-30 [SC] [expires: 2033-11-26]
+      9DB862D9AD174C9B8034C20B2C2A0C3E8999A884
+uid           [ unknown] Doug Wilson <doug@faculty.co>
+sub   rsa4096 2017-11-30 [E] [expires: 2033-11-26]
+
+pub   rsa4096 2017-10-30 [SC] [expires: 2033-10-26]
+      C342C25CDEA368BF7627D511CB416D9B7194A5C2
+uid           [ unknown] Daniel Schep <dschep@gmail.com>
+uid           [ unknown] Daniel Schep <daniel@schep.me>
+sub   rsa4096 2017-10-30 [E] [expires: 2033-10-26]
+
+pub   rsa2048 2016-07-28 [SC] [expired: 2017-07-28]
+      15B4BC31C55D53069D789EC799B403D0EEE88108
+uid           [ expired] Dusty Burwell <dusty.burwell@raise.com>
+
+pub   rsa4096 2014-03-19 [SCEA]
+      ED5AD3BF6D85844153553399F5E1B62F45900206
+uid           [ unknown] keybase.io/dustyburwell <dustyburwell@keybase.io>
+
+pub   rsa2048 2016-08-13 [SC]
+      BA94B7D53FEF3CD37EF6DAAA7B90EB6BF36F78C6
+uid           [ unknown] David Dworken (Yubikey 4) <david@daviddworken.com>
+sub   rsa2048 2016-08-13 [E]
+sub   rsa2048 2016-08-13 [A]
+
+pub   rsa4096 2015-06-04 [SC]
+      C9605CF5DF53A88C6A5C85132D08B1C14F6304DC
+uid           [ unknown] Erik Rasmussen <rasmussenerik@gmail.com>
+sub   rsa4096 2015-06-04 [E]
+
+pub   rsa4096 2019-04-02 [SC] [expires: 2035-03-29]
+      6C0E34E5746DD1B0F39BCE24ED6E52FFBF15060C
+uid           [ unknown] Feross Aboukhadijeh <feross@feross.org>
+sub   rsa4096 2019-04-02 [E] [expires: 2035-03-29]
+
+pub   rsa4096 2015-08-31 [SC]
+      E37DB17906A20DB3CB198F4DABA85C28322ED770
+uid           [ unknown] keybase.io/film_girl <film_girl@keybase.io>
+
+pub   rsa4096 2018-03-02 [SC]
+      537ACE4E4A0EDCA35A896BD0F930F2D82E025137
+uid           [ unknown] George Lee <gleeb@berkeley.edu>
+sub   rsa4096 2018-03-02 [E]
+
+pub   rsa4096 2014-03-20 [SC]
+      459DFD880A884E4273FDE003579F9FA738DF75CD
+uid           [ unknown] Michael Grinich <mg@inboxapp.com>
+uid           [ unknown] Michael Grinich <mgrinich@gmail.com>
+uid           [ unknown] Michael Grinich <grinich@mit.edu>
+uid           [ unknown] Michael Grinich <mg@mit.edu>
+uid           [ unknown] Michael Grinich <hello@michaelgrinich.com>
+sub   rsa4096 2014-03-20 [E]
+
+pub   rsa2048 2010-06-20 [SC]
+      2C6536AAAD81F4A17FDEC73C3F9EBC675788BEE6
+uid           [ unknown] Harper Reed <harper@nata2.org>
+sub   rsa2048 2010-06-20 [E]
+
+pub   rsa4096 2019-04-12 [SC] [expires: 2035-04-08]
+      9335D67E900CDC034DB35EF270194B0EDEF54905
+uid           [ unknown] Hiroki Hori <me@hirokihori.com>
+sub   rsa4096 2019-04-12 [E] [expires: 2035-04-08]
+
+pub   rsa2048 2013-01-03 [SCA] [expired: 2021-01-08]
+      1482F3BF3F166BD43525D55E35D726BDAE09F328
+uid           [ expired] David Huerta <huertanix@nycresistor.com>
+uid           [ expired] David Huerta <huertanix@computer.org>
+uid           [ expired] David Huerta <huertanix@gmail.com>
+uid           [ expired] David Huerta <huertanix@opentil.com>
+
+pub   rsa2048 2018-04-01 [SC] [expired: 2021-09-19]
+      2647AF4767CAD90FF03F9945BB40B561F881D984
+uid           [ expired] Michael Eden <themichaeleden@gmail.com>
+
+pub   rsa4096 2017-02-08 [SC] [expires: 2033-02-04]
+      C372ABECC4CF2CCCA5152EE217B8BDED7C4142BF
+uid           [ unknown] Irina Mir <irina@qotoqot.com>
+sub   rsa4096 2017-02-08 [E] [expires: 2033-02-04]
+
+pub   rsa4096 2017-02-08 [SC] [expires: 2033-02-04]
+      9B280773E25E306D133277FEBF4D09524138C6B9
+uid           [ unknown] Ivan Mir <ivan@qotoqot.com>
+sub   rsa4096 2017-02-08 [E] [expires: 2033-02-04]
+
+pub   rsa4096 2016-05-31 [SC] [expires: 2032-05-27]
+      AD0B0C0F87144E1B988855EBED3BECB20A50EABB
+uid           [ unknown] Jeremy Kun <jeremy@21.co>
+sub   rsa4096 2016-05-31 [E] [expires: 2032-05-27]
+
+pub   rsa4096 2014-04-20 [SCEA]
+      59543971CC372FCE7B4953358A98415062DABEBF
+uid           [ unknown] keybase.io/jadewang <jadewang@keybase.io>
+
+pub   rsa4096 2018-10-02 [SC]
+      3A2D5953B0DC7F37FFF7E2936666EEC77F915047
+uid           [ unknown] Jakob Weisblat <jakob@keyba.se>
+
+pub   rsa4096 2016-06-15 [SC]
+      0BB0601AFD15ABAF6E81B70E2AEB684EEFB36BD8
+uid           [ unknown] Jamie Wilson <jamie@jamiewilson.io>
+
+pub   rsa4096 2016-12-23 [SC] [expired: 2018-12-23]
+      6E91C53CE8A15B1C8203B65333C23279A151E58D
+uid           [ expired] Jesse Smick <janka102@gmail.com>
+uid           [ expired] Jesse Smick <jesse@smick.me>
+
+pub   rsa4096 2016-03-17 [SC]
+      DB425E83056127521BEEDCC67D92FABFA261CDC2
+uid           [ unknown] Jason Long <jason@jasonlong.me>
+uid           [ unknown] Jason Long <jlong@github.com>
+
+pub   rsa4096 2014-04-01 [SCEA] [expired: 2024-03-29]
+      17209477977B343FEC42B6D41E872B3AD262C861
+uid           [ expired] keybase.io/jeresig <jeresig@keybase.io>
+
+pub   rsa4096 2015-07-21 [SC]
+      CD715D75C6E60148298FC01517A230878B1A3E2A
+uid           [ unknown] keybase.io/jessk <jessk@keybase.io>
+
+pub   rsa2048 2015-01-08 [SC]
+      BC6EC1A94D4685C033F15C22DBAB32427D7A0894
+uid           [ unknown] Jinyang Li <jinyang.keybase@gmail.com>
+uid           [ unknown] jinyang
+uid           [ unknown] Jinyang Li <jinyang@keybase.io>
+uid           [ unknown] Jinyang Li <jinyang.li@gmail.com>
+uid           [ unknown] Jinyang Li <jinyang@cs.nyu.edu>
+sub   rsa2048 2015-01-08 [E]
+
+pub   rsa4096 2016-08-16 [SC]
+      A8BB41916054C104311373BCA9E2E79E99FF9594
+uid           [ unknown] James Long <longster@gmail.com>
+
+pub   rsa4096 2016-11-05 [SC] [expires: 2032-11-01]
+      ECE570850FC2D62ACF066CF6E6FDECEE03509353
+uid           [ unknown] Owen Trueblood <hi@owentrueblood.com>
+uid           [ unknown] Owen Trueblood <jmptable@mit.edu>
+uid           [ unknown] Owen Trueblood <owen@owentrueblood.com>
+sub   rsa4096 2016-11-05 [E] [expires: 2032-11-01]
+
+pub   rsa4096 2014-02-28 [SCEA] [expired: 2024-02-26]
+      33CEE954E8811F788AA0DF4719680E511BD7082C
+uid           [ expired] keybase.io/joshblum (v0.0.1) <joshblum@keybase.io>
+
+pub   rsa4096 2014-07-18 [SCE]
+      82E262DD625E8B0BC0B6007375E261818D287864
+uid           [ unknown] John Zila <john@keyba.se>
+uid           [ unknown] keybase.io/jzila <jzila@keybase.io>
+uid           [ unknown] John Zila <john@jzila.com>
+
+pub   rsa4096 2016-06-04 [SC]
+      240892DDB87EE6370CBC995A51E4210BE1CF90CB
+uid           [ unknown] Karen Maxim <karen.maxim@gmail.com>
+
+pub   rsa4096 2015-01-20 [SCEA]
+      8E38FCE32AC4A93B2927840186F08CF103A90D47
+uid           [ unknown] keybase.io/kubat <kubat@keybase.io>
+
+pub   rsa4096 2014-10-08 [SCA] [expired: 2024-10-05]
+      E9DF89EA4B798E2902401598BF26FBE19DD10A8E
+uid           [ expired] keybase.io/kylemathews <kylemathews@keybase.io>
+
+pub   rsa4096 2017-02-06 [SC]
+      E1272DD714636D5A33B6BD2CB4BA966D9277F621
+uid           [ unknown] Lee Byron <lee@leebyron.com>
+
+pub   rsa4096 2018-06-10 [SC] [expires: 2034-06-06]
+      6724E7BE6A066A23525C1BA2CE54CFEFB3702CD0
+uid           [ unknown] Lee Byron <lee@leebyron.com>
+sub   rsa4096 2018-06-10 [E] [expires: 2034-06-06]
+
+pub   rsa4096 2016-01-31 [SC] [expires: 2032-01-27]
+      6222C240686D89D2A1EC9750DE0A99918B8F7E5D
+uid           [ unknown] Larry Fox <lfox@sent.com>
+uid           [ unknown] <l@rryfox.us>
+sub   rsa4096 2016-01-31 [E] [expires: 2032-01-27]
+
+pub   rsa4096 2018-03-21 [SC] [expires: 2034-03-17]
+      AB4BC807BE52D9C5B5D7B907E5365EFC5E939996
+uid           [ unknown] Luke Westby <lwestby@alumni.nd.edu>
+sub   rsa4096 2018-03-21 [E] [expires: 2034-03-17]
+
+pub   rsa4096 2014-11-04 [SCEA]
+      3EDF1123ACEF6FA3964EE585573AE5DD333829C2
+uid           [ unknown] keybase.io/maksim <maksim@keybase.io>
+
+pub   ed25519 2018-03-23 [SC]
+      0A71C0C8BFC8634FDE996569C6D00B9C33263D72
+uid           [ unknown] Marcel O'Neil <marcel@marceloneil.com>
+sub   cv25519 2018-03-23 [E]
+
+pub   rsa4096 2014-02-05 [SCEA] [expired: 2024-02-03]
+      8EFBE2E4DD56B35273634E8F6052B2AD31A6631C
+uid           [ expired] Maxwell Krohn <max@keyba.se>
+uid           [ expired] Maxwell Krohn <krohn@mit.edu>
+uid           [ expired] Maxwell Krohn <krohn@post.harvard.edu>
+uid           [ expired] Maxwell Krohn <krohn@alum.mit.edu>
+uid           [ expired] keybase.io/max (v0.0.1) <max@keybase.io>
+uid           [ expired] Maxwell Krohn <themax@gmail.com>
+uid           [ expired] Maxwell Krohn <max@maxk.org>
+
+pub   rsa4096 2013-10-04 [SCEA] [expires: 2027-11-29]
+      4475293306243408FA5958DC63847B4B83930F0C
+uid           [ unknown] Max Krohn <themax@gmail.com>
+sub   rsa4096 2017-12-01 [E] [expires: 2027-11-29]
+
+pub   rsa4096 2014-03-24 [SCEA]
+      24BAE2C9848096FB90EE56F2AA607498472043F6
+uid           [ unknown] keybase.io/meantime <meantime@keybase.io>
+
+pub   rsa4096 2014-02-20 [SCEA] [expired: 2024-02-18]
+      DBAF5AEFB0EBBA22F18140E5B814608B7797CA08
+uid           [ expired] Michael Maxim <mike@maxim.family>
+uid           [ expired] keybase.io/mikem (v0.0.1) <mikem@keybase.io>
+uid           [ expired] Michael Maxim <mike.maxim@gmail.com>
+uid           [ expired] Michael Maxim <mike@okcupid.com>
+uid           [ expired] Michael Maxim <mike@keyba.se>
+
+pub   rsa4096 2017-11-17 [SC]
+      FDE444612CE1EC20B1B6B9BE6E222056762DAA2C
+uid           [ unknown] Nicolas Barry <nicolas@stellar.org>
+
+pub   rsa4096 2016-04-11 [SC]
+      A8B99AAC2E6B291F743B0C45BC223AECF57A58D9
+uid           [ unknown] Maximilian Schoening (canvas) <max@usecanvas.com>
+uid           [ unknown] Maximilian Schoening (mschoening) <max@max.wtf>
+sub   rsa4096 2016-04-11 [E]
+
+pub   rsa4096 2016-05-30 [SC] [expired: 2022-05-31]
+      BC7590C544B8EE56FBD7C5D13B9BA490BA8CCFE7
+uid           [ expired] Nathan Smith (Personal) <nathan@nathansmith.io>
+uid           [ expired] Nathan Smith (School) <nathan.smith@ucla.edu>
+
+pub   rsa2048 2013-07-29 [SC]
+      58A245D3D8B25C15F6CE3FFF71876B68AD482D32
+uid           [ unknown] keybase.io/oconnor663 <oconnor663@keybase.io>
+uid           [ unknown] Jack O'Connor <oconnor663@gmail.com>
+sub   rsa2048 2013-07-29 [E]
+
+pub   rsa4096 2018-08-11 [SC] [expires: 2034-08-07]
+      55B276907C677810F77F9BEE5B78C3A449D5C17E
+uid           [ unknown] Orta Therox <orta.therox@gmail.com>
+sub   rsa4096 2018-08-11 [E] [expires: 2034-08-07]
+
+pub   rsa4096 2014-03-16 [SCEA] [expired: 2024-03-13]
+      E91F36B155542702F46EE0839F5E5653EE2AC266
+uid           [ expired] keybase.io/orta <orta@keybase.io>
+
+pub   rsa4096 2014-02-14 [SCEA] [expired: 2024-02-12]
+      246201479F89C599C08F29B3FA706AEF3D045F20
+uid           [ expired] Patrick Crosby <patrick@xblabs.com>
+uid           [ expired] keybase.io/patrick (v0.0.1) <patrick@keybase.io>
+uid           [ expired] Patrick Crosby <patrick@stathat.com>
+uid           [ expired] Patrick Crosby <pcrosby@gmail.com>
+
+pub   rsa2048 2011-09-17 [SC]
+      A60F841D84E8DF3EA7529ED615454B55607E1CD4
+uid           [ unknown] Maciej Ceglowski (Pinboard) <maciej@ceglowski.com>
+sub   rsa2048 2011-09-17 [E]
+
+pub   dsa1024 2005-01-02 [SC]
+      2830F24372FBE20AE14871B557FC31487D892490
+uid           [ unknown] Eric Charles Vitiello Jr. <eric@perceive.net>
+sub   elg2048 2005-01-02 [E]
+
+pub   rsa4096 2014-11-29 [SC]
+      1692E566B9DD6B89AEFDB85DDF60DCF47E1F2025
+uid           [ unknown] Piotr Zduniak <piotr@keybase.io>
+uid           [ unknown] Piotr Zduniak <piotr@zduniak.net>
+sub   rsa4096 2014-11-29 [E]
+
+pub   rsa4096 2015-06-02 [SC]
+      073955F377B6314B8D747443CB969B2A26E75548
+uid           [ unknown] Richard Feldman <richard.t.feldman@gmail.com>
+sub   rsa4096 2015-06-02 [E]
+
+pub   rsa4096 2013-09-26 [SC]
+      108F66205EAEB0AAA8DD5E1C85AB96E6FA1BE5FE
+uid           [ unknown] Rust Language (Tag and Release Signing Key) <rust-key@rust-lang.org>
+sub   rsa4096 2013-09-26 [E]
+sub   rsa4096 2014-12-15 [S]
+
+pub   rsa4096 2017-12-25 [SC] [expires: 2033-12-21]
+      BE949FA371389E04941332C4EF23B4D38B16367D
+uid           [ unknown] Sergei Chestakov <sergei332@gmail.com>
+sub   rsa4096 2017-12-25 [E] [expires: 2033-12-21]
+
+pub   rsa4096 2014-06-13 [SCEA]
+      B4151A00A6582692421FB06A3FD2A44C40A80298
+uid           [ unknown] keybase.io/siracusa <siracusa@keybase.io>
+
+pub   rsa4096 2013-08-23 [SCEA]
+      018C228546338910B9C4DC19F18BE91509E1F508
+uid           [ unknown] Song Gao <song@gao.io>
+uid           [ unknown] Song Gao <szg0031@tigermail.auburn.edu>
+sub   rsa4096 2013-08-23 [SEA]
+
+pub   rsa4096 2014-08-20 [SCEA]
+      7FEC4841CE1D624C7165BFBAA36946605CB2EDCA
+uid           [ unknown] Jeremy Stribling <strib@alum.mit.edu>
+uid           [ unknown] Jeremy Stribling <strib@csail.mit.edu>
+uid           [ unknown] Jeremy Stribling <strib@pdos.csail.mit.edu>
+uid           [ unknown] Jeremy Stribling <strib@keyba.se>
+uid           [ unknown] Jeremy Stribling <stribmit@gmail.com>
+uid           [ unknown] keybase.io/strib <strib@keybase.io>
+uid           [ unknown] Jeremy Stribling <strib@mit.edu>
+
+pub   rsa4096 2015-02-09 [C] [expired: 2018-02-08]
+      C82F3773E0CFBFD35B6F799D5F4FCF8C5AD04FAB
+uid           [ expired] Tal Ben-Ari <talbenari1@gmail.com>
+
+pub   rsa4096 2014-11-20 [SCA] [expired: 2024-11-17]
+      BBD05CA6BF67A2B854FDA326E39152C6AEA345F6
+uid           [ expired] keybase.io/teich <teich@keybase.io>
+
+pub   rsa4096 2018-09-06 [SC]
+      44FCE7FC9322FD1D43F304B57A47395A2EAA85BE
+uid           [ unknown] Tess Rinearson <tess.rinearson@gmail.com>
+sub   rsa2048 2018-09-06 [E] [expires: 2026-09-04]
+sub   rsa2048 2018-09-06 [SA] [expires: 2026-09-04]
+
+pub   rsa4096 2018-04-11 [SC]
+      BD1FD982F44624B757C90FBCCFE1C6BEB53C065A
+uid           [ unknown] Thomas Munduchira <thomas@thomasmunduchira.com>
+sub   rsa4096 2018-04-11 [E]
+
+pub   rsa4096 2016-09-03 [SC] [expires: 2032-08-30]
+      72A1274B6FDB878524167B7ED4EEDE19E280E335
+uid           [ unknown] Toban Wiebe <tobanw@gmail.com>
+sub   rsa4096 2016-09-03 [E] [expires: 2032-08-30]
+
+pub   rsa4096 2015-04-19 [SCEA]
+      EF3BB47A144D9B716045694B80A9C20CC6DE751A
+uid           [ unknown] keybase.io/tomstandage <tomstandage@keybase.io>
+
+pub   dsa1024 2005-01-02 [SC]
+      881804A5DA541152FA12C105E09E474A404A3A45
+uid           [ unknown] Tim Pope <gpg@tpope.info>
+uid           [ unknown] Tim Pope <code@tpope.net>
+sub   elg1024 2005-01-02 [E]
+
+pub   rsa4096 2016-03-16 [SC]
+      149CE380B6151A832AFA69D58A6DAB9CF488F3BA
+uid           [ unknown] Tracy Chou <triketora@gmail.com>
+uid           [ unknown] Tracy Chou <tracy@pinterest.com>
+uid           [ unknown] Tracy Chou <tracy.chou@cs.stanford.edu>
+
+pub   rsa4096 2016-01-26 [SC]
+      78BA604B30AAB4DF818DBB6401E34D93E69D9BDA
+uid           [ unknown] Troy Hunt <troyhunt@hotmail.com>
+
+pub   rsa4096 2015-06-09 [SCA] [expired: 2025-06-06]
+      D57921F0F72CE540E35C5DE5AD6534FBC851941C
+uid           [ expired] keybase.io/uzi <uzi@keybase.io>
+
+pub   rsa4096 2017-02-22 [SC]
+      F029AA25C9576E1DEB1C2BB89AD535D81FB12B13
+uid           [ unknown] Federico Viticci <viticci@macstories.net>
+uid           [ unknown] Federico Viticci <viticci.federico@gmail.com>
+
+pub   rsa4096 2015-04-15 [SCA] [expired: 2025-04-12]
+      08AD0E7B235FE9784AC5DCCBD59F87F60C5400C9
+uid           [ expired] Wesley Wigham <wwigham@gmail.com>
+uid           [ expired] Wesley Wigham <t-weswig@microsoft.com>
+uid           [ expired] keybase.io/www <www@keybase.io>
+
+pub   rsa4096 2014-07-16 [SCEA]
+      C74B733777C85ACEA957CE67CFF63667B2532077
+uid           [ unknown] keybase.io/xgess <xgess@keybase.io>
+
+pub   rsa4096 2016-12-10 [SC]
+      10022B19C3E2EEC48F207847B835C9A9C8686E44
+uid           [ unknown] Steve Sanders <steve@zanderz.com>
+
+pub   ed25519 2017-07-08 [SC] [expired: 2021-07-07]
+      471C16736BD7E7B15D6D9D83AE1744A83DF73568
+uid           [ expired] Michał Zochniak <michal@zapu.net>
+
+pub   rsa4096 2014-06-10 [SC]
+      B86C836B17E856566A206C069AA232D6F1C7C38E
+uid           [ unknown] Drew Fisher <drew@sandstorm.io>
+uid           [ unknown] Drew Fisher <zarvox@zarvox.org>
+uid           [ unknown] Drew Fisher <drew.m.fisher@gmail.com>
+sub   rsa4096 2014-06-10 [E]
+
+pub   rsa4096 2014-06-26 [SCEA]
+      20A5A16BAFEAE60BC9062612EC96825B93D7D925
+uid           [ unknown] keybase.io/zfogg <zfogg@keybase.io>
+
+pub   rsa4096 2017-02-23 [SC] [expired: 2021-02-23]
+      49EC8653B46B7709A275B5639FCD7766F3B769C9
+uid           [ expired] Zachary Fogg (forget my old key's passphrase lol) <me@zfo.gg>
+uid           [ expired] Zachary Fogg <zach.fogg@gmail.com>
+
+pub   rsa4096 2016-08-14 [SC] [expires: 2027-10-15]
+      2848EFB300F361FD6D770DC0715CED2327899E28
+uid           [ unknown] Jacob Young (Personal) <jry296@gmail.com>
+uid           [ unknown] Jacob Young (Professional) <jacob@jry.io>
+uid           [ unknown] Jacob Young (Tulip Email) <jacob@tulip.co>
+uid           [ unknown] Jacob Young <git@jry.io>
+sub   rsa4096 2016-08-14 [E] [expires: 2026-10-15]
+
+pub   dsa2048 2010-08-19 [SC] [expired: 2024-05-11]
+      85E38F69046B44C1EC9FB07B76D78F0500D026C4
+uid           [ expired] GPGTools Team <team@gpgtools.org>
+uid           [ expired] [jpeg image of size 6329]
+
+pub   rsa4096 2020-05-04 [SC] [expired: 2024-05-03]
+      B97E9964ACAD1907970D37CC8A9E3745558E41AF
+uid           [ expired] GPGTools Support <support@gpgtools.org>
+
+## gpg --list-secret-keys (metadata — no --export)
+
+/Users/CASE/.gnupg/pubring.kbx
+------------------------------
+sec   rsa4096 2016-08-14 [SC] [expires: 2027-10-15]
+      2848EFB300F361FD6D770DC0715CED2327899E28
+uid           [ unknown] Jacob Young (Personal) <jry296@gmail.com>
+uid           [ unknown] Jacob Young (Professional) <jacob@jry.io>
+uid           [ unknown] Jacob Young (Tulip Email) <jacob@tulip.co>
+uid           [ unknown] Jacob Young <git@jry.io>
+ssb   rsa4096 2016-08-14 [E] [expires: 2026-10-15]
+
+## gpg-agent runtime
+
+# pgrep -lf gpg-agent
+56889 gpg-agent --homedir /Users/CASE/.gnupg --use-standard-socket --daemon
+13238 /bin/bash /usr/local/MacGPG2/libexec/shutdown-gpg-agent
+
+# ps -ef gpg-agent (uid 501 = CASE)
+  501 13238     1   0 Sat08PM ??         0:00.01 /bin/bash /usr/local/MacGPG2/libexec/shutdown-gpg-agent
+  501 56889     1   0  9:54PM ??         0:00.25 gpg-agent --homedir /Users/CASE/.gnupg --use-standard-socket --daemon
+
+# ~/.gnupg/gpg-agent.conf (verbatim)
+# https://superuser.com/a/521027
+pinentry-program /opt/homebrew/bin/pinentry-mac
+
+default-cache-ttl 600
+max-cache-ttl 7200
+
+# ~/.gnupg/gpg.conf (verbatim, post-default-block — full file kept, only the
+# GPGTools template prose preserved as written on disk)
+# These first three lines are not copied to the gpg.conf file in
+# the users home directory.
+# $Id$
+# Options for GnuPG
+# Copyright 1998, 1999, 2000, 2001, 2002, 2003,
+#           2010 Free Software Foundation, Inc.
+#
+# This file is free software; as a special exception the author gives
+# unlimited permission to copy and/or distribute it, with or without
+# modifications, as long as this notice is preserved.
+#
+# This file is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY, to the extent permitted by law; without even the
+# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#
+# Unless you specify which option file to use (with the command line
+# option "--options filename"), GnuPG uses the file ~/.gnupg/gpg.conf
+# by default.
+#
+# An options file can contain any long options which are available in
+# GnuPG. If the first non white space character of a line is a '#',
+# this line is ignored.  Empty lines are also ignored.
+#
+# See the man page for a list of options.
+
+# Uncomment the following option to get rid of the copyright notice
+
+#no-greeting
+
+# If you have more than 1 secret key in your keyring, you may want to
+# uncomment the following option and set your preferred keyid.
+
+default-key 099A18D55F20E2E810EE960EDFAED45206F8A9FA
+
+# If you do not pass a recipient to gpg, it will ask for one.  Using
+# this option you can encrypt to a default key.  Key validation will
+# not be done in this case.  The second form uses the default key as
+# default recipient.
+
+#default-recipient some-user-id
+#default-recipient-self
+
+# By default GnuPG creates version 4 signatures for data files as
+# specified by OpenPGP.  Some earlier (PGP 6, PGP 7) versions of PGP
+# require the older version 3 signatures.  Setting this option forces
+# GnuPG to create version 3 signatures.
+
+#force-v3-sigs
+
+# Because some mailers change lines starting with "From " to ">From "
+# it is good to handle such lines in a special way when creating
+# cleartext signatures; all other PGP versions do it this way too.
+# To enable full OpenPGP compliance you may want to use this option.
+
+#no-escape-from-lines
+
+# When verifying a signature made from a subkey, ensure that the cross
+# certification "back signature" on the subkey is present and valid.
+# This protects against a subtle attack against subkeys that can sign.
+# Defaults to --no-require-cross-certification.  However for new
+# installations it should be enabled.
+
+require-cross-certification
+
+
+# If you do not use the Latin-1 (ISO-8859-1) charset, you should tell
+# GnuPG which is the native character set.  Please check the man page
+# for supported character sets.  This character set is only used for
+# metadata and not for the actual message which does not undergo any
+# translation.  Note that future version of GnuPG will change to UTF-8
+# as default character set.
+
+#charset utf-8
+
+#  *** Options for GPGTools ***
+keyserver-options no-honor-keyserver-url
+auto-key-locate keyserver hkps://hkps.pool.sks-keyservers.net
+comment GPGTools - https://gpgtools.org
+cert-digest-algo SHA512
+default-preference-list SHA512 SHA384 SHA256 SHA224 AES256 AES192 AES CAST5 ZLIB BZIP2 ZIP Uncompressed
+personal-digest-preferences SHA512 SHA384 SHA256 SHA224
+no-emit-version
+auto-key-retrieve
+
+# ~/.gnupg/dirmngr.conf (verbatim)
+keyserver hkps://keys.openpgp.org
+
+## Signing key check
+
+# Match for `715CED2327899E28` in `gpg --list-secret-keys`:
+#   sec   rsa4096 2016-08-14 [SC] [expires: 2027-10-15]
+#         2848EFB300F361FD6D770DC0715CED2327899E28
+#   uid           [ unknown] Jacob Young (Personal) <jry296@gmail.com>
+#   uid           [ unknown] Jacob Young (Professional) <jacob@jry.io>
+#   uid           [ unknown] Jacob Young (Tulip Email) <jacob@tulip.co>
+#   uid           [ unknown] Jacob Young <git@jry.io>
+#   ssb   rsa4096 2016-08-14 [E] [expires: 2026-10-15]
+#
+# Full fingerprint: 2848EFB300F361FD6D770DC0715CED2327899E28
+# Primary key cap: [SC]   = Sign + Certify
+# Encryption subkey:      ssb rsa4096 [E] expires 2026-10-15
+# Primary key expires:    2027-10-15
+
+# git config --global user.signingkey
+715CED2327899E28
+
+## Notes
+
+- gpg binaries on disk:
+    /opt/homebrew/bin/gpg        -> GnuPG 2.4.8 (Homebrew, current Brew gnupg)
+    /usr/local/bin/gpg           -> GnuPG/MacGPG2 2.2.41 (GPGTools symlink)
+    /usr/local/MacGPG2/bin/gpg   -> GnuPG/MacGPG2 2.2.41 (GPG Suite app)
+    /usr/local/MacGPG2/bin/gpg2  -> GnuPG/MacGPG2 2.2.41 (GPG Suite alias)
+- PATH-resolved `gpg` is /opt/homebrew/bin/gpg (Homebrew 2.4.8).
+- Both installations read the same key store at ~/.gnupg (pubring.kbx, trustdb.gpg,
+  private-keys-v1.d/). Confirmed by listing secret keys with both binaries and
+  getting identical output. The currently running gpg-agent process (pid 56889)
+  was launched against `--homedir /Users/CASE/.gnupg`, so the agent is shared too.
+- gpg --version is 2.4.8 on PATH (>= 2.2 required by D10). MacGPG2 fallback is 2.2.41,
+  also >= 2.2. Both satisfy the D10 modernity floor.
+- Public keys (`pub` entries): 104. Many are imported keybase.io social-graph
+  keys from 2014–2019; ~40 are expired and would not be brought forward in a
+  clean Nix-managed home. They are signature-verification trust anchors and are
+  not security-sensitive, but are stale.
+- Secret keys (`sec` entries): 1. Fingerprint
+  2848EFB300F361FD6D770DC0715CED2327899E28 (suffix 715CED2327899E28). This is
+  the D10 signing key. Capability is [SC] (Sign + Certify) on the primary plus
+  an [E] encryption subkey. There is exactly ONE signing-capable secret key.
+- Anomaly 1: `~/.gnupg/gpg.conf` sets
+  `default-key 099A18D55F20E2E810EE960EDFAED45206F8A9FA`, a fingerprint that is
+  NOT present in the public or secret keyring on this machine. Effectively a
+  no-op today (gpg falls back to the only available secret key), but the
+  declarative `programs.gpg`/`services.gpg-agent` config should either drop
+  `default-key` or set it to the D10 fingerprint
+  `2848EFB300F361FD6D770DC0715CED2327899E28`.
+- Anomaly 2: `auto-key-locate keyserver hkps://hkps.pool.sks-keyservers.net` —
+  the SKS pool was deprecated in 2019 and the hostname no longer resolves.
+  `dirmngr.conf` already points at `hkps://keys.openpgp.org`; the gpg.conf
+  keyserver line is stale and should be removed or aligned.
+- Anomaly 3: `S.gpg-agent.ssh` socket exists in ~/.gnupg even though D10 says
+  `services.gpg-agent.enableSshSupport = false`. The socket is a Home Manager /
+  gpg-agent default, harmless when SSH support is off but worth verifying the
+  generated Nix config does NOT set `enable-ssh-support` in gpg-agent.conf.
+- Anomaly 4: Many keys in the public ring are very old (dsa1024 from 2005,
+  rsa2048 from 2010–2013) and several are expired. Not load-bearing for D10.
+- Anomaly 5: Existing `~/.gnupg/gpg-agent.conf` hardcodes
+  `pinentry-program /opt/homebrew/bin/pinentry-mac`, which is the Homebrew
+  cask `pinentry-mac` path. D5 expects `pinentry-mac` to remain a Homebrew
+  bridge dependency, so this is consistent. The declarative
+  `services.gpg-agent.pinentryPackage` (or equivalent) must point at the same
+  binary so the value reproduces after switch.
+- `default-cache-ttl 600` / `max-cache-ttl 7200` should be carried forward into
+  the Home Manager `services.gpg-agent` config to preserve current UX.
+- Multiple signing-capable secret keys? N. Only one [SC] secret key is present
+  and it matches the D10 fingerprint.
+- Is `gpg --version` ≥ 2.2? Y (2.4.8 on PATH; 2.2.41 fallback).

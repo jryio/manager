@@ -1,0 +1,41 @@
+# source: cp ~/.gitego/config.yaml
+# captured-at: 2026-05-18
+# machine: AVA (macOS 15.5)
+# captured-by: inventory-git agent
+# note: this is the source that modules/home-manager/git.nix will reproduce declaratively per D25
+profiles:
+    inf:
+        name: Jacob Young
+        email: git@sancho.studio
+        ssh_key: /Users/CASE/.ssh/infinite-music
+    jry:
+        name: Jacob Young
+        email: git@jry.io
+        ssh_key: /Users/CASE/.ssh/id_rsa
+    keybase:
+        name: Jacob Young
+        email: jacob@keyba.se
+    tdna:
+        name: Jacob Young
+        email: jacob.young@tech-dna.net
+        ssh_key: /Users/CASE/.ssh/tdna
+    zigg:
+        name: Jacob Young
+        email: jacob.young@ziggiz.ai
+        ssh_key: /Users/CASE/.ssh/zigguratum
+auto_rules:
+    - path: /Users/CASE/code/professional/infinitemusic/
+      profile: inf
+    - path: /Users/CASE/code/professional/tdna/
+      profile: tdna
+    - path: /Users/CASE/code/professional/zigg/
+      profile: zigg
+    - path: /Users/CASE/code/professional/keybase/
+      profile: keybase
+    - path: /Users/CASE/code/personal/statis/
+      profile: jry
+    - path: /Users/CASE/code/personal/jryio/
+      profile: jry
+    - path: /Users/CASE/code/personal/adr/
+      profile: jry
+active_profile: jry

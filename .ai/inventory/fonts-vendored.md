@@ -1,0 +1,297 @@
+# User fonts inventory (~/Library/Fonts)
+- source: ls -1 ~/Library/Fonts; system_profiler SPFontsDataType (best-effort)
+- captured-at: 2026-05-18
+- machine: AVA (macOS 15.5)
+- captured-by: inventory-fonts agent
+- target: modules/home-manager/assets/fonts/ per D11
+- note: also dedupe against /System/Library/Fonts and /Library/Fonts (system-supplied)
+
+## Counts
+- ~/Library/Fonts: 230 entries total (226 real font files + 4 X11/XQuartz bitmap-font metadata stragglers: encodings.dir, fonts.dir, fonts.list, fonts.scale)
+- /Library/Fonts: 90 entries (85 real font files + same 5 X11 metadata stragglers; the only legitimate Apple-shipped face here is Arial Unicode.ttf and the SF-Pro/SF-Compact families)
+- /System/Library/Fonts: 84 entries at the top level (system core faces, .ttc collections) plus 261 entries under /System/Library/Fonts/Supplemental
+- Operator Mono Nerd Font Complete (D11 critical asset): 10 files (.otf only)
+- Other Nerd Fonts under ~/Library/Fonts: 10 files (the OperatorNerdFont-*.otf family — different patched build than the "Nerd Font Complete" variant)
+- Non-Nerd vendored fonts under ~/Library/Fonts: 206 files
+
+## Operator Mono Nerd Font Complete (D11 critical asset)
+- Operator Mono Bold Italic Nerd Font Complete.otf
+- Operator Mono Bold Nerd Font Complete.otf
+- Operator Mono Book Italic Nerd Font Complete.otf
+- Operator Mono Book Nerd Font Complete.otf
+- Operator Mono Extra Light Italic Nerd Font Complete.otf
+- Operator Mono Extra Light Nerd Font Complete.otf
+- Operator Mono Light Italic Nerd Font Complete.otf
+- Operator Mono Light Nerd Font Complete.otf
+- Operator Mono Medium Italic Nerd Font Complete.otf
+- Operator Mono Medium Nerd Font Complete.otf
+
+## Nerd Fonts (other)
+The other Nerd-patched Operator Mono build present on disk uses a different naming convention (`OperatorNerdFont-*.otf`) — likely an older patch of the same source font. Both builds may need to be vendored under D11 since downstream config (Ghostty, Zed, terminal) may still reference either family name.
+- OperatorNerdFont-Bold.otf
+- OperatorNerdFont-BoldItalic.otf
+- OperatorNerdFont-ExtraLight.otf
+- OperatorNerdFont-ExtraLightItalic.otf
+- OperatorNerdFont-Italic.otf
+- OperatorNerdFont-Light.otf
+- OperatorNerdFont-LightItalic.otf
+- OperatorNerdFont-Medium.otf
+- OperatorNerdFont-MediumItalic.otf
+- OperatorNerdFont-Regular.otf
+
+No other glyph-patched "Nerd Font" builds (Hack Nerd Font, FiraCode Nerd Font, JetBrainsMono Nerd Font, etc.) live under `~/Library/Fonts`. The plain Hack, FiraMono, RobotoMono, NotoMono, iAWriterMonoS, overpass-mono, and SourceCodeVariable faces are unpatched upstream builds — they go in the "Other vendored fonts" section below. Nerd Font glyph coverage on this machine is therefore Operator Mono only; if other monospace fonts ever need icon glyphs they will have to be added (or fetched from `nerd-fonts` packages in nixpkgs).
+
+## Other vendored fonts (full filename list, sorted)
+- AktivGrotesk-Bold.ttf
+- AktivGrotesk-BoldItalic.ttf
+- AktivGrotesk-Italic.ttf
+- AktivGrotesk-Light.ttf
+- AktivGrotesk-LightItalic.ttf
+- AktivGrotesk-Medium.ttf
+- AktivGrotesk-MediumItalic.ttf
+- AktivGrotesk-Regular.ttf
+- BebasNeue-Thin.ttf
+- BebasNeueBold.ttf
+- BebasNeueBook.ttf
+- BebasNeueLight.ttf
+- BebasNeueRegular.ttf
+- BentonSansBold.ttf
+- BentonSansBoldItalic.ttf
+- BentonSansBook.ttf
+- BentonSansBookItalic.ttf
+- BentonSansLight.ttf
+- BentonSansLightItalic.ttf
+- BentonSansMedium.ttf
+- BentonSansMediumItalic.ttf
+- BentonSansRegular.ttf
+- BentonSansRegularItalic.ttf
+- Calibre-Black.otf
+- Calibre-Bold.otf
+- Calibre-Light.ttf
+- Calibre-Medium.ttf
+- Calibre-Regular.ttf
+- Calibre-Semibold.otf
+- Calibre-Thin.otf
+- EBGaramond-Bold.ttf
+- EBGaramond-BoldItalic.ttf
+- EBGaramond-ExtraBold.ttf
+- EBGaramond-ExtraBoldItalic.ttf
+- EBGaramond-Italic.ttf
+- EBGaramond-Medium.ttf
+- EBGaramond-MediumItalic.ttf
+- EBGaramond-Regular.ttf
+- EBGaramond-SemiBold.ttf
+- EBGaramond-SemiBoldItalic.ttf
+- Eina03-Bold.ttf
+- Eina03-Regular.ttf
+- Eina03-SemiBold.ttf
+- FiraMono-Bold.ttf
+- FiraMono-Medium.ttf
+- FiraMono-Regular.ttf
+- Futura PT Book Oblique.otf
+- Futura PT Book.otf
+- Futura PT Heavy Oblique.ttf
+- Futura PT Heavy.ttf
+- Futura PT Medium Oblique.otf
+- Futura PT Medium.otf
+- FuturaPT-Demi.ttf
+- Hack-Bold.ttf
+- Hack-BoldItalic.ttf
+- Hack-Italic.ttf
+- Hack-Regular.ttf
+- IBMPlexSans-Bold.ttf
+- IBMPlexSans-BoldItalic.ttf
+- IBMPlexSans-ExtraLight.ttf
+- IBMPlexSans-ExtraLightItalic.ttf
+- IBMPlexSans-Italic.ttf
+- IBMPlexSans-Light.ttf
+- IBMPlexSans-LightItalic.ttf
+- IBMPlexSans-Medium.ttf
+- IBMPlexSans-MediumItalic.ttf
+- IBMPlexSans-Regular.ttf
+- IBMPlexSans-SemiBold.ttf
+- IBMPlexSans-SemiBoldItalic.ttf
+- IBMPlexSans-Thin.ttf
+- IBMPlexSans-ThinItalic.ttf
+- LibreFranklin-Bold.ttf
+- LibreFranklin-ExtraBold.ttf
+- LibreFranklin-Medium.ttf
+- LibreFranklin-Regular.ttf
+- LibreFranklin-SemiBold.ttf
+- Merriweather-BlackItalic.ttf
+- Merriweather-BoldItalic.ttf
+- Merriweather-Light.ttf
+- Muli-Bold.ttf
+- Muli-BoldItalic.ttf
+- Muli-ExtraLight.ttf
+- Muli-ExtraLightItalic.ttf
+- Muli-Italic.ttf
+- Muli-Light.ttf
+- Muli-LightItalic.ttf
+- Muli-Semi-BoldItalic.ttf
+- Muli-SemiBold.ttf
+- Muli.ttf
+- NotoMono-Regular.ttf
+- OperatorMono-Bold.otf
+- OperatorMono-BoldItalic.otf
+- OperatorMono-Book.otf
+- OperatorMono-BookItalic.otf
+- OperatorMono-Light.otf
+- OperatorMono-LightItalic.otf
+- OperatorMono-Medium.otf
+- OperatorMono-MediumItalic.otf
+- OperatorMono-XLight.otf
+- OperatorMono-XLightItalic.otf
+- PlayfairDisplay-Black.ttf
+- PlayfairDisplay-BlackItalic.ttf
+- PlayfairDisplay-Bold.ttf
+- PlayfairDisplay-BoldItalic.ttf
+- PlayfairDisplay-Italic.ttf
+- PlayfairDisplay-Regular.ttf
+- Raleway-Medium.ttf
+- Raleway-Regular.ttf
+- Raleway-SemiBold.ttf
+- Roboto-Light.ttf
+- Roboto-Medium.ttf
+- Roboto-Regular.ttf
+- RobotoMono-Medium.ttf
+- RobotoMono-Regular.ttf
+- Rubik-Light.ttf
+- Rubik-Medium.ttf
+- Rubik-Regular.ttf
+- SF-Pro-Display-Black.otf
+- SF-Pro-Display-BlackItalic.otf
+- SF-Pro-Display-Bold.otf
+- SF-Pro-Display-BoldItalic.otf
+- SF-Pro-Display-Heavy.otf
+- SF-Pro-Display-HeavyItalic.otf
+- SF-Pro-Display-Light.otf
+- SF-Pro-Display-LightItalic.otf
+- SF-Pro-Display-Medium.otf
+- SF-Pro-Display-MediumItalic.otf
+- SF-Pro-Display-Regular.otf
+- SF-Pro-Display-RegularItalic.otf
+- SF-Pro-Display-Semibold.otf
+- SF-Pro-Display-SemiboldItalic.otf
+- SF-Pro-Display-Thin.otf
+- SF-Pro-Display-ThinItalic.otf
+- SF-Pro-Display-Ultralight.otf
+- SF-Pro-Display-UltralightItalic.otf
+- SF-Pro-Text-Bold.otf
+- SF-Pro-Text-BoldItalic.otf
+- SF-Pro-Text-Heavy.otf
+- SF-Pro-Text-HeavyItalic.otf
+- SF-Pro-Text-Light.otf
+- SF-Pro-Text-LightItalic.otf
+- SF-Pro-Text-Medium.otf
+- SF-Pro-Text-MediumItalic.otf
+- SF-Pro-Text-Regular.otf
+- SF-Pro-Text-RegularItalic.otf
+- SF-Pro-Text-Semibold.otf
+- SF-Pro-Text-SemiboldItalic.otf
+- SFCompactDisplay-Black.otf
+- SFCompactDisplay-Bold.otf
+- SFCompactDisplay-Heavy.otf
+- SFCompactDisplay-Light.otf
+- SFCompactDisplay-Medium.otf
+- SFCompactDisplay-Regular.otf
+- SFCompactDisplay-Semibold.otf
+- SFCompactDisplay-Thin.otf
+- SFCompactDisplay-Ultralight.otf
+- SFCompactText-Bold.otf
+- SFCompactText-BoldItalic.otf
+- SFCompactText-Heavy.otf
+- SFCompactText-HeavyItalic.otf
+- SFCompactText-Light.otf
+- SFCompactText-LightItalic.otf
+- SFCompactText-Medium.otf
+- SFCompactText-MediumItalic.otf
+- SFCompactText-Regular.otf
+- SFCompactText-RegularItalic.otf
+- SFCompactText-Semibold.otf
+- SFCompactText-SemiboldItalic.otf
+- SFMono-Bold.otf
+- SFMono-BoldItalic.otf
+- SFMono-Heavy.otf
+- SFMono-HeavyItalic.otf
+- SFMono-Light.otf
+- SFMono-LightItalic.otf
+- SFMono-Medium.otf
+- SFMono-MediumItalic.otf
+- SFMono-Regular.otf
+- SFMono-RegularItalic.otf
+- SFMono-Semibold.otf
+- SFMono-SemiboldItalic.otf
+- Santakku.ttf
+- SantakkuM.ttf
+- Sohne-Buch.ttf
+- Sohne-BuchKursiv.ttf
+- Sohne-Dreiviertelfett.ttf
+- Sohne-DreiviertelfettKursiv.ttf
+- Sohne-Kraftig.ttf
+- Sohne-KraftigKursiv.ttf
+- SourceCodeVariable-Roman.ttf
+- fontawesome-webfont.ttf
+- iAWriterMonoS-Bold.ttf
+- iAWriterMonoS-Regular.ttf
+- overpass-mono-bold.otf
+- overpass-mono-light.otf
+- overpass-mono-regular.otf
+- overpass-mono-semibold.otf
+- proximanova-black-webfont.ttf
+- proximanova-bold-webfont.ttf
+- proximanova-boldit-webfont.ttf
+- proximanova-extrabold-webfont.ttf
+- proximanova-light-webfont.ttf
+- proximanova-regitalic-webfont.ttf
+- proximanova-regular-webfont.ttf
+- proximanova-regularitalic-webfont.ttf
+- proximanova-semibold-webfont.ttf
+- proximanova-semibolditalic-webfont.ttf
+
+## Dedupe-with-system check
+The following 28 files in `~/Library/Fonts` already ship verbatim (same filename, almost certainly same bytes) under `/Library/Fonts` — Apple includes the SF Pro Display + SF Pro Text families system-wide on macOS 11+. Vendoring these per-user is redundant on modern macOS and the per-user copies can be skipped when materializing `modules/home-manager/assets/fonts/`:
+
+- SF-Pro-Display-Black.otf
+- SF-Pro-Display-BlackItalic.otf
+- SF-Pro-Display-Bold.otf
+- SF-Pro-Display-BoldItalic.otf
+- SF-Pro-Display-Heavy.otf
+- SF-Pro-Display-HeavyItalic.otf
+- SF-Pro-Display-Light.otf
+- SF-Pro-Display-LightItalic.otf
+- SF-Pro-Display-Medium.otf
+- SF-Pro-Display-MediumItalic.otf
+- SF-Pro-Display-Regular.otf
+- SF-Pro-Display-RegularItalic.otf
+- SF-Pro-Display-Semibold.otf
+- SF-Pro-Display-SemiboldItalic.otf
+- SF-Pro-Display-Thin.otf
+- SF-Pro-Display-ThinItalic.otf
+- SF-Pro-Display-Ultralight.otf
+- SF-Pro-Display-UltralightItalic.otf
+- SF-Pro-Text-Bold.otf
+- SF-Pro-Text-BoldItalic.otf
+- SF-Pro-Text-Heavy.otf
+- SF-Pro-Text-HeavyItalic.otf
+- SF-Pro-Text-Light.otf
+- SF-Pro-Text-LightItalic.otf
+- SF-Pro-Text-Medium.otf
+- SF-Pro-Text-MediumItalic.otf
+- SF-Pro-Text-Regular.otf
+- SF-Pro-Text-RegularItalic.otf
+- SF-Pro-Text-Semibold.otf
+- SF-Pro-Text-SemiboldItalic.otf
+
+The system also ships a complete SF Compact family under `/System/Library/Fonts` (`SFCompactDisplay-*`, `SFCompactText-*`, `SFCompact.ttf`, `SFCompactItalic.ttf`, `SFCompactRounded.ttf`) and `SFMono` faces (`SFNSMono.ttf`, `SFNSMonoItalic.ttf`, `SFNS.ttf`, `SFNSItalic.ttf`). The filenames are *not* identical to the user-vendored variants (`SFCompactDisplay-*`, `SFCompactText-*`, `SFMono-*`), so a strict filename-equality dedupe does not match those — they are family-name duplicates, not bytes duplicates. Recommendation: also skip the SF Compact and SFMono per-user copies on Apple Silicon macOS 15+ (system fonts cover the same families with different naming), but only after a visual / family-name confirmation pass; treating them as system-duplicates is in scope for Topic 10 (`manager-4.11`), not this read-only inventory.
+
+The remaining ~ 198 user fonts (Operator Mono everything, Aktiv Grotesk, BebasNeue, BentonSans, Calibre, EBGaramond, Eina03, FiraMono, Futura PT, FuturaPT-Demi, Hack, IBMPlexSans, LibreFranklin, Merriweather, Muli, NotoMono, PlayfairDisplay, ProximaNova, Raleway, Roboto, RobotoMono, Rubik, Santakku, Sohne, SourceCodeVariable, fontawesome-webfont, iAWriterMonoS, overpass-mono) do **not** appear anywhere under `/Library/Fonts` or `/System/Library/Fonts` (or its `Supplemental/` subdir) — they are genuine third-party fonts that must be vendored under D11.
+
+## Notes
+- Approximate total bytes under ~/Library/Fonts: 121M (`du -sh`).
+- No broken symlinks, no zero-byte font files, no `.DS_Store` found under `~/Library/Fonts`.
+- The 4 files `encodings.dir`, `fonts.dir`, `fonts.list`, `fonts.scale` are XQuartz / X11 bitmap-font metadata stragglers (all dated 2020-05-28), not font payloads — they should NOT be copied into `modules/home-manager/assets/fonts/`. They are also harmless to leave on disk in `~/Library/Fonts`.
+- The same 5-file X11 metadata set (`encodings.dir`, `fonts.dir`, `fonts.list`, `fonts.scale`, plus `Helvetica.dfont.LWFN` in some macOS versions) exists in `/Library/Fonts` too; if any future audit lists those as "fonts" they should be filtered out.
+- The `Supplemental` directory under `/System/Library/Fonts` contains all the optional Apple-shipped faces (Andale, Arial families, Courier New, Georgia, Helvetica Neue substitutes, Tahoma, Times New Roman, Trebuchet MS, Verdana, Wingdings, Comic Sans, etc.) plus the entire STIX math family and the regional Noto Sans coverage — none of these collide with any third-party vendored font under `~/Library/Fonts`.
+- D11 licensing posture: Operator Mono is paid; the artifact above lists filenames only. The bytes were not copied, hashed, or moved by this agent and remain only under `~/Library/Fonts`. The repo is currently private (per MIGRATION.md "Open Items"), so the eventual vendoring under `modules/home-manager/assets/fonts/` is acceptable today; if the repo is ever made public, the Operator Mono OTFs (both the `Operator Mono * Nerd Font Complete.otf` and the `OperatorMono-*.otf` families, plus the `OperatorNerdFont-*.otf` patched build) must be excluded or git-lfs-gated.
+- Plain `OperatorMono-*.otf` (10 unpatched faces) and `OperatorNerdFont-*.otf` (10 Nerd-patched faces under the alternate naming scheme) are *also* the same paid Operator Mono asset and inherit the same license constraint as the `Operator Mono * Nerd Font Complete.otf` set.

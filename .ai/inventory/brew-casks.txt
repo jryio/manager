@@ -1,0 +1,21 @@
+# command: brew list --cask
+# captured-at: 2026-05-18 (YYYY-MM-DD)
+# machine: AVA (macOS 15.5, brew at /opt/homebrew)
+# captured-by: inventory-brew agent
+
+1password-cli
+alacritty
+codex
+gcloud-cli
+ghostty
+gitify
+gpg-suite
+macfuse
+markedit
+miniconda
+ngrok
+powershell
+timemachineeditor
+vagrant
+wireshark-app
+xquartz

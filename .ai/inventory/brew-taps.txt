@@ -1,0 +1,17 @@
+# command: brew tap
+# captured-at: 2026-05-18 (YYYY-MM-DD)
+# machine: AVA (macOS 15.5, brew at /opt/homebrew)
+# captured-by: inventory-brew agent
+
+charmbracelet/tap
+docker/tap
+heroku/brew
+homebrew/aliases
+homebrew/bundle
+homebrew/cask-versions
+homebrew/services
+neovim/neovim
+oven-sh/bun
+rbenv/tap
+steveyegge/beads
+stripe/stripe-cli
