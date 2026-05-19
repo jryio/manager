@@ -1,6 +1,6 @@
 {
   homebrew = {
-    enable = false;
+    enable = true;
 
     onActivation = {
       autoUpdate = false;
@@ -8,6 +8,9 @@
       cleanup = "none";
     };
 
+    global.brewfile = false;
+
+    taps = [ ];
     brews = [ ];
     casks = [ ];
     masApps = { };
