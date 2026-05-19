@@ -1,49 +1,52 @@
-# source: ls /Applications/*.app/Contents/_MASReceipt
+# source: mdls -name kMDItemAppStoreAdamID -raw + kMDItemCFBundleIdentifier per /Applications/*.app/Contents/_MASReceipt/
 # captured-at: 2026-05-18
-# machine: AVA
-# captured-by: inventory-apps agent
-com.khanov.BlockerX  1Blocker.app
-com.1password.safari  1Password for Safari.app
-com.adobe.mas.lightroomCC  Adobe Lightroom.app
-com.if.Amphetamine  Amphetamine.app
-cc.anybox.Anybox  Anybox.app
-Archagon.Backgroundifier  Backgroundifier.app
-com.kruegersystems.calca.mac  Calca.app
-com.flexibits.cardhop.mac  Cardhop.app
-com.nscoding.ColorPicker  Color Picker.app
-com.lukilabs.lukiapp  Craft.app
-com.samuellaska.CryptoWatch  Crypto Pro.app
-com.charliemchapman.dark-noise  Dark Noise.app
-com.bloombuilt.dayone-mac  Day One.app
-com.junecloud.mac.Deliveries  Deliveries.app
-app.figr.figr  Figr.app
-net.ro-z.FitFileExplorer  FitFileExplorer.app
-com.flightyapp.flighty  Flighty.app
-au.com.michaeltigas.FocusedWork  Focused Work.app
-com.algebraiclabs.foodnoms  Foodnoms.app
-com.apple.garageband10  GarageBand.app
-com.paewel.GeoTagsterr  GeoTagster.app
-com.dreamer.Habits  Habits.app
-com.ifunography.HealthExport  Health Auto Export.app
-pro.writer.mac  iA Writer.app
-com.apple.iMovieApp  iMovie.app
-com.instapaper.Instapaper-Mac  Instapaper Save.app
-com.bjango.iStatMini  iStat Mini.app
-com.apple.iWork.Keynote  Keynote.app
-com.microsoft.Excel  Microsoft Excel.app
-com.microsoft.Word  Microsoft Word.app
-nl.jeffreykuiken.NoirApp.mac  Noir.app
-com.apple.iWork.Pages  Pages.app
-com.mr-brightside.ParcelOSX  Parcel Classic.app
-de.APPenzeller.PiPifier  PiPifier.app
-app.portal.ios.v1  Portal.app
-com.nothingmagical.redacted-mac  Redacted.app
-com.shortery-app.Shortery  Shortery.app
-com.tinyspeck.slackmacgap  Slack.app
-app.soulver.appstore.mac  Soulver 3.app
-io.tailscale.ipn.macos  Tailscale.app
-com.culturedcode.ThingsMac  Things3.app
-com.TickTick.task.mac  TickTick.app
-com.joehribar.toggl  Timery.app
-net.televator.Vimari  Vimari.app
-com.apple.dt.Xcode  Xcode.app
+# machine: AVA (macOS 15.5)
+# captured-by: inventory-apps follow-up (mdls AdamID pass)
+# format: <AdamID>	<App Name>	<bundle id>
+# note: AdamID feeds nix-darwin homebrew.masApps attrset: { "App Name" = AdamID; ... }
+
+1365531024	1Blocker	com.khanov.BlockerX
+1569813296	1Password for Safari	com.1password.safari
+1451544217	Adobe Lightroom	com.adobe.mas.lightroomCC
+937984704	Amphetamine	com.if.Amphetamine
+1593408455	Anybox	cc.anybox.Anybox
+1040333206	Backgroundifier	Archagon.Backgroundifier
+635758264	Calca	com.kruegersystems.calca.mac
+1290358394	Cardhop	com.flexibits.cardhop.mac
+641027709	Color Picker	com.nscoding.ColorPicker
+1487937127	Craft	com.lukilabs.lukiapp
+980888073	Crypto Pro	com.samuellaska.CryptoWatch
+1465439395	Dark Noise	com.charliemchapman.dark-noise
+1055511498	Day One	com.bloombuilt.dayone-mac
+924726344	Deliveries	com.junecloud.mac.Deliveries
+1630860606	Figr	app.figr.figr
+1244431640	FitFileExplorer	net.ro-z.FitFileExplorer
+1358823008	Flighty	com.flightyapp.flighty
+1523968394	Focused Work	au.com.michaeltigas.FocusedWork
+1479461686	Foodnoms	com.algebraiclabs.foodnoms
+682658836	GarageBand	com.apple.garageband10
+1180435565	GeoTagster	com.paewel.GeoTagsterr
+1514915737	Habits	com.dreamer.Habits
+1115567069	Health Auto Export	com.ifunography.HealthExport
+775737590	iA Writer	pro.writer.mac
+408981434	iMovie	com.apple.iMovieApp
+1481302432	Instapaper Save	com.instapaper.Instapaper-Mac
+927292435	iStat Mini	com.bjango.iStatMini
+409183694	Keynote	com.apple.iWork.Keynote
+462058435	Microsoft Excel	com.microsoft.Excel
+462054704	Microsoft Word	com.microsoft.Word
+1592917505	Noir	nl.jeffreykuiken.NoirApp.mac
+409201541	Pages	com.apple.iWork.Pages
+639968404	Parcel Classic	com.mr-brightside.ParcelOSX
+1160374471	PiPifier	de.APPenzeller.PiPifier
+1436994560	Portal	app.portal.ios.v1
+984968384	Redacted	com.nothingmagical.redacted-mac
+1594183810	Shortery	com.shortery-app.Shortery
+803453959	Slack	com.tinyspeck.slackmacgap
+1508732804	Soulver 3	app.soulver.appstore.mac
+1475387142	Tailscale	io.tailscale.ipn.macos
+904280696	Things3	com.culturedcode.ThingsMac
+966085870	TickTick	com.TickTick.task.mac
+1425368544	Timery	com.joehribar.toggl
+1480933944	Vimari	net.televator.Vimari
+497799835	Xcode	com.apple.dt.Xcode
