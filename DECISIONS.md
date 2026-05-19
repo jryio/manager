@@ -44,6 +44,11 @@
 - [manager-4.10 child backlog]: finalized the Topic 03 editor/Zed child issue bodies without changing phase scope
   - Rewrote `manager-4.10.1` through `manager-4.10.5` from the allowed source set only: `bd show manager-4.10`, `.ai/plan/03-dotfiles-app-configuration*.md`, `.ai/plan/14-development-environment.md`, `README.md`, and `modules/home-manager/base.nix`.
   - The child IDs and dependency graph already existed cleanly in beads, so the correct move was to preserve that structure and tighten the issue bodies instead of creating duplicate children.
+- [migration-2026-05-18]: interview-driven master plan landed at `.ai/plan/MIGRATION.md`
+  - 31 decisions captured (D1–D31) reframing the full macOS migration around live state, not the historical `~/dotfiles` Brewfiles. Headline shifts: cleanup="none" forever; aggressive Brew→Nix for CLIs with a HM module surface; vendor ALL fonts incl. paid Operator Mono; 1Password=SSH-only, GPG=signing-only; copy-once Zed seed; SSH private keys move into 1Password vault; gitego stays with declarative config; firewall + Touch ID sudo explicitly deferred.
+  - Execution split into 5 tranches (A–E) layered on existing beads epics; new tickets needed for Topics 04–08, 10–12, 14, 16, plus TCC checklist + validation harness. Aggressive per-topic agent fan-out with reviewer agents.
+  - Ground truth at session start: Nix not yet installed on AVA, `~/dotfiles` still owns most symlinks, 107 brew leaves with significant drift, 230 vendored fonts incl. Operator Mono Nerd Font Complete, 27 user+27 system launchd plists (~50% stale), 5 gitego identities, FileVault on, firewall off.
+
 - [codex workflow]: added a reusable Codex session prompt and two-terminal operator guide
   - Added `.ai/codex-agentic-workflow.md` with one pasteable prompt, session-slice rules, context-loading rules, safe parallelization windows, and explicit shared-file ownership guidance for lead vs builder terminals.
   - The workflow is optimized around the actual `manager-4.*` dependency program: substrate in session 1, app-config in session 2, and only sibling tickets with disjoint write scopes run in parallel.
