@@ -33,7 +33,7 @@
       "bat"
       "black"
       "blueutil"
-      "btop"
+      # btop: Nix-managed via programs.btop in modules/home-manager/monitoring.nix (D5)
       "caddy"
       "cask"
       "ccusage"
@@ -57,8 +57,8 @@
       "fzf"
       "gawk"
       "gemini-cli"
-      "gh"
-      "git"
+      # gh: Nix-managed via programs.gh in modules/home-manager/github.nix (D5)
+      # git: Nix-managed via programs.git in modules/home-manager/git.nix (D5)
       "git-who"
       "gnupg"
       "gnuplot"
@@ -74,13 +74,13 @@
       "helm"
       "heroku"
       "hf"
-      "htop"
+      # htop: Nix-managed via programs.htop in modules/home-manager/monitoring.nix (D5)
       "hugo"
       "hyperfine"
       "imagemagick"
       "imagemagick@6"
       "iperf3"
-      "jj"
+      # jj: Nix-managed via programs.jujutsu in modules/home-manager/jujutsu.nix (D5)
       "jq"
       "lazygit"
       "libass"
@@ -117,14 +117,14 @@
       "sshpass"
       "steveyegge/beads/bd"
       "stripe/stripe-cli/stripe"
-      "television"
+      # television: Nix-managed via programs.television in modules/home-manager/television.nix (D5)
       "tesseract"
       "tig"
-      "tmux"
+      # tmux: Nix-managed via programs.tmux in modules/home-manager/tmux.nix (D5)
       "tree"
       "trivy"
       "uv"
-      "vale"
+      # vale: Nix-managed via home.packages in modules/home-manager/vale.nix (D5)
       "vegeta"
       "vhs"
       "vim"
