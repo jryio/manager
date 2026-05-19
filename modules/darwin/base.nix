@@ -5,6 +5,9 @@
     ./packages.nix
     ./homebrew.nix
     ./shell.nix
+    ./hosts.nix
+    ./defaults.nix
+    ./launchd.nix
   ];
 
   determinateNix.enable = true;

@@ -4,6 +4,19 @@
   imports = [
     ./packages.nix
     ./shell.nix
+    ./fonts.nix
+    ./gpg.nix
+    ./ssh.nix
+    ./git.nix
+    ./tmux.nix
+    ./ghostty.nix
+    ./github.nix
+    ./jujutsu.nix
+    ./television.nix
+    ./monitoring.nix
+    ./vale.nix
+    ./editors.nix
+    ./zed.nix
   ];
 
   home.username = host.username;
