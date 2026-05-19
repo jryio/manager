@@ -1,0 +1,85 @@
+CLAUDE.md
+AGENTS.md
+ai/
+.beads/
+
+*.avanterules
+
+# Compiled sources
+# ===========================
+
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages
+# ===========================
+
+vendor/
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases
+# ===========================
+
+*.log
+*.sqlite
+
+# OS generated files
+# ===========================
+
+.metadata_never_index
+.DS_Store
+.DS_Store?
+._*
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Codekits
+# ===========================
+
+.sass-cache/
+.codekit-config.json
+config.codekit
+
+# Editors
+# ===========================
+
+# VIM
+Session.vim
+.*.swo
+.*.swp
+*~
+
+# Idea
+.idea/
+
+# Sublime
+*.sublime-project
+*.sublime-workspace
+
+# Other
+# ===========================
+
+.rake_tasks
+.meteor/
+.tags
+tags
+.starscope.db
+default-gems
+.tern-project
+.tern-port
+
+# Secrets
+# ===========================
+
+*.env
