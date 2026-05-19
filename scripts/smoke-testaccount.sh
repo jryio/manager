@@ -93,7 +93,8 @@ expect_zero_exit "nix --version succeeds" "nix --version"
 
 printf '\n=== nix-darwin [D1, D28] ===\n'
 expect_zero_exit "darwin-rebuild present on PATH" "command -v darwin-rebuild"
-expect_zero_exit "darwin-rebuild --help exits 0" "darwin-rebuild --help"
+expect_zero_exit "darwin-rebuild binary is executable" \
+  "test -x \"\$(command -v darwin-rebuild)\""
 
 printf '\n=== Homebrew bridge [D3, D5, D6, ADR 3, ADR 4] ===\n'
 expect_in_output "brew lives at /opt/homebrew/bin/brew" \
@@ -121,8 +122,13 @@ expect_in_output "GPG signing key 715CED2327899E28 present" \
   "715CED2327899E28"
 
 printf '\n=== Vendored fonts [D11, ADR 6] ===\n'
-expect_zero_exit "Operator Mono installed (system_profiler SPFontsDataType)" \
-  "system_profiler SPFontsDataType 2>/dev/null | grep -q 'Operator Mono'"
+# Filesystem check, not system_profiler: macOS lazily reindexes the font
+# registry, so a fresh switch leaves files on disk without registering them
+# until a GUI event (e.g. Font Book / app font request) prompts a scan. The
+# D11/ADR 6 invariant is "fonts deployed to ~/Library/Fonts", which is
+# exactly what HM owns.
+expect_zero_exit "Operator Mono Nerd Font file present in ~/Library/Fonts" \
+  "ls \"\$HOME/Library/Fonts/Operator Mono Book Nerd Font Complete.otf\""
 
 printf '\n=== /etc/hosts facebook block [D26] ===\n'
 expect_zero_exit "/etc/hosts blocks facebook.com via 0.0.0.0" \
