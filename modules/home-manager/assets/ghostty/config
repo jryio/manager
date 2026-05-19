@@ -1,0 +1,215 @@
+# Ghostty Configuration
+# Converted from Alacritty configuration
+
+# Font Configuration
+# Per MIGRATION.md D11 / adr.jsonl#6: the on-disk family is
+# "Operator Mono * Nerd Font Complete" (the literal asterisk is part of
+# the family name as patched by Nerd Fonts), not the older
+# "OperatorMono Nerd Font Mono" string in the historical config.
+font-family = Operator Mono * Nerd Font Complete
+font-size = 14
+font-family-bold = Operator Mono * Nerd Font Complete
+font-style-bold = Medium
+font-family-italic = Operator Mono * Nerd Font Complete
+font-style-italic = Regular Italic
+
+# Colors - Primary
+background = 1d1f21
+foreground = c5c8c6
+
+# Color Rendering - for brighter, more vivid colors
+alpha-blending = linear-corrected
+window-colorspace = display-p3
+bold-color = bright
+
+# Colors - Normal (palette 0-7)
+palette = 0=1d1f21
+palette = 1=cc6666
+palette = 2=b5bd68
+palette = 3=f0c674
+palette = 4=81a2be
+palette = 5=b294bb
+palette = 6=8abeb7
+palette = 7=c5c8c6
+
+# Colors - Bright (palette 8-15)
+palette = 8=969896
+palette = 9=cc6666
+palette = 10=b5bd68
+palette = 11=f0c674
+palette = 12=81a2be
+palette = 13=b294bb
+palette = 14=8abeb7
+palette = 15=ffffff
+
+# Colors - Indexed (palette 16-21)
+palette = 16=de935f
+palette = 17=a3685a
+palette = 18=282a2e
+palette = 19=373b41
+palette = 20=b4b7b4
+palette = 21=e0e0e0
+
+# Cursor
+cursor-style = block
+cursor-color = c5c8c6
+cursor-text = 1d1f21
+
+# Shell Integration - disable cursor changing to keep block cursor, and title to hide directory path
+shell-integration-features = no-cursor, no-title
+
+# Window Behavior
+confirm-close-surface = false
+
+# Environment
+term = xterm-256color-italic
+
+# Window
+window-decoration = auto
+background-opacity = 1.0
+window-width = 180
+window-height = 50
+window-padding-x = 2
+window-padding-y = 2
+
+# splits
+split-divider-color = ad95b8
+
+# Mouse
+mouse-hide-while-typing = false
+mouse-scroll-multiplier = 3
+
+# Scrollback
+scrollback-limit = 320000000
+
+# Selection
+copy-on-select = false
+
+# Keybindings - Window Management
+keybind = cmd+n=new_window
+keybind = cmd+h=ignore
+keybind = cmd+q=quit
+keybind = cmd+w=close_surface
+
+# Keybindings - Clipboard
+keybind = cmd+v=paste_from_clipboard
+keybind = cmd+c=copy_to_clipboard
+
+# Keybindings - Font Size
+keybind = cmd+0=reset_font_size
+keybind = cmd+equal=increase_font_size:1
+keybind = cmd+minus=decrease_font_size:1
+
+# Keybindings - Command Palette
+keybind = cmd+k=toggle_command_palette
+
+# Keybindings - Clear (moved to cmd+shift+k)
+keybind = cmd+shift+k=clear_screen
+
+# Keybindings - Navigation (Alt key sequences)
+keybind = alt+j=text:\x1bj
+keybind = alt+k=text:\x1bk
+keybind = alt+h=text:\x1bh
+keybind = alt+l=text:\x1bl
+
+# Keybindings - Special Keys
+keybind = shift+enter=text:\n
+keybind = shift+tab=text:\x1b[Z
+keybind = backspace=text:\x7f
+keybind = alt+backspace=text:\x1b\x7f
+
+# Keybindings - Arrow Keys with modifiers
+keybind = shift+left=text:\x1b[1;2D
+keybind = ctrl+left=text:\x1b[1;5D
+keybind = alt+left=text:\x1bb
+keybind = shift+right=text:\x1b[1;2C
+keybind = ctrl+right=text:\x1b[1;5C
+keybind = alt+right=text:\x1bf
+keybind = shift+up=text:\x1b[1;2A
+keybind = ctrl+up=text:\x1b[1;5A
+keybind = alt+up=text:\x1b[1;5A
+keybind = shift+down=text:\x1b[1;2B
+keybind = ctrl+down=text:\x1b[1;5B
+keybind = alt+down=text:\x1b[1;5B
+
+# Keybindings - Page Navigation
+keybind = shift+page_up=text:\x1b[5;2~
+keybind = ctrl+page_up=text:\x1b[5;5~
+keybind = page_up=text:\x1b[5~
+keybind = shift+page_down=text:\x1b[6;2~
+keybind = ctrl+page_down=text:\x1b[6;5~
+keybind = page_down=text:\x1b[6~
+
+# Keybindings - Home/End
+keybind = insert=text:\x1b[2~
+keybind = delete=text:\x1b[3~
+
+# Keybindings - Function Keys (F1-F12)
+keybind = f1=text:\x1bOP
+keybind = f2=text:\x1bOQ
+keybind = f3=text:\x1bOR
+keybind = f4=text:\x1bOS
+keybind = f5=text:\x1b[15~
+keybind = f6=text:\x1b[17~
+keybind = f7=text:\x1b[18~
+keybind = f8=text:\x1b[19~
+keybind = f9=text:\x1b[20~
+keybind = f10=text:\x1b[21~
+keybind = f11=text:\x1b[23~
+keybind = f12=text:\x1b[24~
+
+# Keybindings - Function Keys with Shift
+keybind = shift+f1=text:\x1b[1;2P
+keybind = shift+f2=text:\x1b[1;2Q
+keybind = shift+f3=text:\x1b[1;2R
+keybind = shift+f4=text:\x1b[1;2S
+keybind = shift+f5=text:\x1b[15;2~
+keybind = shift+f6=text:\x1b[17;2~
+keybind = shift+f7=text:\x1b[18;2~
+keybind = shift+f8=text:\x1b[19;2~
+keybind = shift+f9=text:\x1b[20;2~
+keybind = shift+f10=text:\x1b[21;2~
+keybind = shift+f11=text:\x1b[23;2~
+keybind = shift+f12=text:\x1b[24;2~
+
+# Keybindings - Function Keys with Control
+keybind = ctrl+f1=text:\x1b[1;5P
+keybind = ctrl+f2=text:\x1b[1;5Q
+keybind = ctrl+f3=text:\x1b[1;5R
+keybind = ctrl+f4=text:\x1b[1;5S
+keybind = ctrl+f5=text:\x1b[15;5~
+keybind = ctrl+f6=text:\x1b[17;5~
+keybind = ctrl+f7=text:\x1b[18;5~
+keybind = ctrl+f8=text:\x1b[19;5~
+keybind = ctrl+f9=text:\x1b[20;5~
+keybind = ctrl+f10=text:\x1b[21;5~
+keybind = ctrl+f11=text:\x1b[23;5~
+keybind = ctrl+f12=text:\x1b[24;5~
+
+# Keybindings - Function Keys with Alt
+keybind = alt+f1=text:\x1b[1;6P
+keybind = alt+f2=text:\x1b[1;6Q
+keybind = alt+f3=text:\x1b[1;6R
+keybind = alt+f4=text:\x1b[1;6S
+keybind = alt+f5=text:\x1b[15;6~
+keybind = alt+f6=text:\x1b[17;6~
+keybind = alt+f7=text:\x1b[18;6~
+keybind = alt+f8=text:\x1b[19;6~
+keybind = alt+f9=text:\x1b[20;6~
+keybind = alt+f10=text:\x1b[21;6~
+keybind = alt+f11=text:\x1b[23;6~
+keybind = alt+f12=text:\x1b[24;6~
+
+# Keybindings - Function Keys with Command
+keybind = cmd+f1=text:\x1b[1;3P
+keybind = cmd+f2=text:\x1b[1;3Q
+keybind = cmd+f3=text:\x1b[1;3R
+keybind = cmd+f4=text:\x1b[1;3S
+keybind = cmd+f5=text:\x1b[15;3~
+keybind = cmd+f6=text:\x1b[17;3~
+keybind = cmd+f7=text:\x1b[18;3~
+keybind = cmd+f8=text:\x1b[19;3~
+keybind = cmd+f9=text:\x1b[20;3~
+keybind = cmd+f10=text:\x1b[21;3~
+keybind = cmd+f11=text:\x1b[23;3~
+keybind = cmd+f12=text:\x1b[24;3~
