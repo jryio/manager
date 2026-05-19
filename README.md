@@ -39,7 +39,9 @@ The bootstrap currently uses the machine `LocalHostName` as the default config n
 
 - The installer path is Determinate Nix only.
 - `nix-darwin` uses Determinate's Darwin module, so the initial framework does not manage `nix.*` directly.
-- Homebrew is scaffolded but disabled until the Homebrew migration topic is implemented.
+- Homebrew is required as a manual prerequisite before `darwin-rebuild switch` on a clean machine; `./install` does not install Homebrew. The `nix-darwin` bridge (`modules/darwin/homebrew.nix`) then takes over taps, brews, casks, and MAS apps once Homebrew is present at `/opt/homebrew`.
+- The bridge runs with `onActivation.cleanup = "none"`, `autoUpdate = false`, `upgrade = false`. `darwin-rebuild switch` installs anything in the ledger that is missing but never uninstalls anything, even if the ledger drifts from `brew leaves`. Drift cleanup is a deliberate, manual action.
+- Manual `brew install`, `brew bundle --file=<path>`, and `brew uninstall` continue to work for debugging or ad-hoc work; they are not the supported sync path.
 - If you want to suppress Determinate installer diagnostics, export `NIX_INSTALLER_DIAGNOSTIC_ENDPOINT=""` before running `./install`.
 
 ## Shell Environment
