@@ -1,0 +1,239 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Workspace",
+    "bindings": {
+      "cmd-shift-r": ["workspace::SendKeystrokes", "cmd-shift-f cmd-shift-h"]
+    }
+  },
+  {
+    // We only want to define the focus keyboard shorts within the main editor
+    // The editor will only have a parent of ContextEditor if it is rendered within another panel
+    //
+    // https://github.com/zed-industries/zed/issues/14718#issuecomment-2420284330
+    "context": "Editor && vim_mode == normal && !(ContextEditor > Editor)",
+    "bindings": {
+      "space a a ": "agent::ToggleFocus",
+      "space e": "project_panel::ToggleFocus",
+      "space o": "outline_panel::ToggleFocus",
+      "space g": "git_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "OutlinePanel",
+    "bindings": {
+      "space o": "workspace::ToggleRightDock"
+    }
+  },
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "space e": "workspace::ToggleLeftDock"
+    }
+  },
+  {
+    "context": "GitPanel",
+    "bindings": {
+      "space space": "git::ToggleStaged",
+      "space g": "workspace::ToggleLeftDock",
+      "space d": "git::Diff",
+      "space p ": "git::Push",
+      "space shift-f": "git::ForcePush"
+    }
+  },
+  {
+    "context": "GitDiff > Editor && VimControl",
+    "bindings": {
+      "space": "git::StageAndNext",
+      "shift-c": "git::Commit"
+      // "cmd-g": "git::StageAndNext"
+    }
+  },
+  {
+    // neovim keybindings for file explorer
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "backspace": "project_panel::CollapseSelectedEntry",
+      "h": "project_panel::CollapseSelectedEntry",
+      "l": "project_panel::ExpandSelectedEntry",
+      "a": "project_panel::NewFile",
+      "cmd-d": "project_panel::Duplicate",
+      "A": "project_panel::NewDirectory",
+      "x": "project_panel::Cut",
+      "c": "project_panel::Copy",
+      "p": "project_panel::Paste",
+      "g y ": "workspace::CopyPath",
+      "shift-y": "workspace::CopyRelativePath",
+      "r": "project_panel::Rename",
+      "d": ["project_panel::Delete", { "skip_prompt": true }],
+      "shift-d": ["project_panel::Trash", { "skip_prompt": false }],
+      "s": "workspace::OpenWithSystem",
+      "/": "project_panel::NewSearchInDirectory",
+      "shift-down": "menu::SelectNext",
+      "shift-up": "menu::SelectPrevious",
+      "escape": "menu::Cancel"
+    }
+  },
+  {
+    "context": "Editor && (showing_code_actions || showing_completions)",
+    "bindings": {
+      "up": "editor::ContextMenuPrevious",
+      "down": "editor::ContextMenuNext",
+      "shift-tab": "editor::ContextMenuPrevious",
+      "shift-": "editor::ContextMenuNext"
+    }
+  },
+  // Move between editor panels with ctrl-a hjkl (tmux)
+  {
+    "context": "(Dock || Editor && VimControl)",
+    "bindings": {
+      "ctrl-a h": "workspace::ActivatePaneLeft",
+      "ctrl-a l": "workspace::ActivatePaneRight",
+      "ctrl-a k": "workspace::ActivatePaneUp",
+      "ctrl-a j": "workspace::ActivatePaneDown",
+      ", w": ["pane::CloseActiveItem", { "save_intent": "save" }],
+      ", q": ["pane::CloseAllItems", { "save_intent": "save" }]
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "ctrl-a h": null,
+      "ctrl-a l": null,
+      "ctrl-a k": null,
+      "ctrl-a j": null
+    }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "alt-h": null,
+      "alt-j": null,
+      "alt-k": null,
+      "alt-l": null,
+      "cmd-shift-l": null
+    }
+  },
+  // VIM - NORMAL MODE
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      "q": null, // disable recordings
+      "ctrl--": "pane::ActivateNextItem",
+      "ctrl-=": "pane::ActivatePreviousItem",
+      "space h": "buffer_search::Dismiss",
+      "space l a ": "editor::ToggleCodeActions",
+      "space f": [
+        "task::Spawn",
+        { "task_name": "files", "reveal_target": "center" }
+      ],
+      // "space f": "file_finder::Toggle", // option to use the system project file searcher
+      ", s": "workspace::Save",
+      ", w": ["pane::CloseActiveItem", { "save_intent": "save" }],
+      ", q": ["pane::CloseAllItems", { "save_intent": "save" }],
+      "shift-s": ["workspace::SendKeystrokes", "m z i enter escape ` z"], // Insert newline without entering insert mode
+      "p": ["vim::Paste", { "preserve_clipboard": true }], // don't override register on paste
+      // Yank whole file to system clipboard "workspace::SendKeystrokes", ": % yank enter" ], "g j": [
+      // Move 5 lines down
+      "shift-y": ["workspace::SendKeystrokes", "5 j"],
+      "g k": ["workspace::SendKeystrokes", "5 k"],
+      // Move 5 lines up
+      "shift-h": "vim::FirstNonWhitespace", // Move to first non-whitespace character
+      "shift-l": "vim::EndOfLine", // Move to end of line
+      // Next diagnostic
+      "] q": "editor::GoToDiagnostic",
+      "space l j": "editor::GoToDiagnostic",
+      // Previous diagnostic
+      "[ q": "editor::GoToPreviousDiagnostic",
+      "space l k": "editor::GoToPreviousDiagnostic",
+      "space l r ": "editor::Rename"
+    }
+  },
+  // VIM - INSERT MODE
+  {
+    "context": "Editor && vim_mode == insert",
+    "bindings": {
+      "cmd-s": [
+        // saving buffer switches to normal mode
+        "workspace::SendKeystrokes",
+        "escape : w enter"
+      ]
+    }
+  },
+  // VIM - VISUAL MODE
+  {
+    "context": "vim_mode == visual",
+    "bindings": {
+      // use S as surrounds prefix
+      "shift-s": "vim::PushAddSurrounds",
+      "shift-k": "editor::MoveLineUp", // Move selection up
+      "shift-j": "editor::MoveLineDown", // Move selection down
+      "shift-h": "vim::FirstNonWhitespace", // Move to first non-whitespace character
+      "shift-l": "vim::EndOfLine", // Move to end of line
+      "p": [
+        // Paste without yanking replaced text
+        "vim::Paste",
+        {
+          "preserve_clipboard": true
+        }
+      ],
+      "ctrl-r": ["workspace::SendKeystrokes", "cmd-f cmd-alt-x cmd-shift-h"]
+    }
+  },
+  // WINDOW MANAGEMENT
+  {
+    "context": "GitPanel || ProjectPanel || CollabPanel || OutlinePanel || ChatPanel || VimControl || EmptyPane || SharedScreen || MarkdownPreview || KeyContextView",
+    "bindings": {
+      // navigate between windows
+      // omit ctrl-w as window movement prefix
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown",
+      // resize windows
+      "alt-h": ["workspace::SendKeystrokes", "10 ctrl-w >"],
+      "alt-l": ["workspace::SendKeystrokes", "10 ctrl-w <"],
+      "alt-j": ["workspace::SendKeystrokes", "10 ctrl-w -"],
+      "alt-k": ["workspace::SendKeystrokes", "10 ctrl-w +"],
+      // split windows to match vim's `set splitright` and `set splitbelow`
+      "ctrl-w s": "pane::SplitDown",
+      "ctrl-w v": "pane::SplitRight",
+      "ctrl-w h": "pane::SplitLeft",
+      "ctrl-w j": "pane::SplitUp"
+    }
+  },
+  {
+    "context": "ProjectSearchBar && in_replace > Editor",
+    "use_key_equivalents": true,
+    "bindings": {
+      // "n": "search::ReplaceNext",
+      // "a": "search::ReplaceAll"
+    }
+  },
+  {
+    "context": "EmptyPane || SharedScreen",
+    "bindings": {
+      // Put key bindings here (in addition to the context above) if you want them to
+      // work when no editor exists.
+      // "space f": "file_finder::Toggle"
+    }
+  },
+  {
+    "context": "vim_mode == insert",
+    "bindings": {
+      "ctrl-enter": "assistant::InlineAssist"
+    }
+  },
+  {
+    "context": "Terminal",
+    "bindings": {
+      "cmd-s": "pane::SplitDown"
+    }
+  }
+]
