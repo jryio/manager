@@ -64,20 +64,27 @@ let
 
   activeProfile = "jry";
 
-  # gitego config.yaml renderer. Output is line-for-line parallel to the
-  # captured ~/.gitego/config.yaml so the declarative file replaces it
-  # without drift.
-  renderIdentity = id: i: ''
-        ${id}:
-            name: ${i.name}
-            email: ${i.email}''
-    + lib.optionalString (i.sshKey != null) ''
+  # gitego config.yaml renderer. Lines are built explicitly to avoid the
+  # multiline-string indent-stripping quirk that produced malformed YAML
+  # (per ADR 17). The result matches gitego's own marshaller: profile
+  # mappings nest under `profiles:`, optional ssh_key sits inside each
+  # profile, and auto_rules is a sequence at the document root.
+  renderIdentity = id: i:
+    let
+      base = [
+        "  ${id}:"
+        "    name: ${i.name}"
+        "    email: ${i.email}"
+      ];
+      sshLine = lib.optional (i.sshKey != null) "    ssh_key: ${i.sshKey}";
+    in
+    lib.concatStringsSep "\n" (base ++ sshLine);
 
-            ssh_key: ${i.sshKey}'';
-
-  renderAutoRule = id: path: ''
-        - path: ${path}
-          profile: ${id}'';
+  renderAutoRule = id: path:
+    lib.concatStringsSep "\n" [
+      "  - path: ${path}"
+      "    profile: ${id}"
+    ];
 
   gitegoConfigYaml = ''
     profiles:

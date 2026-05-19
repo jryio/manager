@@ -130,6 +130,27 @@ printf '\n=== Vendored fonts [D11, ADR 6] ===\n'
 expect_zero_exit "Operator Mono Nerd Font file present in ~/Library/Fonts" \
   "ls \"\$HOME/Library/Fonts/Operator Mono Book Nerd Font Complete.otf\""
 
+printf '\n=== gitego identity ledger [D25, ADR 12, ADR 17] ===\n'
+# `gitego list` exits non-zero when ~/.gitego/config.yaml is malformed;
+# catching that here prevents a silent regression of the renderer (see
+# ADR 17 — Nix multiline strings dropped ssh_key out of its profile).
+# gitego is a Go binary; check $GOPATH/bin in addition to PATH.
+gitego_bin=""
+if command -v gitego >/dev/null 2>&1; then
+  gitego_bin=$(command -v gitego)
+elif [ -x "$HOME/go/bin/gitego" ]; then
+  gitego_bin="$HOME/go/bin/gitego"
+fi
+if [ -n "$gitego_bin" ]; then
+  expect_zero_exit "gitego list parses HM-generated config.yaml" \
+    "\"$gitego_bin\" list"
+  expect_in_output "gitego list reports jry as the active profile" \
+    "\"$gitego_bin\" list" \
+    "* "
+else
+  skip_check "gitego list" "gitego not found (Go binary; install via go install)"
+fi
+
 printf '\n=== /etc/hosts facebook block [D26] ===\n'
 expect_zero_exit "/etc/hosts blocks facebook.com via 0.0.0.0" \
   "grep -E '^0\\.0\\.0\\.0[[:space:]].*facebook\\.com' /etc/hosts"
