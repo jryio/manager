@@ -55,9 +55,10 @@
       mineffect = "scale";
 
       # Bottom-right hot corner explicitly disabled (inventory:
-      # wvous-br-corner = 1, which is the "no-op" action; wvous-br-modifier = 0).
+      # wvous-br-corner = 1, which is the "no-op" action). nix-darwin 25.11
+      # does not expose wvous-br-modifier; the corner value alone is enough
+      # to neutralize the action.
       wvous-br-corner = 1;
-      wvous-br-modifier = 0;
 
       # persistent-apps is operator-managed, not declarative. The inventory
       # caveat is clear: the dock contents change every time the user reorders,
@@ -83,7 +84,7 @@
 
       # New Finder windows open at $HOME (inventory: NewWindowTarget = PfHm,
       # NewWindowTargetPath = file:///Users/case/).
-      NewWindowTarget = "PfHm";
+      NewWindowTarget = "Home";
 
       # Column view + folders-first sort (inventory: FXPreferredViewStyle = clmv,
       # _FXSortFoldersFirst = 1).
