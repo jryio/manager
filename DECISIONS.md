@@ -52,3 +52,8 @@
 - [codex workflow]: added a reusable Codex session prompt and two-terminal operator guide
   - Added `.ai/codex-agentic-workflow.md` with one pasteable prompt, session-slice rules, context-loading rules, safe parallelization windows, and explicit shared-file ownership guidance for lead vs builder terminals.
   - The workflow is optimized around the actual `manager-4.*` dependency program: substrate in session 1, app-config in session 2, and only sibling tickets with disjoint write scopes run in parallel.
+
+- [session-2026-05-19]: inventory pass + ADR 15 supersede ruling unlock Tranche A
+  - Landed `.ai/inventory/*` (17 artifacts) via 10 parallel read-only agents per MIGRATION.md D22, then closed beads epic `manager-9xj`; `manager-4.4` is now ready. Each artifact carries a provenance header; no private key or secret material was captured (SSH agent reports only fingerprints; GPG reports only `--list-secret-keys` metadata).
+  - Recorded ADR 15 (`MIGRATION.md supersedes older topic memos and stale epic bodies on conflict`) so implementers reading the older `manager-4.4`/`4.5`/`4.6` epic descriptions know to cross-check `.ai/plan/MIGRATION.md` first. No mass rewrite of existing tickets up front; each implementing PR reconciles its own body.
+  - Ground-truth drift found vs. MIGRATION.md snapshot: /etc/hosts blocks 1473 hostnames (not 14), nvm has 34 node versions (not 17), /Applications has 137 .app bundles (not 141), launchd splits 27 user / 14 system Agents / 26 system Daemons, all active SSH privates already in 1Password (only retirement remains), gpg.conf has a stale default-key fingerprint, and HM env.zsh is missing the rustup PATH source. Per ADR 15 these corrections live in `.ai/inventory/*` rather than inline edits to MIGRATION.md.
