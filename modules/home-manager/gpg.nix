@@ -1,9 +1,9 @@
 { config, lib, pkgs, vars, ... }:
 
-# Signing-only GPG configuration per MIGRATION.md D10 / ADR 5.
+# Signing-only GPG configuration per MIGRATION.md D10.
 #
 # - gpg-agent runs WITHOUT SSH support (enableSshSupport = false). 1Password
-#   is the sole SSH agent; see modules/home-manager/ssh.nix and ADR 5.
+#   is the sole SSH agent; see modules/home-manager/ssh.nix.
 # - pinentry-mac stays on the Homebrew bridge per D5, so we do not vendor a
 #   pinentry from nixpkgs. The agent locates it via pinentry-program in the
 #   generated gpg-agent.conf.

@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 {
-  # Per D15 / manager-4.16: launchd hygiene triage and scaffold.
+  # Per D15: launchd hygiene triage and scaffold.
   # Source: .ai/inventory/launchd-user.txt (27 entries) and
   #         .ai/inventory/launchd-system.txt (40 entries).
   #

@@ -1,6 +1,6 @@
 { config, lib, pkgs, vars, ... }:
 {
-  # Per D16 / manager-4.17: only intentionally-set values from
+  # Per D16: only intentionally-set values from
   # .ai/inventory/defaults-intentional.md are declared here, not a snapshot of
   # every key macOS rewrites at runtime. D27 explicitly defers the firewall
   # (`com.apple.alf`) and PAM/Touch ID sudo — neither appears below.

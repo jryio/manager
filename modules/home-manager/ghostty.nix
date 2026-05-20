@@ -10,9 +10,9 @@
 # the vendored file verbatim via xdg.configFile.
 #
 # The Ghostty binary itself is installed via the Homebrew cask bridge
-# (Topic 15 / manager-4.4), so this module owns config only.
+# (Topic 15), so this module owns config only.
 #
-# Per .ai/plan/MIGRATION.md D11 and adr.jsonl#6 the font family in the
+# Per .ai/plan/MIGRATION.md D11 the font family in the
 # vendored config has been corrected to
 # "Operator Mono * Nerd Font Complete" (the literal "*" is part of the
 # Nerd Font Complete family name). The historical

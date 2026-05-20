@@ -2,7 +2,7 @@
 
 # Home Manager module for tmux on AVA.
 #
-# Per .ai/plan/MIGRATION.md (architecture freeze) and adr.jsonl#6:
+# Per .ai/plan/MIGRATION.md (architecture freeze):
 #   - Plugins are nix-packaged (no TPM bootstrap).
 #   - extraConfig comes from the vendored ./assets/tmux/tmux.conf, curated
 #     down from ~/dotfiles/tmux/tmux.conf so it no longer references

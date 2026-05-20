@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # smoke-testaccount.sh — post-activation smoke battery.
 #
-# Per ADR 14 / MIGRATION.md D20 + D28: testaccount is the permanent validation
+# Per MIGRATION.md D20 + D28: testaccount is the permanent validation
 # seat. Run this script after `darwin-rebuild switch --flake .#AVA` (as either
 # CASE or testaccount) to confirm each surface is alive.
 #
@@ -10,13 +10,13 @@
 #   bash /Users/CASE/manager/scripts/smoke-testaccount.sh
 #
 # What it checks:
-#   - Determinate-managed Nix (ADR 1, MIGRATION.md architecture block)
+#   - Determinate-managed Nix (MIGRATION.md architecture block)
 #   - nix-darwin (D1, D28)
-#   - Homebrew bridge (D3, D5, D6, ADR 3, ADR 4)
+#   - Homebrew bridge (D3, D5, D6)
 #   - Home Manager zsh (D5)
-#   - SSH agent via 1Password (D10, D18, ADR 5, ADR 10)
-#   - GPG signing-only (D10, ADR 5)
-#   - Vendored fonts (D11, ADR 6)
+#   - SSH agent via 1Password (D10, D18)
+#   - GPG signing-only (D10)
+#   - Vendored fonts (D11)
 #   - /etc/hosts facebook block (D26)
 #   - Dark Mode + intentional defaults (D16)
 #   - Brew leaves sanity (D2, D3, D5)
@@ -86,7 +86,7 @@ skip_check() {
   skip=$((skip + 1))
 }
 
-printf '\n=== Determinate-managed Nix [ADR 1, MIGRATION arch] ===\n'
+printf '\n=== Determinate-managed Nix [MIGRATION arch] ===\n'
 expect_in_output "nix on PATH lives under /nix or /run/current-system" \
   "command -v nix" \
   "/nix"
@@ -97,7 +97,7 @@ expect_zero_exit "darwin-rebuild present on PATH" "command -v darwin-rebuild"
 expect_zero_exit "darwin-rebuild binary is executable" \
   "test -x \"\$(command -v darwin-rebuild)\""
 
-printf '\n=== Homebrew bridge [D3, D5, D6, ADR 3, ADR 4] ===\n'
+printf '\n=== Homebrew bridge [D3, D5, D6] ===\n'
 expect_in_output "brew lives at /opt/homebrew/bin/brew" \
   "command -v brew" \
   "/opt/homebrew/bin/brew"
@@ -118,30 +118,30 @@ expect_zero_exit "~/.config/starship.toml exists (HM-rendered TOML)" \
 expect_zero_exit "~/.p10k.zsh symlink GC'd by HM linkGeneration" \
   "test ! -e \"\$HOME/.p10k.zsh\""
 
-printf '\n=== SSH agent via 1Password [D10, D18, ADR 5, ADR 10] ===\n'
+printf '\n=== SSH agent via 1Password [D10, D18] ===\n'
 expect_in_output "ssh -G github.com points IdentityAgent at 1Password socket" \
   "ssh -G github.com" \
   "1password/t/agent.sock"
 
-printf '\n=== GPG signing-only [D10, ADR 5] ===\n'
+printf '\n=== GPG signing-only [D10] ===\n'
 expect_zero_exit "gpg --list-secret-keys exits 0" "gpg --list-secret-keys"
 expect_in_output "GPG signing key 715CED2327899E28 present" \
   "gpg --list-secret-keys" \
   "715CED2327899E28"
 
-printf '\n=== Vendored fonts [D11, ADR 6] ===\n'
+printf '\n=== Vendored fonts [D11] ===\n'
 # Filesystem check, not system_profiler: macOS lazily reindexes the font
 # registry, so a fresh switch leaves files on disk without registering them
 # until a GUI event (e.g. Font Book / app font request) prompts a scan. The
-# D11/ADR 6 invariant is "fonts deployed to ~/Library/Fonts", which is
+# D11 invariant is "fonts deployed to ~/Library/Fonts", which is
 # exactly what HM owns.
 expect_zero_exit "Operator Mono Nerd Font file present in ~/Library/Fonts" \
   "ls \"\$HOME/Library/Fonts/Operator Mono Book Nerd Font Complete.otf\""
 
-printf '\n=== gitego identity ledger [D25, ADR 12, ADR 17] ===\n'
+printf '\n=== gitego identity ledger [D25] ===\n'
 # `gitego list` exits non-zero when ~/.gitego/config.yaml is malformed;
-# catching that here prevents a silent regression of the renderer (see
-# ADR 17 — Nix multiline strings dropped ssh_key out of its profile).
+# catching that here prevents a silent regression of the renderer
+# (Nix multiline strings previously dropped ssh_key out of its profile).
 # gitego is a Go binary; check $GOPATH/bin in addition to PATH.
 gitego_bin=""
 if command -v gitego >/dev/null 2>&1; then

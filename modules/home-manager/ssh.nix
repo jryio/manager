@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-# SSH client configuration per MIGRATION.md D18 / ADR 10.
+# SSH client configuration per MIGRATION.md D18.
 #
 # - The 1Password macOS app exposes its SSH agent at a Group-Container path
 #   under $HOME. We build the path from config.home.homeDirectory rather than
@@ -52,7 +52,7 @@ in
     };
   };
 
-  # TODO(manager-4.13/4.15): the allowed_signers file maps the four ED25519
+  # TODO: the allowed_signers file maps the four ED25519
   # public keys in the 1Password vault to git identities. It is currently
   # operator-managed at ~/.ssh/allowed_signers (297 bytes, see
   # ssh-keys-inventory.md). Once Topic 04 decides whether to regenerate it

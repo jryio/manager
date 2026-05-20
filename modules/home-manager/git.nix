@@ -1,6 +1,6 @@
 { config, lib, pkgs, vars, ... }:
 
-# Declarative git + gitego configuration per MIGRATION.md D25 / ADR 12.
+# Declarative git + gitego configuration per MIGRATION.md D25.
 #
 # - The five gitego identities below (jry/inf/tdna/zigg/keybase) are taken
 #   verbatim from .ai/inventory/gitego-config.yaml. Names, emails, and
@@ -23,14 +23,14 @@ let
   # config.yaml round-trips with the live file. Daily auth flows through
   # IdentityAgent in modules/home-manager/ssh.nix; these paths are
   # informational for gitego CLI commands only.
-  # TODO(manager-4.15): once D18 retires ~/.ssh/id_rsa into 1Password,
+  # TODO: once D18 retires ~/.ssh/id_rsa into 1Password,
   # decide whether to drop ssh_key entries entirely from gitego config.
   identities = vars.identities;
   activeProfile = vars.activeIdentity;
 
   # gitego config.yaml renderer. Lines are built explicitly to avoid the
-  # multiline-string indent-stripping quirk that produced malformed YAML
-  # (per ADR 17). The result matches gitego's own marshaller: profile
+  # multiline-string indent-stripping quirk that produced malformed YAML.
+  # The result matches gitego's own marshaller: profile
   # mappings nest under `profiles:`, optional ssh_key sits inside each
   # profile, and auto_rules is a sequence at the document root.
   renderIdentity = id: i:
@@ -63,7 +63,7 @@ let
   # live ~/.gitego/profiles/jry.gitconfig (no SSH signing yet); the other
   # four fragments mirror the SSH-signing shape captured in
   # gitego-inventory.md.
-  # TODO(manager-4.14): once D10's signing-only GPG mode is fully validated,
+  # TODO: once D10's signing-only GPG mode is fully validated,
   # decide whether the inf/tdna/zigg fragments should keep their per-key
   # ssh-signing overrides or fall back to global GPG signing.
   renderProfileFragment = id: i:

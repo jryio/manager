@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-# Vendored user fonts (D11 / ADR 6). Installs every file in ./assets/fonts/
+# Vendored user fonts (D11). Installs every file in ./assets/fonts/
 # into ~/Library/Fonts/<filename> via home.file. System-supplied faces
 # (/Library/Fonts, /System/Library/Fonts) are filtered out at vendor time,
 # not here, so anything present in the assets directory is intentional.

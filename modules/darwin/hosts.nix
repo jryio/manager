@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-# Declarative /etc/hosts management per ADR 18 (supersedes D26's mechanism).
+# Declarative /etc/hosts management (supersedes D26's mechanism).
 #
 # nix-darwin 25.11 does NOT expose networking.hosts / networking.extraHosts
 # (verified against /nix/store/.../nix-darwin/modules/networking/default.nix).

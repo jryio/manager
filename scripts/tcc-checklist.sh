@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # tcc-checklist.sh — guided macOS TCC grant walkthrough.
 #
-# Per ADR 13 / MIGRATION.md D19: TCC permissions are out of declarative scope.
+# Per MIGRATION.md D19: TCC permissions are out of declarative scope.
 # This script opens each Privacy & Security pane in System Settings via the
 # `x-apple.systempreferences:` URL scheme and prints the apps from
 # .ai/inventory/{applications-manual.txt,mas-apps.txt} that plausibly need
