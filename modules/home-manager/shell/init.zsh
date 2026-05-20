@@ -67,10 +67,6 @@ elif [[ "${GPG_TTY-}" != /dev/* ]]; then
 fi
 unset gpg_tty
 
-if [[ -r "$HOME/.p10k.zsh" ]]; then
-  source "$HOME/.p10k.zsh"
-fi
-
 if [[ -r "$HOME/.config/links/zsh-local" ]]; then
   source "$HOME/.config/links/zsh-local"
 fi
@@ -125,32 +121,3 @@ gcm() {
 jjdm() {
   jj describe -m "$*"
 }
-
-alias n='lvim'
-alias irb='irb --simple-prompt'
-alias lg='lazygit'
-alias kk='clear'
-alias z='zed'
-alias htop='btm'
-alias golint='golangci-lint'
-alias ai='ollama run'
-alias bgrep='/usr/bin/grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
-alias gc='git commit -v -S'
-alias gcob='gco -b'
-alias gd='git difftool'
-alias gdc='git difftool --cached'
-alias grba='LEFTHOOK=0 git rebase --abort'
-alias grbc='LEFTHOOK=0 git rebase --continue'
-alias grbsign='LEFTHOOK=0 git rebase --exec '\''git commit --amend --no-edit -n -S'\'' --update-refs -i'
-alias ggpush='git push -u origin $(git_current_branch)'
-alias grs='git restore --staged'
-alias jjgi='jj git init --colocate'
-alias jjst='jj st'
-alias jjl='jj log'
-alias jjn='jj new'
-alias tx='nocorrect tmux attach-session 2>/dev/null || tmux new-session'
-alias jqs="jq -r '[path(..)|map(if type==\"number\" then \"[]\" else tostring end)|join(\".\")|split(\".[]\")|join(\"[]\")]|unique|map(\".\" + .)|.[]'"
-alias tailscale='/Applications/Tailscale.app/Contents/MacOS/Tailscale'
-alias cc='claude --dangerously-skip-permissions'
-alias herder='herdr'
-alias drs='sudo darwin-rebuild switch --flake path:/Users/CASE/manager#AVA'

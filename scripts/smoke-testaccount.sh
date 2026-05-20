@@ -20,6 +20,7 @@
 #   - /etc/hosts facebook block (D26)
 #   - Dark Mode + intentional defaults (D16)
 #   - Brew leaves sanity (D2, D3, D5)
+#   - starship prompt (shell-prompt-migration-2026-05-20)
 #
 # When to run:
 #   - After every `darwin-rebuild switch` on AVA, as testaccount first, then
@@ -109,6 +110,13 @@ fi
 
 printf '\n=== Home Manager zsh [D5] ===\n'
 check "~/.zshrc exists (HM-managed)" "test -f \"\$HOME/.zshrc\""
+
+printf '\n=== starship prompt [shell-prompt-migration-2026-05-20] ===\n'
+expect_zero_exit "starship on PATH" "command -v starship"
+expect_zero_exit "~/.config/starship.toml exists (HM-rendered TOML)" \
+  "test -f \"\$HOME/.config/starship.toml\""
+expect_zero_exit "~/.p10k.zsh symlink GC'd by HM linkGeneration" \
+  "test ! -e \"\$HOME/.p10k.zsh\""
 
 printf '\n=== SSH agent via 1Password [D10, D18, ADR 5, ADR 10] ===\n'
 expect_in_output "ssh -G github.com points IdentityAgent at 1Password socket" \
