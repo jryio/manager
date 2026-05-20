@@ -10,6 +10,7 @@
     ./git.nix
     ./tmux.nix
     ./ghostty.nix
+    ./herdr.nix
     ./github.nix
     ./jujutsu.nix
     ./television.nix
