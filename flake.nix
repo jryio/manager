@@ -28,13 +28,14 @@
         let
           hostDir = hostsDir + "/${hostName}";
           host = import (hostDir + "/default.nix");
+          vars = import ./lib/vars.nix { inherit host; };
           hostDarwinModule = hostDir + "/darwin.nix";
           hostHomeModule = hostDir + "/home.nix";
         in
         nix-darwin.lib.darwinSystem {
           system = host.system;
           specialArgs = {
-            inherit inputs host hostName;
+            inherit inputs host hostName vars;
           };
           modules = [
             inputs.determinate.darwinModules.default
@@ -47,7 +48,7 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = {
-                inherit inputs host hostName;
+                inherit inputs host hostName vars;
               };
               home-manager.users.${host.username} = { ... }: {
                 imports =

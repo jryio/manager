@@ -2,7 +2,6 @@
   system = "aarch64-darwin";
   username = "CASE";
   homeDirectory = "/Users/CASE";
-  fullName = "Jacob Young";
 
   hostName = "AVA";
   localHostName = "AVA";
