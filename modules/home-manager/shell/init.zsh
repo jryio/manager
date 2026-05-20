@@ -152,3 +152,4 @@ alias tx='nocorrect tmux attach-session 2>/dev/null || tmux new-session'
 alias jqs="jq -r '[path(..)|map(if type==\"number\" then \"[]\" else tostring end)|join(\".\")|split(\".[]\")|join(\"[]\")]|unique|map(\".\" + .)|.[]'"
 alias tailscale='/Applications/Tailscale.app/Contents/MacOS/Tailscale'
 alias cc='claude --dangerously-skip-permissions'
+alias herder='herdr'
