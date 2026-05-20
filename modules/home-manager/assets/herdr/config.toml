@@ -1,0 +1,74 @@
+# herdr configuration — vendored from the live ~/.config/herdr/config.toml
+# and curated to mirror the user's tmux key conventions (see
+# ../tmux/tmux.conf and ../../tmux.nix).
+#
+# Concept mapping:
+#   herdr workspace ≈ tmux session
+#   herdr tab       ≈ tmux window
+#   herdr pane      ≈ tmux pane
+#   herdr agent     — new concept, no tmux analog
+#
+# Run `herdr --default-config` to see every option and its default.
+
+onboarding = false
+
+[theme]
+name = "gruvbox"
+
+[keys]
+# Match the tmux prefix so muscle memory carries over. Do not launch
+# herdr inside tmux — both would race for ctrl+a.
+prefix = "ctrl+a"
+
+# Workspaces (≈ tmux sessions): shift-prefixed letters.
+new_workspace = "shift+c"
+rename_workspace = "shift+n"
+close_workspace = "shift+x"
+previous_workspace = "shift+h"
+next_workspace = "shift+l"
+
+# Tabs (≈ tmux windows): direct tmux bindings from tmux.conf.
+new_tab = "c"
+rename_tab = ","
+close_tab = "shift+w"
+previous_tab = "p"
+next_tab = "n"
+
+# Pane splits. herdr's option names invert the visual convention; the
+# values below reproduce the user's tmux semantics:
+#   v → left/right (tmux: split-window -h)
+#   s → top/bottom (tmux: split-window -v)
+split_vertical = "v"
+split_horizontal = "s"
+
+# Pane focus and lifecycle: vim-style h/j/k/l from tmux.conf.
+focus_pane_left = "h"
+focus_pane_down = "j"
+focus_pane_up = "k"
+focus_pane_right = "l"
+close_pane = "x"
+rename_pane = "shift+p"
+zoom = "f"
+resize_mode = "r"
+edit_scrollback = "e"
+
+# Agent navigation (herdr-only concept).
+previous_agent = "shift+j"
+next_agent = "shift+k"
+
+# Session ops.
+detach = "d"
+reload_config = "shift+r"
+toggle_sidebar = "b"
+open_notification_target = "o"
+
+[keys.indexed]
+# ctrl+1..9 jumps to tab N. Ghostty uses cmd+digits for its own tabs, so
+# ctrl+digits stay free. Workspace and agent indexed jumps intentionally
+# omitted to keep the modifier surface small.
+tabs = "ctrl"
+
+[ui]
+# Show detected agent labels in split pane borders when no manual label
+# is set — preserves the live config's preference.
+show_agent_labels_on_pane_borders = true
