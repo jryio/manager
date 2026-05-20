@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, vars, ... }:
 {
   # Per D16 / manager-4.17: only intentionally-set values from
   # .ai/inventory/defaults-intentional.md are declared here, not a snapshot of
@@ -107,10 +107,10 @@
 
     screencapture = {
       # Screenshots redirected to Dropbox (inventory: location =
-      # /Users/CASE/Dropbox/media/screenshots). Path is the literal current
-      # value; uses a hard-coded prefix because system.defaults.screencapture
-      # is system-level and has no $HOME expansion.
-      location = "/Users/CASE/Dropbox/media/screenshots";
+      # /Users/CASE/Dropbox/media/screenshots). system.defaults.screencapture
+      # is system-level and has no $HOME expansion, so the path is rendered
+      # from vars.paths.screenshots at evaluation time.
+      location = vars.paths.screenshots;
 
       # show-thumbnail = 0 (inventory: thumbnail preview off).
       show-thumbnail = false;

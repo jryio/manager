@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, vars, ... }:
 
 # Declarative git + gitego configuration per MIGRATION.md D25 / ADR 12.
 #
@@ -25,44 +25,8 @@ let
   # informational for gitego CLI commands only.
   # TODO(manager-4.15): once D18 retires ~/.ssh/id_rsa into 1Password,
   # decide whether to drop ssh_key entries entirely from gitego config.
-  identities = {
-    jry = {
-      name = "Jacob Young";
-      email = "git@jry.io";
-      sshKey = "/Users/CASE/.ssh/id_rsa";
-      autoRules = [
-        "/Users/CASE/code/personal/statis/"
-        "/Users/CASE/code/personal/jryio/"
-        "/Users/CASE/code/personal/adr/"
-      ];
-    };
-    inf = {
-      name = "Jacob Young";
-      email = "git@sancho.studio";
-      sshKey = "/Users/CASE/.ssh/infinite-music";
-      autoRules = [ "/Users/CASE/code/professional/infinitemusic/" ];
-    };
-    tdna = {
-      name = "Jacob Young";
-      email = "jacob.young@tech-dna.net";
-      sshKey = "/Users/CASE/.ssh/tdna";
-      autoRules = [ "/Users/CASE/code/professional/tdna/" ];
-    };
-    zigg = {
-      name = "Jacob Young";
-      email = "jacob.young@ziggiz.ai";
-      sshKey = "/Users/CASE/.ssh/zigguratum";
-      autoRules = [ "/Users/CASE/code/professional/zigg/" ];
-    };
-    keybase = {
-      name = "Jacob Young";
-      email = "jacob@keyba.se";
-      sshKey = null; # keybase profile is HTTPS-only per gitego-inventory.md
-      autoRules = [ "/Users/CASE/code/professional/keybase/" ];
-    };
-  };
-
-  activeProfile = "jry";
+  identities = vars.identities;
+  activeProfile = vars.activeIdentity;
 
   # gitego config.yaml renderer. Lines are built explicitly to avoid the
   # multiline-string indent-stripping quirk that produced malformed YAML
@@ -141,12 +105,9 @@ in
   programs.git = {
     enable = true;
 
-    userName = identities.${activeProfile}.name;
-    userEmail = identities.${activeProfile}.email;
-
     signing = {
       signByDefault = true;
-      key = "715CED2327899E28";
+      key = vars.signing.gpgKey;
     };
 
     includes = includeIfBlocks;
@@ -154,7 +115,12 @@ in
     # Faithful reproduction of ~/dotfiles/git/gitconfig non-identity sections.
     # The `[user] signingkey` line in the live config is redundant with
     # programs.git.signing.key above and is intentionally omitted.
-    extraConfig = {
+    settings = {
+      user = {
+        name = identities.${activeProfile}.name;
+        email = identities.${activeProfile}.email;
+      };
+
       core = {
         editor = "zed --wait";
         excludesfile = "~/.gitignore";

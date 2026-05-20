@@ -1,19 +1,21 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, vars, ... }:
 
+let
+  jry = vars.identities.${vars.activeIdentity};
+in
 {
   programs.jujutsu = {
     enable = true;
     settings = {
       user = {
-        name = "Jacob Young";
-        # Matches the gitego "jry" identity (.ai/inventory/gitego-config.yaml).
-        email = "git@jry.io";
+        name = jry.name;
+        email = jry.email;
       };
 
       signing = {
         # GPG owns commit/tag signing per D10.
         backend = "gpg";
-        key = "715CED2327899E28";
+        key = vars.signing.gpgKey;
         sign-all = true;
       };
 

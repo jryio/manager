@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, vars, ... }:
 
 # Signing-only GPG configuration per MIGRATION.md D10 / ADR 5.
 #
@@ -37,7 +37,7 @@
     enable = true;
 
     settings = {
-      default-key = "715CED2327899E28";
+      default-key = vars.signing.gpgKey;
       "auto-key-locate" = "keyserver hkps://keys.openpgp.org";
     };
 
