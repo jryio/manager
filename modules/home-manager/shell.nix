@@ -40,7 +40,6 @@ in
       enable = true;
       plugins = [
         "git"
-        "common-aliases"
       ];
     };
   };
