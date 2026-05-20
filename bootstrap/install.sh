@@ -12,6 +12,7 @@ BOOTSTRAP_CONFIG_NAME=""
 SKIP_INSTALL=0
 SKIP_LOCK=0
 SKIP_REBUILD=0
+SKIP_HERDR=0
 
 usage() {
   cat <<'EOF'
@@ -24,6 +25,7 @@ Options:
   --skip-install        Skip Determinate Nix installation.
   --skip-lock           Skip creating or refreshing flake.lock.
   --skip-rebuild        Skip the initial darwin-rebuild switch.
+  --skip-herdr          Skip the herdr binary install.
   -h, --help            Show this help text.
 EOF
 }
@@ -74,6 +76,32 @@ load_nix() {
   done
 
   command -v nix >/dev/null 2>&1 || fail "nix is installed but not available on PATH"
+}
+
+install_herdr() {
+  if [ "$SKIP_HERDR" -eq 1 ]; then
+    log "Skipping herdr install."
+    return 0
+  fi
+
+  if command -v herdr >/dev/null 2>&1; then
+    log "herdr already present; skipping installer."
+    return 0
+  fi
+
+  if [ -x "$HOME_DIR/.local/bin/herdr" ]; then
+    log "herdr already present at ~/.local/bin/herdr; skipping installer."
+    return 0
+  fi
+
+  need_cmd curl
+
+  # herdr ships a prebuilt binary that drops into ~/.local/bin/herdr
+  # (already on PATH via home.sessionPath in modules/home-manager/shell.nix).
+  # Config lives in ~/.config/herdr/config.toml and is owned by
+  # modules/home-manager/herdr.nix.
+  log "Installing herdr."
+  curl -fsSL https://herdr.dev/install.sh | sh
 }
 
 install_determinate_nix() {
@@ -154,6 +182,10 @@ while [ "$#" -gt 0 ]; do
       ;;
     --skip-rebuild)
       SKIP_REBUILD=1
+      shift
+      ;;
+    --skip-herdr)
+      SKIP_HERDR=1
       shift
       ;;
     -h|--help)
@@ -247,3 +279,5 @@ if [ "$SKIP_REBUILD" -eq 0 ]; then
 else
   log "Skipping darwin-rebuild."
 fi
+
+install_herdr
