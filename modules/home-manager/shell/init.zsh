@@ -153,3 +153,4 @@ alias jqs="jq -r '[path(..)|map(if type==\"number\" then \"[]\" else tostring en
 alias tailscale='/Applications/Tailscale.app/Contents/MacOS/Tailscale'
 alias cc='claude --dangerously-skip-permissions'
 alias herder='herdr'
+alias drs='sudo darwin-rebuild switch --flake path:/Users/CASE/manager#AVA'
