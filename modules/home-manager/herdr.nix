@@ -12,7 +12,23 @@
 # ./assets/herdr/config.toml mirrors the user's tmux key conventions
 # from ./assets/tmux/tmux.conf so the same muscle memory applies in
 # both tools.
+#
+# herdr writes runtime UI state (e.g. agent_panel_scope) back into
+# config.toml, so a /nix/store symlink would fail with EACCES on every
+# UI toggle. We copy the vendored file in instead and force-overwrite
+# on every switch — declarative bindings always win, in-session UI
+# toggles are accepted as ephemeral.
 
+let
+  herdrConfigDir = "${config.home.homeDirectory}/.config/herdr";
+  vendoredConfig = ./assets/herdr/config.toml;
+in
 {
-  xdg.configFile."herdr/config.toml".source = ./assets/herdr/config.toml;
+  home.activation.herdrConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p "${herdrConfigDir}"
+    # rm first: a stale HM symlink would make `install` follow into the
+    # read-only /nix/store target.
+    rm -f "${herdrConfigDir}/config.toml"
+    install -m 0644 "${vendoredConfig}" "${herdrConfigDir}/config.toml"
+  '';
 }
