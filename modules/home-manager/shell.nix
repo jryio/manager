@@ -60,6 +60,7 @@ in
 
     shellAliases = {
       n = "lvim";
+      la = "ls -la";
       irb = "irb --simple-prompt";
       lg = "lazygit";
       kk = "clear";
@@ -235,7 +236,10 @@ in
     };
   };
 
-  home.sessionPath = [ "${homeDir}/.local/bin" ];
+  home.sessionPath = [
+    "${homeDir}/.local/bin"
+    "${homeDir}/go/bin"
+  ];
 
   home.sessionVariables = {
     FZF_DEFAULT_COMMAND = "rg --files --hidden --smart-case --follow --glob '!.git/*'";
