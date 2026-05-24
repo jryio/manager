@@ -1,3 +1,7 @@
+{ pkgs, ... }:
+
 {
-  home.packages = [ ];
+  home.packages = [
+    pkgs.zig_0_15
+  ];
 }
