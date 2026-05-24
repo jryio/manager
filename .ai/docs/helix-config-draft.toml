@@ -1,0 +1,220 @@
+# Draft Helix config.toml derived from .ai/docs/nvim-config.md
+#
+# Origin map: each binding lifted from modules/home-manager/assets/lvim/config.lua.
+# Decisions recorded in .ai/docs/nvim-config.md §13.
+#
+# Placement target: modules/home-manager/assets/helix/config.toml
+# (wired via `xdg.configFile."helix"` once validated under `hx`).
+
+theme = "jry"  # custom theme: inherits base16_terminal; popups/menus use terminal bg
+
+[editor]
+mouse = false                          # lvim: vim.opt.mouse = ""
+text-width = 80                        # lvim: vim.opt.textwidth = 80
+auto-format = true                     # lvim: lvim.format_on_save.enabled = true
+default-yank-register = "+"            # y/p use system clipboard
+line-number = "absolute"               # lvim: cursorlineopt = "number" — closest
+cursorline = false
+bufferline = "multiple"                # show only when >1 buffer (lvim uses barbar always)
+color-modes = true                     # color the mode indicator (matches lualine modes)
+true-color = true
+auto-info = false                      # suppress sub-mode help popups (g/m/z/space/C-w)
+
+[editor.cursor-shape]
+normal = "block"
+insert = "block"   # decision: keep helix default (Q4 cursor-bar NOT selected)
+select = "block"
+
+[editor.soft-wrap]
+enable = false                         # no wrapping — long lines run off-screen, scroll horizontally
+
+[editor.gutters]
+layout = ["line-numbers", "diff"]      # drop diagnostics column + extra spacers (narrower gutter)
+
+[editor.gutters.line-numbers]
+min-width = 2                          # tightest reasonable width
+
+[editor.whitespace]
+render = "all"                         # lvim: vim.opt.list = true
+
+[editor.whitespace.characters]
+space = "·"                            # lvim: trail:· nbsp:·
+tab = "→"
+nbsp = "·"
+newline = "¬"                          # lvim: eol:¬
+tabpad = "·"
+
+[editor.indent-guides]
+render = true                          # lvim: indent_blankline enabled
+character = "│"
+
+[editor.lsp]
+display-messages = true
+auto-signature-help = true
+display-inlay-hints = false
+display-color-swatches = true          # replaces nvim-colorizer
+
+[editor.file-picker]
+hidden = false                         # lvim nvimtree: filters.dotfiles = false
+
+[editor.search]
+smart-case = true
+wrap-around = true
+
+# =================================================================
+# NORMAL MODE
+# =================================================================
+[keys.normal]
+# ----- Buffer/file lifecycle -----
+"+" = "goto_next_buffer"               # was :bnext
+"_" = "goto_previous_buffer"           # was :bprevious
+
+# ----- Window focus (lvim <C-h/j/k/l>) -----
+"C-h" = "jump_view_left"
+"C-j" = "jump_view_down"
+"C-k" = "jump_view_up"
+"C-l" = "jump_view_right"
+
+# ----- Motion overrides -----
+# Sub-word motions on w/b/e — replaces CamelCaseMotion.
+w = "move_next_sub_word_start"
+b = "move_prev_sub_word_start"
+e = "move_next_sub_word_end"
+# WORD motions remain on W/B/E (Helix defaults).
+
+# (5-line jumps on gj/gk are nested under [keys.normal.g] below — `g` is a mode prefix)
+
+# ----- Search auto-center -----
+n = ["search_next", "align_view_center"]
+N = ["search_prev", "align_view_center"]
+
+# ----- Page motions auto-center -----
+"C-u" = ["page_cursor_half_up", "align_view_center"]
+"C-d" = ["page_cursor_half_down", "align_view_center"]
+"C-f" = ["page_down", "align_view_center"]
+"C-b" = ["page_up", "align_view_center"]
+
+# ----- H/L line-edge motions (lvim) -----
+H = "goto_first_nonwhitespace"
+L = "goto_line_end"
+
+# ----- Vim-classic line-edge motions -----
+"0" = "goto_line_start"
+"^" = "goto_first_nonwhitespace"
+"$" = "goto_line_end"
+G = "goto_file_end"
+"%" = "match_brackets"
+
+# ----- Vim-style V = line-visual select -----
+V = ["select_mode", "extend_to_line_bounds"]
+
+# ----- Vim-style D = delete to end of line -----
+D = ["extend_to_line_end", "yank_main_selection_to_clipboard", "delete_selection"]
+
+# ----- Edit semantics -----
+Y = ["select_all", "yank_main_selection_to_clipboard", "collapse_selection"]
+c = "change_selection_noyank"          # never clobber yank register on change
+S = ["insert_mode", "insert_newline", "normal_mode"]  # split line (shadows split_selection)
+
+# ----- Nested goto-mode overrides (`g` prefix) -----
+[keys.normal.g]
+q = ":reflow"                          # vim's gq hard-wrap on selection
+j = "@5j"                              # 5-line jump down (macro)
+k = "@5k"                              # 5-line jump up (macro)
+
+# ----- Vim-style `d` operator (nested prefix) -----
+# Standalone `d` BECOMES A PREFIX — you can no longer use Helix's select-then-delete
+# flow (`wd` etc.) on the bare `d`. Define all the d<motion> combos you use.
+[keys.normal.d]
+d = ["extend_to_line_bounds", "yank_main_selection_to_clipboard", "delete_selection"]
+w = ["move_next_word_start", "yank_main_selection_to_clipboard", "delete_selection"]
+W = ["move_next_long_word_start", "yank_main_selection_to_clipboard", "delete_selection"]
+e = ["move_next_word_end", "yank_main_selection_to_clipboard", "delete_selection"]
+"$" = ["extend_to_line_end", "yank_main_selection_to_clipboard", "delete_selection"]
+i = "select_textobject_inner"          # di<char> selects inside textobj — second char triggers delete
+a = "select_textobject_around"
+
+# ----- Comma leader -----
+[keys.normal.","]
+s = ":w"        # save buffer
+w = ":bc!"      # force-close buffer (discard unsaved)
+q = ":bc"       # close buffer (prompts if unsaved)
+Q = ":qa"       # quit editor (prompts if any unsaved)
+X = ":wqa"      # save all + quit editor
+h = ":toggle whitespace.render all none"   # toggle the · dots
+H = ":toggle indent-guides.render"         # toggle the indent vertical bars
+
+# =================================================================
+# SELECT (extend) MODE
+# =================================================================
+[keys.select]
+# ----- Window focus -----
+"C-h" = "jump_view_left"
+"C-j" = "jump_view_down"
+"C-k" = "jump_view_up"
+"C-l" = "jump_view_right"
+
+# ----- Sub-word extends -----
+w = "extend_next_sub_word_start"
+b = "extend_prev_sub_word_start"
+e = "extend_next_sub_word_end"
+
+# (5-line extends on gj/gk nested under [keys.select.g] below)
+
+# ----- Auto-center -----
+n = ["extend_search_next", "align_view_center"]
+N = ["extend_search_prev", "align_view_center"]
+"C-u" = ["page_cursor_half_up", "align_view_center"]
+"C-d" = ["page_cursor_half_down", "align_view_center"]
+"C-f" = ["page_down", "align_view_center"]
+"C-b" = ["page_up", "align_view_center"]
+
+# ----- H/L line-edge -----
+H = "extend_to_first_nonwhitespace"
+L = "extend_to_line_end"
+
+# ----- Edit semantics -----
+c = "change_selection_noyank"
+p = "replace_selections_with_clipboard"   # was lvim's "_dP — replace without clobber
+
+# ----- Move selection up/down — was visual J/K in lvim -----
+# Helix has NO line-move command. `:move` moves the BUFFER (file path), not lines.
+# Defer until upstream lands `move_line_up`/`move_line_down` (issue #1455).
+# For now: J = join_selections (Helix default), K = keep_selections (Helix default).
+# Workaround if needed: select line(s), `d`, navigate, `p`.
+
+# ----- Nested goto-mode overrides for select mode -----
+[keys.select.g]
+j = "@5j"
+k = "@5k"
+
+# ----- Comma leader (mirror normal) -----
+[keys.select.","]
+s = ":w"
+w = ":bc!"
+q = ":bc"
+Q = ":qa"
+X = ":wqa"
+
+# =================================================================
+# INSERT MODE
+# =================================================================
+[keys.insert]
+"C-c" = "normal_mode"                  # lvim: <C-c> -> <ESC>
+# Note: <C-j> stays as insert_newline (Helix default).
+# Note: <C-k> stays as kill_to_line_end (Helix default).
+# Note: <C-h>/<C-l> stay as delete_char_backward / no-op in insert.
+
+# =================================================================
+# TODO: languages.toml
+# =================================================================
+# Per-language LSP + formatter wiring lives in a separate file:
+#   ~/.config/helix/languages.toml
+# Match lvim's:
+#   - python: blackd-client (formatter)
+#   - markdown: vale (linter/LSP via vale-ls)
+#   - rust: rust-analyzer (lvim skips builtin rust; helix uses rust-analyzer by default)
+#   - typescript/javascript: typescript-language-server, with deno-ls fallback when
+#     deno.imports.json is in workspace root (use `roots = ["deno.imports.json"]`)
+#   - go: gopls + golangci-lint (gopls is helix default; add golangci-lint-ls)
+#   - lua: lua-language-server

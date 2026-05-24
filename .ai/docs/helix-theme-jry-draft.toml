@@ -1,0 +1,31 @@
+# Custom Helix theme — inherits base16_terminal but lets popups/menus
+# inherit the terminal background instead of being painted "black"/"gray".
+#
+# Apply: write to ~/.config/helix/themes/jry.toml and set `theme = "jry"` in config.toml.
+
+inherits = "base16_terminal"
+
+# Command-completion bar at the bottom (the wide popup with "quit", "buffer-close", etc.)
+"ui.menu" = { fg = "light-gray" }                        # bg falls through to terminal
+"ui.menu.selected" = { modifiers = ["reversed"] }        # selected item still inverts
+
+# Hover docs, signature help, any floating popup
+"ui.popup" = {}                                          # both fg and bg inherited
+
+# Borders/edges of popups
+"ui.window" = {}
+
+# Help panel ('<space>?' command palette popup)
+"ui.help" = { fg = "white" }
+
+# Whitespace dots + indent guides — base16_terminal renders these as "light-gray"
+# which is too loud on a near-black background. Drop to a very dim gray that's
+# visible but not distracting.
+"ui.virtual.whitespace" = { fg = "#3a3a3a" }
+"ui.virtual.indent-guide" = { fg = "#3a3a3a" }
+
+# Selection — base16_terminal uses `reversed` which kills syntax colors under
+# selection. Switch to a bg-only overlay so syntax remains visible THROUGH the
+# selection (matches the lvim behavior).
+"ui.selection" = { bg = "#2d2d3a" }            # secondary selections (subtler)
+"ui.selection.primary" = { bg = "#404050" }    # primary selection (brighter)
