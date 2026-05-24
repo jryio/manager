@@ -4,9 +4,8 @@ This repository is the source of truth for the macOS setup. Determinate provides
 
 - For all real Nix installs, rebuilds, debugging, and mutable validation on macOS, switch to `testaccount`. The password for that user is `testaccount`.
 - Non-mutating checks such as reading files, shell syntax checks, or documentation updates may run as the current user.
-- Make conventional commits for all work. Do not push.
-
 ## Overall Approach
+- Make conventional commits for all work. Do not push.
 
 - Treat `.ai/plan/` as the full migration surface. Bootstrap is only the entrypoint, not the whole design.
 - Keep `AGENTS.md` and `CLAUDE.md` focused on cross-cutting rules that will still matter later. Keep topic-specific decisions in `.ai/plan/`, `README.md`, module files, and code comments where appropriate.
@@ -45,6 +44,7 @@ This project uses `bd` (beads) for issue tracking.
 ## Landing the Plane (Session Completion)
 
 **When ending a work session**, you MUST complete ALL steps below. Work is NOT complete until `git push` succeeds.
+             something
 
 **MANDATORY WORKFLOW:**
 
