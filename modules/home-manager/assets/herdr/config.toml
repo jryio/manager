@@ -21,11 +21,12 @@ name = "gruvbox"
 prefix = "ctrl+a"
 
 # Workspaces (≈ tmux sessions): shift-prefixed letters.
+# Workspace list is vertical, so prev/next use vim's vertical pair (k/j).
 new_workspace = "prefix+shift+c"
 rename_workspace = "prefix+shift+n"
 close_workspace = "prefix+shift+x"
-previous_workspace = "prefix+shift+h"
-next_workspace = "prefix+shift+l"
+previous_workspace = "prefix+shift+k"
+next_workspace = "prefix+shift+j"
 
 # Tabs (≈ tmux windows): direct tmux bindings from tmux.conf.
 new_tab = "prefix+c"
@@ -56,9 +57,10 @@ zoom = "prefix+f"
 resize_mode = "prefix+r"
 edit_scrollback = "prefix+e"
 
-# Agent navigation (herdr-only concept).
-previous_agent = "prefix+shift+j"
-next_agent = "prefix+shift+k"
+# Agent navigation (herdr-only concept). Moved off j/k so workspaces own
+# vim's vertical pair; agents take the horizontal pair (h/l) instead.
+previous_agent = "prefix+shift+h"
+next_agent = "prefix+shift+l"
 
 # Session ops.
 detach = "prefix+d"
