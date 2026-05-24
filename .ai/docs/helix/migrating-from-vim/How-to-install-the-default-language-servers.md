@@ -1,0 +1,1 @@
+Moved to [Language Server Configurations](https://github.com/helix-editor/helix/wiki/Language-Server-Configurations)
