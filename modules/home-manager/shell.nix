@@ -84,7 +84,6 @@ in
       jjn = "jj new";
       tx = "nocorrect tmux attach-session 2>/dev/null || tmux new-session";
       jqs = "jq -r '[path(..)|map(if type==\"number\" then \"[]\" else tostring end)|join(\".\")|split(\".[]\")|join(\"[]\")]|unique|map(\".\" + .)|.[]'";
-      tailscale = "/Applications/Tailscale.app/Contents/MacOS/Tailscale";
       cc = "claude --dangerously-skip-permissions";
       herder = "herdr";
       drs = "sudo darwin-rebuild switch --flake path:/Users/CASE/manager#AVA";

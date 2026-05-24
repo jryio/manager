@@ -119,6 +119,7 @@
       "steveyegge/beads/bd"
       "stripe/stripe-cli/stripe"
       # television: Nix-managed via programs.television in modules/home-manager/television.nix (D5)
+      "tailscale"
       "tesseract"
       "tig"
       # tmux: Nix-managed via programs.tmux in modules/home-manager/tmux.nix (D5)
@@ -195,7 +196,6 @@
       "Shortery" = 1594183810;
       "Slack" = 803453959;
       "Soulver 3" = 1508732804;
-      "Tailscale" = 1475387142;
       "Things3" = 904280696;
       "TickTick" = 966085870;
       "Timery" = 1425368544;
