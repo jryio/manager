@@ -71,6 +71,7 @@
       "grep"
       "grpcurl"
       "harper"
+      "helix"
       "helm"
       "heroku"
       "hf"
