@@ -16,6 +16,11 @@ prepend_path_if_dir() {
   fi
 }
 
+# Re-assert Home Manager sessionPath dirs: a poisoned parent (guard set, PATH
+# rebuilt) otherwise leaves these missing in interactive shells.
+prepend_path_if_dir "$HOME/go/bin"
+prepend_path_if_dir "$HOME/.local/bin"
+
 export BUN_INSTALL="$HOME/.bun"
 prepend_path_if_dir "$BUN_INSTALL/bin"
 
