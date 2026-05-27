@@ -10,6 +10,24 @@ The first pass is intentionally narrow:
 - embed Home Manager as a `nix-darwin` module,
 - leave package inventory mostly empty until the later plan topics fill it in.
 
+## Background
+
+The goal is a single source of truth for a macOS setup: Determinate provides the installer and Nix substrate, while the flake, host definitions, `nix-darwin` modules, and Home Manager modules all live in this repo. Machine-level facts are owned by `nix-darwin`; the user environment is owned by Home Manager. Anything that cannot yet be declared is recorded under `.ai/inventory/` so the full system state stays auditable.
+
+## What Is Managed
+
+| Area | Owner | Notes |
+| --- | --- | --- |
+| Nix substrate | Determinate | Daemon settings via `determinateNix.*`, not `nix.*` |
+| Packages / casks / MAS apps / taps | `nix-darwin` (Homebrew bridge) | Install-only; `cleanup = "none"` |
+| Shell (zsh, starship) | Home Manager | Interactive behavior, aliases, prompt |
+| Fonts | Home Manager | Vendored and copied into `~/Library/Fonts` |
+| Git / GPG / SSH | Home Manager | gitego identities, signing key, 1Password SSH agent |
+| CLI app config | Home Manager | tmux, ghostty, gh, jujutsu, television, btop/htop, vale |
+| Editors | Home Manager | Neovim, LunarVim, Zed (copy-once seed) |
+| `/etc/hosts` blocklist | `nix-darwin` | Managed block via activation script |
+| macOS defaults / launchd | `nix-darwin` | System preferences and agents |
+
 ## Current Bootstrap Command
 
 From a checkout of this repository, run:
