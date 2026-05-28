@@ -14,6 +14,7 @@ let
   #   510  typeset/cdpath          [HM]
   #   520  NIX_PROFILES fpath      [HM]
   #   530  defaultKeymap bindkey   [HM]
+  #   525  homebrew.zsh            <- brew shellenv, before compinit
   #   540  localVariables          [HM]
   #   550  completion-styles.zsh   <- fzf-tab zstyles, before compinit
   #   560  plugin path/fpath       [HM, fzf-tab]
@@ -29,6 +30,7 @@ let
   #  1100  shellAliases / global   [HM]
   #  1200  syntaxHighlighting      [HM]
   zshInitContent = lib.mkMerge [
+    (lib.mkOrder 525 (builtins.readFile ./shell/homebrew.zsh))
     (lib.mkOrder 550 (builtins.readFile ./shell/completion-styles.zsh))
     (lib.mkOrder 720 (builtins.readFile ./shell/zsh-options.zsh))
     (lib.mkOrder 750 (builtins.readFile ./shell/git-aliases.zsh))
@@ -45,7 +47,6 @@ in
     defaultKeymap = "emacs";
 
     envExtra = builtins.readFile ./shell/env.zsh;
-    profileExtra = builtins.readFile ./shell/profile.zsh;
     initContent = zshInitContent;
 
     history = {
