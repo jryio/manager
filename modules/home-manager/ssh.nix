@@ -22,7 +22,7 @@ let
   # IdentityAgent paths with spaces must be shell-quoted inside ssh_config.
   identityAgentValue = ''"${onePasswordSocket}"'';
 
-  # All five gitego identities share the same agent. The fingerprint-based
+  # All gitego identities share the same agent. The fingerprint-based
   # selection inside 1Password ensures the right key gets used per remote.
   githubMatchBlock = {
     hostname = "github.com";
@@ -49,6 +49,7 @@ in
       "github-tdna" = githubMatchBlock;
       "github-zigg" = githubMatchBlock;
       "github-keybase" = githubMatchBlock;
+      "github-cloudx" = githubMatchBlock;
     };
   };
 

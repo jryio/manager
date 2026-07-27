@@ -2,9 +2,10 @@
 
 # Declarative git + gitego configuration per MIGRATION.md D25.
 #
-# - The five gitego identities below (jry/inf/tdna/zigg/keybase) are taken
+# - The original five gitego identities (jry/inf/tdna/zigg/keybase) are taken
 #   verbatim from .ai/inventory/gitego-config.yaml. Names, emails, and
-#   ssh_key paths match the live ~/.gitego/config.yaml on AVA.
+#   ssh_key paths match the live ~/.gitego/config.yaml on AVA. Later
+#   identities (cloudx) are declared directly in lib/vars.nix.
 # - The active profile is `jry`; its [user] block becomes the global git
 #   identity, which matches the live ~/.gitconfig.
 # - GPG signing uses key 715CED2327899E28 per D10 (the only [SC]-capable

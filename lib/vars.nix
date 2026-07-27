@@ -58,6 +58,15 @@ rec {
       sshKey = null; # keybase profile is HTTPS-only per gitego-inventory.md
       autoRules = [ "${user.home}/code/professional/keybase/" ];
     };
+    cloudx = {
+      name = user.fullName;
+      email = "jacob@cloudx.io";
+      # Key lives only in the 1Password CloudX vault and routes through the
+      # agent (D18); no on-disk path exists, so gitego records none.
+      # pub: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE8xbPkFj5CUNx0BmaFbADC8t4XT/3EQ+aBX0j60u5Y7
+      sshKey = null;
+      autoRules = [ "${user.home}/code/professional/cloudx/" ];
+    };
   };
 
   # The active gitego profile becomes the global git identity.
