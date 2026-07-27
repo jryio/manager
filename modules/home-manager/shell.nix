@@ -27,6 +27,7 @@ let
   #   950  user setOptions         [HM, unused]
   #  1000  init.zsh                <- SSH agent, BUN, NVM, GPG, functions
   #         starship init zsh      [HM, default 1000]
+  #  1010  mise.zsh                <- mise activate (after nvm so it wins its dirs)
   #  1100  shellAliases / global   [HM]
   #  1200  syntaxHighlighting      [HM]
   zshInitContent = lib.mkMerge [
@@ -35,6 +36,7 @@ let
     (lib.mkOrder 720 (builtins.readFile ./shell/zsh-options.zsh))
     (lib.mkOrder 750 (builtins.readFile ./shell/git-aliases.zsh))
     (lib.mkOrder 1000 (builtins.readFile ./shell/init.zsh))
+    (lib.mkOrder 1010 (builtins.readFile ./shell/mise.zsh))
   ];
 in
 {
@@ -47,6 +49,7 @@ in
     defaultKeymap = "emacs";
 
     envExtra = builtins.readFile ./shell/env.zsh;
+    profileExtra = builtins.readFile ./shell/profile.zsh;
     initContent = zshInitContent;
 
     history = {

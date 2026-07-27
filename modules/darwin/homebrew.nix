@@ -91,6 +91,7 @@
       "librist"
       "markdownlint-cli"
       "mintoolkit"
+      "mise"
       "mosh"
       "mysql"
       "neovim"
