@@ -196,6 +196,22 @@ preclear_dotfile_symlinks() {
   done
 }
 
+# The Determinate installer writes /etc/nix/nix.custom.conf; the Determinate
+# darwin module manages that same file, and nix-darwin aborts the FIRST
+# activation if the installer's content hash is not one it recognizes
+# (installer newer than the pinned module input). Moving it aside is the
+# upstream-prescribed remedy; the module writes its managed version
+# immediately after. Only runs before the first-ever nix-darwin activation.
+preclear_etc_for_first_activation() {
+  [ -e /run/current-system ] && return 0
+
+  f=/etc/nix/nix.custom.conf
+  if [ -e "$f" ] && [ ! -e "$f.before-nix-darwin" ]; then
+    log "Moving installer-owned $f aside for first activation."
+    sudo mv "$f" "$f.before-nix-darwin"
+  fi
+}
+
 run_permissions_walkthrough() {
   if [ "$SKIP_PERMISSIONS" -eq 1 ]; then
     log "Skipping permissions walkthrough."
@@ -442,6 +458,8 @@ fi
 if [ "$SKIP_REBUILD" -eq 0 ]; then
   need_cmd sudo
   NIX_BIN=$(command -v nix)
+
+  preclear_etc_for_first_activation
 
   log "Running darwin-rebuild for $CONFIG_NAME."
   # -H gives root its own $HOME; without it nix warns "$HOME ... is not owned
