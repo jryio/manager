@@ -26,6 +26,11 @@
       InitialKeyRepeat = 15;
       KeyRepeat = 2;
 
+      # Trackpad tracking speed (live: com.apple.trackpad.scaling = 0.875).
+      # macOS may rewrite this when pointing devices change; each switch
+      # re-asserts the declared value.
+      "com.apple.trackpad.scaling" = 0.875;
+
       # Smart-substitution off for code/Markdown writing (inventory:
       # NSAutomaticQuoteSubstitutionEnabled = 0, NSAutomaticDashSubstitutionEnabled = 0).
       # Spelling correction and capitalization stay on per the inventory.
@@ -60,10 +65,17 @@
       # to neutralize the action.
       wvous-br-corner = 1;
 
-      # persistent-apps is operator-managed, not declarative. The inventory
-      # caveat is clear: the dock contents change every time the user reorders,
-      # so declaring it would clobber that. lib.mkDefault [] would force-empty
-      # the dock on activation; we deliberately do NOT set it.
+      # persistent-apps is NOT declared here: the dock is reordered by hand
+      # often, and a declared list would clobber that on every switch. Fresh
+      # machines instead get a one-time layout seed from
+      # modules/home-manager/dock.nix (marker-guarded, never re-applied).
+    };
+
+    trackpad = {
+      # Tap to click + three-finger drag (live: com.apple.AppleMultitouchTrackpad
+      # Clicking = 1, TrackpadThreeFingerDrag = 1).
+      Clicking = true;
+      TrackpadThreeFingerDrag = true;
     };
 
     finder = {
@@ -138,6 +150,12 @@
       "com.apple.SoftwareUpdate" = {
         AutoUpdateMajorOSVersion = 15;
       };
+
+      # Mouse tracking speed (live: 1.5). nix-darwin has no first-class option
+      # for com.apple.mouse.scaling, so it is written to the global domain here.
+      NSGlobalDomain = {
+        "com.apple.mouse.scaling" = 1.5;
+      };
     };
   };
 
@@ -145,16 +163,15 @@
   #
   # 1. NSGlobalDomain.NSUserDictionaryReplacementItems — 21 text-expansion
   #    shortcuts. Personal, high-churn, edited via System Settings.
-  # 2. com.apple.dock persistent-apps / persistent-others — dock layout is
-  #    reordered frequently; declaring it would clobber operator state on
-  #    every activation. (See dock block above: tilesize/autohide/etc. are
-  #    declared but the app list is not.)
+  # 2. com.apple.dock persistent-apps / persistent-others — ongoing dock
+  #    order is operator-managed (reordered frequently); fresh machines get a
+  #    one-time seed from modules/home-manager/dock.nix instead of a declared
+  #    list. (See dock block above: tilesize/autohide/etc. are declared.)
   # 3. com.apple.spaces app-bindings — references several long-uninstalled
   #    apps (Things, Quiver, Cloudmagic Mail, Nylas, Todoist, Keybase).
   #    Drift residue, not policy. Operator triages manually.
-  # 4. NSGlobalDomain.com.apple.mouse.scaling (1.5) and trackpad.scaling
-  #    (0.875) — macOS rewrites these when devices change; declaring them
-  #    would fight the runtime. Operator keeps current values manually.
+  # (mouse.scaling / trackpad.scaling, formerly caveat 4, are now declared
+  # above: switches re-assert them if macOS rewrites the values.)
   #
   # Out of scope per D27:
   # - Firewall (com.apple.alf)
