@@ -261,6 +261,25 @@ EOF
   log "Created $host_file for configuration $config_name."
 }
 
+# A git+file flake only evaluates TRACKED files: a freshly generated host file
+# that is not `git add`ed is invisible, and the rebuild fails with
+# "does not provide attribute darwinConfigurations.<name>.system".
+track_host_file() {
+  command -v git >/dev/null 2>&1 || return 0
+  git -C "$REPO_ROOT" rev-parse --is-inside-work-tree >/dev/null 2>&1 || return 0
+  git -C "$REPO_ROOT" add "$HOST_DIR" || log "WARN: could not git-add $HOST_DIR"
+}
+
+# git needs the Xcode Command Line Tools; a bare machine that got this repo
+# without cloning (e.g. tarball) may not have them yet.
+ensure_clt() {
+  if ! /usr/bin/xcode-select -p >/dev/null 2>&1; then
+    log "Xcode Command Line Tools missing; triggering installer."
+    /usr/bin/xcode-select --install >/dev/null 2>&1 || true
+    fail "confirm the Command Line Tools dialog, wait for it to finish, then re-run ./install"
+  fi
+}
+
 while [ "$#" -gt 0 ]; do
   case "$1" in
     --user)
@@ -319,6 +338,8 @@ need_cmd hostname
 need_cmd id
 need_cmd sed
 
+ensure_clt
+
 case "$(uname -m)" in
   arm64)
     SYSTEM_NAME="aarch64-darwin"
@@ -361,6 +382,7 @@ if [ ! -f "$HOST_FILE" ]; then
 else
   log "Using existing host definition at $HOST_FILE."
 fi
+track_host_file
 
 if [ "$SKIP_INSTALL" -eq 0 ] || [ "$SKIP_LOCK" -eq 0 ] || [ "$SKIP_REBUILD" -eq 0 ]; then
   install_determinate_nix
@@ -393,7 +415,9 @@ if [ "$SKIP_REBUILD" -eq 0 ]; then
   NIX_BIN=$(command -v nix)
 
   log "Running darwin-rebuild for $CONFIG_NAME."
-  sudo "$NIX_BIN" run "$DARWIN_REBUILD_REF" -- switch --flake "$REPO_ROOT#$CONFIG_NAME"
+  # -H gives root its own $HOME; without it nix warns "$HOME ... is not owned
+  # by you" and falls back to /var/root anyway.
+  sudo -H "$NIX_BIN" run "$DARWIN_REBUILD_REF" -- switch --flake "$REPO_ROOT#$CONFIG_NAME"
 else
   log "Skipping darwin-rebuild."
 fi

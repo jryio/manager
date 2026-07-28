@@ -30,6 +30,8 @@ The goal is a single source of truth for a macOS setup: Determinate provides the
 
 ## Current Bootstrap Command
 
+On a brand-new machine, first open Terminal and run `xcode-select --install` (confirm the dialog and wait for it to finish) so `git` works, then clone this repository.
+
 From a checkout of this repository, run:
 
 ```sh
@@ -39,7 +41,7 @@ From a checkout of this repository, run:
 That command:
 
 1. installs Determinate Nix if `nix` is not already present,
-2. creates `hosts/<LocalHostName>/default.nix` if it does not exist,
+2. creates `hosts/<LocalHostName>/default.nix` if it does not exist and `git add`s it (the flake only sees tracked files),
 3. installs Homebrew if missing and trusts the third-party taps declared in `modules/darwin/homebrew.nix`,
 4. prompts for an App Store sign-in (needed by the MAS apps) and clears legacy `~/dotfiles` symlinks,
 5. creates `flake.lock` if it does not exist,
