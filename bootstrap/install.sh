@@ -270,6 +270,34 @@ track_host_file() {
   git -C "$REPO_ROOT" add "$HOST_DIR" || log "WARN: could not git-add $HOST_DIR"
 }
 
+# Offer to name the machine before anything derives from LocalHostName
+# (flake config name, generated host file, scutil-sourced metadata). The
+# host file then keeps enforcing the name declaratively on every switch.
+prompt_machine_rename() {
+  [ -t 0 ] || return 0
+  [ -z "$BOOTSTRAP_CONFIG_NAME" ] || return 0
+
+  current=$(read_scutil LocalHostName)
+  [ -n "$current" ] || current=$(hostname -s)
+
+  printf 'Machine name (becomes LocalHostName/HostName/ComputerName and the flake config) [%s]: ' "$current" >&2
+  read -r new_name || new_name=""
+  [ -n "$new_name" ] || return 0
+  [ "$new_name" != "$current" ] || return 0
+
+  case "$new_name" in
+    *[!A-Za-z0-9-]*)
+      fail "machine name must contain only letters, digits, and hyphens: $new_name"
+      ;;
+  esac
+
+  need_cmd sudo
+  log "Renaming machine to $new_name (requires sudo)."
+  sudo scutil --set LocalHostName "$new_name"
+  sudo scutil --set HostName "$new_name"
+  sudo scutil --set ComputerName "$new_name"
+}
+
 # git needs the Xcode Command Line Tools; a bare machine that got this repo
 # without cloning (e.g. tarball) may not have them yet.
 ensure_clt() {
@@ -339,6 +367,7 @@ need_cmd id
 need_cmd sed
 
 ensure_clt
+prompt_machine_rename
 
 case "$(uname -m)" in
   arm64)

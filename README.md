@@ -40,13 +40,14 @@ From a checkout of this repository, run:
 
 That command:
 
-1. installs Determinate Nix if `nix` is not already present,
-2. creates `hosts/<LocalHostName>/default.nix` if it does not exist and `git add`s it (the flake only sees tracked files),
-3. installs Homebrew if missing and trusts the third-party taps declared in `modules/darwin/homebrew.nix`,
-4. prompts for an App Store sign-in (needed by the MAS apps) and clears legacy `~/dotfiles` symlinks,
-5. creates `flake.lock` if it does not exist,
-6. runs the first `darwin-rebuild switch`,
-7. finishes with `scripts/permissions-walkthrough.sh`, an interactive step-by-step pass over every macOS permission the setup needs (Enter opens the right System Settings pane, `s` skips, `q` quits; `--list` prints the manifest). Skippable with `--skip-permissions`; re-run it anytime.
+1. offers to rename the machine (interactive; the name becomes LocalHostName/HostName/ComputerName and the flake config name),
+2. installs Determinate Nix if `nix` is not already present,
+3. creates `hosts/<LocalHostName>/default.nix` if it does not exist and `git add`s it (the flake only sees tracked files),
+4. installs Homebrew if missing and trusts the third-party taps declared in `modules/darwin/homebrew.nix`,
+5. prompts for an App Store sign-in (needed by the MAS apps) and clears legacy `~/dotfiles` symlinks,
+6. creates `flake.lock` if it does not exist,
+7. runs the first `darwin-rebuild switch`,
+8. finishes with `scripts/permissions-walkthrough.sh`, an interactive step-by-step pass over every macOS permission the setup needs (Enter opens the right System Settings pane, `s` skips, `q` quits; `--list` prints the manifest). Skippable with `--skip-permissions`; re-run it anytime.
 
 ## Host Layout
 
