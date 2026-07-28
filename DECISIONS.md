@@ -120,6 +120,11 @@
   - **New activation blocker**: Homebrew now enforces `HOMEBREW_REQUIRE_TAP_TRUST`; `brew bundle` during darwin activation failed on untrusted third-party taps and aborted BEFORE HM user activation. Fixed by `brew trust --tap` for the 9 non-official taps as CASE (trust lives in per-user `~/.homebrew/trust.json`, and nix-darwin runs brew as CASE via `sudo --set-home` without XDG env). This is mutable per-user state a fresh install will hit again — needs a declarative answer (filed in bd).
   - Validated: testaccount-driven switch clean, `gitego list` shows 6 profiles, includeIf resolves jacob@cloudx.io inside a test repo under `~/code/professional/cloudx/`, global stays jry, smoke 18 PASS / 0 FAIL / 1 SKIP.
 
+- [fresh-mac-field-run-2026-07-28]: first real fresh-Mac bootstrap surfaced an untracked-host-file bug
+  - Operator ran ./install on a new machine (user gort). Failure: `flake does not provide attribute darwinConfigurations.Jacobs-MacBook-Pro.system` — the bootstrap generated `hosts/<name>/default.nix` but never `git add`ed it, and git+file flakes evaluate only TRACKED files. Fix: `track_host_file()` git-adds the host dir right after generation (idempotent for tracked hosts). This bug was invisible in all prior validation because AVA's host file already existed.
+  - Also from field notes: `xcode-select --install` must complete before git/clone — added an `ensure_clt` preflight that triggers the installer and exits with a re-run message; README now says to do this before cloning. The `$HOME ... is not owned by you` nix warning under `sudo` is benign (nix falls back to /var/root); silenced with `sudo -H`.
+  - NOT a permissions/admin problem: the fresh account's home directory perms were normal and sudo reaching flake evaluation proves admin rights. Diagnosis shortcut for the future: that flake-attribute error on a fresh machine = untracked files.
+
 - [codexbar-2026-07-28]: added steipete/tap/codexbar cask
   - New third-party tap `steipete/tap` declared + trusted for CASE (`brew trust --tap`); fresh machines pick the trust up automatically since bootstrap `trust_taps()` parses the taps block of `homebrew.nix`. Switch installed CodexBar.app cleanly; smoke 18/0/1.
 
