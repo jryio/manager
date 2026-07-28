@@ -1,3 +1,4 @@
+{ lib, host, ... }:
 {
   homebrew = {
     enable = true;
@@ -91,6 +92,7 @@
       "libmagic"
       "librist"
       "markdownlint-cli"
+      "mas" # declared so brew bundle's masApps calls use a current CLI (bundle now invokes `mas get`)
       "mintoolkit"
       "mise"
       "mosh"
@@ -158,7 +160,9 @@
       "markedit"
       "miniconda"
       "ngrok"
-      "powershell"
+      # powershell cask removed 2026-07: deleted upstream (Gatekeeper); the
+      # `powershell` FORMULA above still provides pwsh. AVA's old cask install
+      # stays per cleanup = "none".
       "steipete/tap/codexbar" # menu-bar usage meter for Codex/Claude CLI sessions
       "timemachineeditor"
       "vagrant"
@@ -166,7 +170,11 @@
       "xquartz"
     ];
 
-    masApps = {
+    # MAS installs need an interactive App Store sign-in and can hang or abort
+    # the whole activation on a fresh machine (mas may block on auth). Hosts
+    # can defer them with `masApps = false;` in hosts/<name>/default.nix and
+    # re-enable (set true or remove the key) once sign-in is stable.
+    masApps = lib.optionalAttrs (host.masApps or true) {
       "1Blocker" = 1365531024;
       "1Password for Safari" = 1569813296;
       "Adobe Lightroom" = 1451544217;
