@@ -21,6 +21,7 @@
       "neovim/neovim"
       "oven-sh/bun"
       "rbenv/tap"
+      "steipete/tap"
       "steveyegge/beads"
       "stripe/stripe-cli"
     ];
@@ -158,6 +159,7 @@
       "miniconda"
       "ngrok"
       "powershell"
+      "steipete/tap/codexbar" # menu-bar usage meter for Codex/Claude CLI sessions
       "timemachineeditor"
       "vagrant"
       "wireshark-app"
