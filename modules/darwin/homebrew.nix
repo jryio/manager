@@ -143,7 +143,7 @@
 
     casks = [
       "1password-cli"
-      "alacritty"
+      "alacritty" # deprecated upstream (Gatekeeper), disable date 2026-09-01 -- decide before then (bd)
       # AI tools: binaries/apps only. Their local state (~/.claude, ~/.claude.json,
       # ~/.codex, ~/Library/Application Support/Claude|Codex) is intentionally
       # unmanaged -- these files change too often to declare.
