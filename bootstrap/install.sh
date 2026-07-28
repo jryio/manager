@@ -10,9 +10,11 @@ BOOTSTRAP_USERNAME=""
 BOOTSTRAP_HOME=""
 BOOTSTRAP_CONFIG_NAME=""
 SKIP_INSTALL=0
+SKIP_BREW=0
 SKIP_LOCK=0
 SKIP_REBUILD=0
 SKIP_HERDR=0
+SKIP_PERMISSIONS=0
 
 usage() {
   cat <<'EOF'
@@ -23,9 +25,11 @@ Options:
   --home <path>         Override the target home directory.
   --config-name <name>  Override the flake configuration name.
   --skip-install        Skip Determinate Nix installation.
+  --skip-brew           Skip Homebrew installation and tap trust.
   --skip-lock           Skip creating or refreshing flake.lock.
   --skip-rebuild        Skip the initial darwin-rebuild switch.
   --skip-herdr          Skip the herdr binary install.
+  --skip-permissions    Skip the interactive permissions walkthrough.
   -h, --help            Show this help text.
 EOF
 }
@@ -104,6 +108,108 @@ install_herdr() {
   curl -fsSL https://herdr.dev/install.sh | sh
 }
 
+brew_bin() {
+  if [ -x /opt/homebrew/bin/brew ]; then
+    printf '/opt/homebrew/bin/brew'
+  elif [ -x /usr/local/bin/brew ]; then
+    printf '/usr/local/bin/brew'
+  else
+    return 1
+  fi
+}
+
+# nix-darwin's homebrew module configures Homebrew but does NOT install it;
+# without this step the first darwin-rebuild aborts at `brew bundle`.
+install_homebrew() {
+  if [ "$SKIP_BREW" -eq 1 ]; then
+    log "Skipping Homebrew installation."
+    return 0
+  fi
+
+  if brew_bin >/dev/null; then
+    log "Homebrew already present; skipping installer."
+  else
+    need_cmd curl
+    log "Installing Homebrew (also installs Xcode Command Line Tools if missing)."
+    NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
+
+  trust_taps
+}
+
+# Homebrew's HOMEBREW_REQUIRE_TAP_TRUST refuses untrusted third-party taps,
+# which aborts the first `brew bundle` mid-activation. Trust is per-user
+# mutable state (~/.homebrew/trust.json), so it must be granted here before
+# the rebuild. Taps are read from modules/darwin/homebrew.nix to keep a
+# single source of truth; official homebrew/* taps need no trust.
+trust_taps() {
+  brew=$(brew_bin) || return 0
+
+  if ! "$brew" trust --help >/dev/null 2>&1; then
+    log "brew trust not supported by this Homebrew; skipping tap trust."
+    return 0
+  fi
+
+  sed -n '/taps = \[/,/\];/p' "$REPO_ROOT/modules/darwin/homebrew.nix" \
+    | sed -n 's/^[[:space:]]*"\(.*\)".*/\1/p' \
+    | while IFS= read -r tap; do
+        case "$tap" in
+          homebrew/*) ;;
+          *)
+            log "Trusting tap $tap."
+            "$brew" trust --tap "$tap" || log "WARN: failed to trust tap $tap"
+            ;;
+        esac
+      done
+}
+
+# Mac App Store apps (homebrew.masApps) install via mas during the first
+# rebuild, and mas requires an App Store sign-in that cannot be automated.
+prompt_app_store_signin() {
+  [ "$SKIP_REBUILD" -eq 0 ] || return 0
+  [ -t 0 ] || return 0
+
+  printf 'Mac App Store apps install during the rebuild and need an App Store sign-in.\n' >&2
+  printf 'Press Enter to open the App Store and sign in, or type s to skip: ' >&2
+  read -r answer || answer=s
+  if [ "$answer" != "s" ] && [ "$answer" != "S" ]; then
+    open -a "App Store" >/dev/null 2>&1 || true
+    printf 'Press Enter once signed in (or to continue anyway): ' >&2
+    read -r _ || true
+  fi
+}
+
+# Per ADR 16: Home Manager's backupFileExtension does not catch symlinks at
+# managed target paths, and a leftover ~/dotfiles symlink aborts the whole
+# user activation. Remove only symlinks that resolve into ~/dotfiles; the
+# dotfiles targets themselves are preserved (D17).
+preclear_dotfile_symlinks() {
+  for rel in .zshrc .zprofile .gitconfig .config/ghostty/config; do
+    p="$HOME_DIR/$rel"
+    [ -L "$p" ] || continue
+    case "$(readlink "$p")" in
+      "$HOME_DIR/dotfiles"/*|*/dotfiles/*)
+        log "Removing legacy dotfiles symlink $p (target preserved)."
+        rm -f "$p"
+        ;;
+    esac
+  done
+}
+
+run_permissions_walkthrough() {
+  if [ "$SKIP_PERMISSIONS" -eq 1 ]; then
+    log "Skipping permissions walkthrough."
+    return 0
+  fi
+
+  if [ ! -t 0 ]; then
+    log "Non-interactive session; run scripts/permissions-walkthrough.sh later."
+    return 0
+  fi
+
+  bash "$REPO_ROOT/scripts/permissions-walkthrough.sh" || true
+}
+
 install_determinate_nix() {
   if [ "$SKIP_INSTALL" -eq 1 ]; then
     log "Skipping Determinate Nix installation."
@@ -174,6 +280,14 @@ while [ "$#" -gt 0 ]; do
       ;;
     --skip-install)
       SKIP_INSTALL=1
+      shift
+      ;;
+    --skip-brew)
+      SKIP_BREW=1
+      shift
+      ;;
+    --skip-permissions)
+      SKIP_PERMISSIONS=1
       shift
       ;;
     --skip-lock)
@@ -252,6 +366,10 @@ if [ "$SKIP_INSTALL" -eq 0 ] || [ "$SKIP_LOCK" -eq 0 ] || [ "$SKIP_REBUILD" -eq 
   install_determinate_nix
 fi
 
+install_homebrew
+prompt_app_store_signin
+preclear_dotfile_symlinks
+
 if [ "$SKIP_LOCK" -eq 0 ] || [ "$SKIP_REBUILD" -eq 0 ]; then
   load_nix
 fi
@@ -281,3 +399,4 @@ else
 fi
 
 install_herdr
+run_permissions_walkthrough
