@@ -18,6 +18,7 @@
     ./vale.nix
     ./editors.nix
     ./zed.nix
+    ./ai-tools.nix
   ];
 
   home.username = host.username;

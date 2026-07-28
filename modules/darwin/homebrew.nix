@@ -141,7 +141,14 @@
     casks = [
       "1password-cli"
       "alacritty"
+      # AI tools: binaries/apps only. Their local state (~/.claude, ~/.claude.json,
+      # ~/.codex, ~/Library/Application Support/Claude|Codex) is intentionally
+      # unmanaged -- these files change too often to declare.
+      # (claude-code CLI is NOT a cask: the native installer self-updates, the
+      # cask does not -- see modules/home-manager/ai-tools.nix)
+      "claude" # Claude Desktop (auto_updates: brew installs once, app updates itself)
       "codex"
+      "codex-app" # Codex desktop (deprecated upstream 2026-07; Homebrew suggests `chatgpt` cask as replacement)
       "gcloud-cli"
       "ghostty"
       "gitify"
