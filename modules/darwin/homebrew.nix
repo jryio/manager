@@ -10,14 +10,14 @@
 
     global.brewfile = false;
 
+    # homebrew/{aliases,bundle,cask-versions,services} were removed 2026-07:
+    # deprecated upstream and now empty (functionality migrated into brew
+    # core), so tapping them fails on a fresh machine. They remain tapped
+    # locally on AVA per cleanup = "none"; that is harmless.
     taps = [
       "charmbracelet/tap"
       "docker/tap"
       "heroku/brew"
-      "homebrew/aliases"
-      "homebrew/bundle"
-      "homebrew/cask-versions"
-      "homebrew/services"
       "neovim/neovim"
       "oven-sh/bun"
       "rbenv/tap"
