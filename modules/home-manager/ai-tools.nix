@@ -6,7 +6,8 @@
   # are never touched, and ~/.claude / ~/.claude.json stay unmanaged.
   home.activation.claudeCode = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     if [ ! -x "${config.home.homeDirectory}/.local/bin/claude" ] && ! command -v claude >/dev/null 2>&1; then
-      run bash -c 'curl -fsSL https://claude.ai/install.sh | bash' \
+      # /usr/bin/curl: HM activation runs with a Nix-only PATH (no /usr/bin).
+      run bash -c '/usr/bin/curl -fsSL https://claude.ai/install.sh | bash' \
         || echo "claude-code native install failed (offline?); re-run a switch when online"
     fi
   '';

@@ -168,6 +168,44 @@
       "vagrant"
       "wireshark-app"
       "xquartz"
+    ]
+    # Daily-driver GUI apps: everything from the dock seed and the permissions
+    # walkthrough that has a cask (names verified against the live cask index
+    # 2026-07-28; mapping from .ai/inventory/applications-manual.txt). AVA
+    # predates these as manual installs and sets `guiAppCasks = false` in its
+    # host file until they are adopted (`brew install --cask --adopt/--force`);
+    # fresh machines get them all. No cask exists for: Conductor, Mercury,
+    # ZMK Studio, Geotag Photos Pro — those stay manual.
+    ++ lib.optionals (host.guiAppCasks or true) [
+      "1password"
+      "backblaze"
+      "bartender"
+      "betterdisplay"
+      "cap"
+      "cleanshot"
+      "daisydisk"
+      "discord"
+      "docker-desktop"
+      "dropbox"
+      "fantastical"
+      "firefox"
+      "google-chrome"
+      "hazel"
+      "hey"
+      "istat-menus"
+      "logi-options-plus"
+      "macwhisper"
+      "monitorcontrol"
+      "notion"
+      "notion-calendar"
+      "raycast"
+      "rectangle"
+      "rocket"
+      "signal"
+      "spotify"
+      "tableplus"
+      "zed"
+      "zulip"
     ];
 
     # MAS installs need an interactive App Store sign-in and can hang or abort

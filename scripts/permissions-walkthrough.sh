@@ -147,6 +147,8 @@ fi
 
 printf 'macOS permissions walkthrough — %s steps.\n' "$total"
 printf 'Each step opens the right System Settings pane; you flip the switches.\n'
+printf 'Note: apps appear in these panes only once installed AND launched at\n'
+printf 'least once — skip what is missing and re-run this script later.\n'
 printf 'Keys: [Enter] open pane   [s] skip step   [q] quit\n'
 
 i=0
