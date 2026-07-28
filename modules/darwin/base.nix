@@ -8,6 +8,7 @@
     ./hosts.nix
     ./defaults.nix
     ./launchd.nix
+    ./user-picture.nix
   ];
 
   determinateNix.enable = true;
