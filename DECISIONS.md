@@ -120,6 +120,9 @@
   - **New activation blocker**: Homebrew now enforces `HOMEBREW_REQUIRE_TAP_TRUST`; `brew bundle` during darwin activation failed on untrusted third-party taps and aborted BEFORE HM user activation. Fixed by `brew trust --tap` for the 9 non-official taps as CASE (trust lives in per-user `~/.homebrew/trust.json`, and nix-darwin runs brew as CASE via `sudo --set-home` without XDG env). This is mutable per-user state a fresh install will hit again — needs a declarative answer (filed in bd).
   - Validated: testaccount-driven switch clean, `gitego list` shows 6 profiles, includeIf resolves jacob@cloudx.io inside a test repo under `~/code/professional/cloudx/`, global stays jry, smoke 18 PASS / 0 FAIL / 1 SKIP.
 
+- [codexbar-2026-07-28]: added steipete/tap/codexbar cask
+  - New third-party tap `steipete/tap` declared + trusted for CASE (`brew trust --tap`); fresh machines pick the trust up automatically since bootstrap `trust_taps()` parses the taps block of `homebrew.nix`. Switch installed CodexBar.app cleanly; smoke 18/0/1.
+
 - [account-picture-fix-2026-07-28]: headshot swapped in + dscl guard bug fixed
   - `dscl . -read` exits 0 even when the attribute is missing (prints "No such key"), so the original seed-once guard in `modules/darwin/user-picture.nix` could never fire — presence must be tested by grepping the output for `^JPEGPhoto:`. Beware this dscl behavior in any future guard.
   - Asset replaced with the operator's real headshot (repo-root `headshot.jpeg`, downscaled 4784→1272px, 5.6MB→0.6MB — JPEGPhoto should stay well under 1MB). Validated live: cleared the record's JPEGPhoto, switch re-seeded, record hash == asset hash; guard skip-branch verified.
