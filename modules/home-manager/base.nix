@@ -19,6 +19,7 @@
     ./editors.nix
     ./zed.nix
     ./ai-tools.nix
+    ./dock.nix
   ];
 
   home.username = host.username;
