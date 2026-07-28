@@ -286,6 +286,37 @@ track_host_file() {
   git -C "$REPO_ROOT" add "$HOST_DIR" || log "WARN: could not git-add $HOST_DIR"
 }
 
+# One password prompt for the whole bootstrap. Privileged cask installers
+# (pkg artifacts / helper daemons: docker-desktop, macfuse, wireshark-app,
+# gpg-suite, timemachineeditor, ...) each call sudo mid-`brew bundle`; sudo
+# honors its cached credential, so validating once and refreshing the
+# timestamp in the background means no mid-run re-prompts. The password is
+# never captured by this script -- only sudo's own timestamp is refreshed,
+# and the refresher dies with the script.
+SUDO_KEEPALIVE_PID=""
+
+start_sudo_keepalive() {
+  [ -t 0 ] || return 0
+  need_cmd sudo
+  log "Validating sudo (one password prompt covers the whole bootstrap)."
+  sudo -v || fail "sudo validation failed"
+  (
+    while kill -0 "$$" 2>/dev/null; do
+      sudo -n true 2>/dev/null || exit
+      sleep 50
+    done
+  ) &
+  SUDO_KEEPALIVE_PID=$!
+}
+
+stop_sudo_keepalive() {
+  if [ -n "$SUDO_KEEPALIVE_PID" ]; then
+    kill "$SUDO_KEEPALIVE_PID" 2>/dev/null || true
+  fi
+}
+
+trap stop_sudo_keepalive EXIT
+
 # Offer to name the machine before anything derives from LocalHostName
 # (flake config name, generated host file, scutil-sourced metadata). The
 # host file then keeps enforcing the name declaratively on every switch.
@@ -383,6 +414,7 @@ need_cmd id
 need_cmd sed
 
 ensure_clt
+start_sudo_keepalive
 prompt_machine_rename
 
 case "$(uname -m)" in
