@@ -32,50 +32,46 @@ rec {
 
   # Per-identity gitego data. Keys match the names referenced by the gitego
   # auto_rules table, the per-profile gitconfig fragments, and the SSH host
-  # aliases (github-jry/github-inf/...). See .ai/inventory/gitego-config.yaml.
+  # aliases (github-jry/github-tdna/...). See .ai/inventory/gitego-config.yaml
+  # for the historical five-identity snapshot; inf and zigg were retired
+  # 2026-07-29 (no longer needed).
   #
   # `sshKey`  — path gitego records in config.yaml (informational; auth routes
   #             through the 1Password agent). null when no on-disk key exists.
   # `signingKey` — literal ED25519 public key to sign commits with via
-  #             op-ssh-sign. null means fall back to the global GPG key.
+  #             op-ssh-sign, scoped to this identity's autoRules. null falls
+  #             back to the global GPG key. Every non-null value here MUST be
+  #             surfaced by the 1Password SSH agent (`ssh-add -l`) or signing
+  #             fails at commit time — the agent only exposes the vaults and
+  #             items allowed by ~/.config/1Password/ssh/agent.toml.
   identities = {
     jry = {
       name = user.fullName;
       email = "git@jry.io";
       sshKey = "${user.home}/.ssh/id_rsa";
-      signingKey = null;
+      # "Github SSH" in the 1Password Personal vault.
+      # SHA256:OYWAVNkofwChH+T6s4MJw/fLr7bZq/yaW4m4jzk/SQo
+      signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA15SwxcYtsXvWLmqWK4L7p9yXQClXWLZ+lGiZvTeIK7";
       autoRules = [
         "${user.home}/code/personal/statis/"
         "${user.home}/code/personal/jryio/"
         "${user.home}/code/personal/adr/"
       ];
     };
-    inf = {
-      name = user.fullName;
-      email = "git@sancho.studio";
-      sshKey = "${user.home}/.ssh/infinite-music";
-      signingKey = null;
-      autoRules = [ "${user.home}/code/professional/infinitemusic/" ];
-    };
     tdna = {
       name = user.fullName;
       email = "jacob.young@tech-dna.net";
       sshKey = "${user.home}/.ssh/tdna";
-      signingKey = null;
+      # "Tech DNA SSH Key" in 1Password.
+      # SHA256:DXfyLK1dbLy3CroikJl44TuOec4JNGjVCzC1mODzb40
+      signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILIcLG93apm3T5H5lr2EVnUb9fxwHGC/UZd+N4rSVmCg";
       autoRules = [ "${user.home}/code/professional/tdna/" ];
-    };
-    zigg = {
-      name = user.fullName;
-      email = "jacob.young@ziggiz.ai";
-      sshKey = "${user.home}/.ssh/zigguratum";
-      signingKey = null;
-      autoRules = [ "${user.home}/code/professional/zigg/" ];
     };
     keybase = {
       name = user.fullName;
       email = "jacob@keyba.se";
       sshKey = null; # keybase profile is HTTPS-only per gitego-inventory.md
-      signingKey = null;
+      signingKey = null; # no SSH key exists for this identity; signs with GPG
       autoRules = [ "${user.home}/code/professional/keybase/" ];
     };
     cloudx = {
@@ -84,9 +80,8 @@ rec {
       # Key lives only in the 1Password CloudX vault and routes through the
       # agent (D18); no on-disk path exists, so gitego records none.
       sshKey = null;
-      # SSH-format commit signing via op-ssh-sign instead of the global GPG
-      # key. Fingerprint SHA256:/2XMZawY/x6Q/wF1RxHlrd/8rZsCUNzpoMD7+86Yiug
-      # ("CloudX SSH Key" in the 1Password agent).
+      # "CloudX SSH Key" in the 1Password CloudX vault.
+      # SHA256:/2XMZawY/x6Q/wF1RxHlrd/8rZsCUNzpoMD7+86Yiug
       signingKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE8xbPkFj5CUNx0BmaFbADC8t4XT/3EQ+aBX0j60u5Y7";
       autoRules = [ "${user.home}/code/professional/cloudx/" ];
     };

@@ -2,29 +2,31 @@
 
 # Declarative git + gitego configuration per MIGRATION.md D25.
 #
-# - The original five gitego identities (jry/inf/tdna/zigg/keybase) are taken
-#   verbatim from .ai/inventory/gitego-config.yaml. Names, emails, and
-#   ssh_key paths match the live ~/.gitego/config.yaml on AVA. Later
-#   identities (cloudx) are declared directly in lib/vars.nix.
+# - Identities live in lib/vars.nix. The set started as the five taken
+#   verbatim from .ai/inventory/gitego-config.yaml (jry/inf/tdna/zigg/keybase);
+#   cloudx was added 2026-07-27 and inf/zigg retired 2026-07-29, leaving
+#   jry/tdna/keybase/cloudx.
 # - The active profile is `jry`; its [user] block becomes the global git
 #   identity, which matches the live ~/.gitconfig.
-# - Global signing uses GPG key 715CED2327899E28 per D10 (the only
-#   [SC]-capable secret key in ~/.gnupg). Any identity with a `signingKey` in
-#   lib/vars.nix instead signs with that SSH key via 1Password's op-ssh-sign,
-#   scoped to its auto_rule path trees by the includeIf fragment. Today that
-#   is cloudx only.
+# - Global signing stays GPG key 715CED2327899E28 per D10 (the only
+#   [SC]-capable secret key in ~/.gnupg), so repos outside every auto_rule
+#   tree — this repo, ~/dotfiles — still GPG-sign. Any identity with a
+#   `signingKey` in lib/vars.nix instead signs with that SSH key via
+#   1Password's op-ssh-sign, scoped to its auto_rule trees by the includeIf
+#   fragment. Today: jry, tdna, cloudx. keybase has no SSH key and inherits
+#   the global GPG key.
 # - includeIf rules are generated from the same identity table that feeds
 #   the gitego YAML, so there is exactly one source of truth.
-# - URL rewrites from ~/dotfiles/git/gitconfig (github -> ssh, zigg, tdna)
-#   are preserved verbatim.
+# - URL rewrites from ~/dotfiles/git/gitconfig (github -> ssh, tdna) are
+#   preserved verbatim.
 let
   # ssh_key paths reflect what gitego writes into config.yaml. Per the D18
-  # inventory the private halves for inf/tdna/zigg already live in the
-  # 1Password vault — only `.pub` files remain on disk — but gitego itself
-  # still records the historical path. We keep them so the generated
-  # config.yaml round-trips with the live file. Daily auth flows through
-  # IdentityAgent in modules/home-manager/ssh.nix; these paths are
-  # informational for gitego CLI commands only.
+  # inventory tdna's private half already lives in the 1Password vault — only
+  # the `.pub` file remains on disk — but gitego itself still records the
+  # historical path. We keep them so the generated config.yaml round-trips
+  # with the live file. Daily auth flows through IdentityAgent in
+  # modules/home-manager/ssh.nix; these paths are informational for gitego
+  # CLI commands only.
   # TODO: once D18 retires ~/.ssh/id_rsa into 1Password,
   # decide whether to drop ssh_key entries entirely from gitego config.
   identities = vars.identities;
@@ -67,9 +69,8 @@ let
   # and this module owns their contents. An identity with a `signingKey`
   # overrides the global GPG signing (vars.signing.gpgKey) with SSH-format
   # signing through 1Password's op-ssh-sign inside its auto_rule path trees.
-  # TODO: inf/tdna/zigg carried the same SSH-signing block before
-  # the migration (see *.gitconfig.hm-backup); set their signingKey in
-  # lib/vars.nix to restore it once D10's GPG-signing scope is settled.
+  # This restores (and extends to jry) the hand-written blocks the pre-migration
+  # fragments carried — see ~/.gitego/profiles/*.gitconfig.hm-backup.
   renderProfileFragment = id: i:
     let
       userBlock = [
@@ -164,11 +165,10 @@ in
         "http://github.com"
       ];
 
-      "url \"git@zigg:zigguratum-core\"".insteadOf = [
-        "git@github.com:zigguratum-core"
-        "https://github.com/zigguratum-core"
-      ];
-
+      # NOTE: host alias `tdna` is not defined in any ssh_config (neither the
+      # legacy ~/.ssh/config nor modules/home-manager/ssh.nix, which uses the
+      # `github-tdna` naming). Preserved verbatim from ~/dotfiles/git/gitconfig
+      # pending confirmation that anything still relies on it.
       "url \"git@tdna:tech-dna\"".insteadOf = "git@github.com:tech-dna";
 
       "lfs \"customtransfer.xet\"" = {
