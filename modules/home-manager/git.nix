@@ -8,10 +8,11 @@
 #   identities (cloudx) are declared directly in lib/vars.nix.
 # - The active profile is `jry`; its [user] block becomes the global git
 #   identity, which matches the live ~/.gitconfig.
-# - GPG signing uses key 715CED2327899E28 per D10 (the only [SC]-capable
-#   secret key in ~/.gnupg). Per-identity SSH-signing overrides for
-#   inf/tdna/zigg/keybase live in the generated profile fragments and
-#   continue to take precedence inside their auto_rule path trees.
+# - Global signing uses GPG key 715CED2327899E28 per D10 (the only
+#   [SC]-capable secret key in ~/.gnupg). Any identity with a `signingKey` in
+#   lib/vars.nix instead signs with that SSH key via 1Password's op-ssh-sign,
+#   scoped to its auto_rule path trees by the includeIf fragment. Today that
+#   is cloudx only.
 # - includeIf rules are generated from the same identity table that feeds
 #   the gitego YAML, so there is exactly one source of truth.
 # - URL rewrites from ~/dotfiles/git/gitconfig (github -> ssh, zigg, tdna)
@@ -60,32 +61,43 @@ let
     active_profile: ${activeProfile}
   '';
 
-  # Per-profile gitconfig fragment. The jry fragment stays bare to match the
-  # live ~/.gitego/profiles/jry.gitconfig (no SSH signing yet); the other
-  # four fragments mirror the SSH-signing shape captured in
-  # gitego-inventory.md.
-  # TODO: once D10's signing-only GPG mode is fully validated,
-  # decide whether the inf/tdna/zigg fragments should keep their per-key
-  # ssh-signing overrides or fall back to global GPG signing.
+  # Per-profile gitconfig fragment. gitego's own CLI only knows
+  # name/email/username/ssh_key/pat, so signing is not something gitego can
+  # express — but the includeIf fragments it pulls in are the supported hook,
+  # and this module owns their contents. An identity with a `signingKey`
+  # overrides the global GPG signing (vars.signing.gpgKey) with SSH-format
+  # signing through 1Password's op-ssh-sign inside its auto_rule path trees.
+  # TODO: inf/tdna/zigg carried the same SSH-signing block before
+  # the migration (see *.gitconfig.hm-backup); set their signingKey in
+  # lib/vars.nix to restore it once D10's GPG-signing scope is settled.
   renderProfileFragment = id: i:
-    if id == "jry" then ''
-      [user]
-          name = ${i.name}
-          email = ${i.email}
+    let
+      userBlock = [
+        "[user]"
+        "    name = ${i.name}"
+        "    email = ${i.email}"
+      ] ++ lib.optional (i.signingKey != null) "    signingkey = ${i.signingKey}";
 
-      [core]
-          sshCommand = ssh -i ${i.sshKey}
-    ''
-    else if id == "keybase" then ''
-      [user]
-          name = ${i.name}
-          email = ${i.email}
-    ''
-    else ''
-      [user]
-          name = ${i.name}
-          email = ${i.email}
-    '';
+      sshSigningBlock = lib.optionals (i.signingKey != null) [
+        ""
+        "[gpg]"
+        "    format = ssh"
+        ""
+        "[gpg \"ssh\"]"
+        "    program = \"${vars.signing.opSshSign}\""
+        "    allowedSignersFile = ${vars.signing.allowedSignersFile}"
+      ];
+
+      # jry predates the 1Password agent migration and still pins its key on
+      # disk; every other identity resolves by fingerprint through the agent
+      # configured in modules/home-manager/ssh.nix.
+      coreBlock = lib.optionals (id == "jry") [
+        ""
+        "[core]"
+        "    sshCommand = ssh -i ${i.sshKey}"
+      ];
+    in
+    lib.concatStringsSep "\n" (userBlock ++ sshSigningBlock ++ coreBlock) + "\n";
 
   includeIfBlocks = lib.flatten (lib.mapAttrsToList
     (id: i: map
