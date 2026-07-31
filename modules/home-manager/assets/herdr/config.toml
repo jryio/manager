@@ -28,6 +28,12 @@ close_workspace = "prefix+shift+x"
 previous_workspace = "prefix+shift+k"
 next_workspace = "prefix+shift+j"
 
+# Worktrees (checkouts under [worktrees].directory). Both are unset
+# upstream; new_worktree keeps its default prefix+shift+g. shift+d is
+# free here because close_workspace is remapped to shift+x above.
+open_worktree = "prefix+shift+o"
+remove_worktree = "prefix+shift+d"
+
 # Tabs (≈ tmux windows): direct tmux bindings from tmux.conf.
 new_tab = "prefix+c"
 rename_tab = "prefix+,"
@@ -71,7 +77,19 @@ open_notification_target = "prefix+o"
 # split_horizontal binding.
 settings = "prefix+shift+s"
 
+[experimental]
+# Do not retain pane screen history across server restarts.
+pane_history = false
+
 [ui]
 # Show detected agent labels in split pane borders when no manual label
 # is set — preserves the live config's preference.
 show_agent_labels_on_pane_borders = true
+
+[ui.toast]
+# Go straight to the macOS notification service rather than asking
+# Ghostty or drawing in-app toasts.
+delivery = "system"
+
+[ui.sound]
+enabled = false
