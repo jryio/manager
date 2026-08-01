@@ -19,6 +19,7 @@ let
   #   550  completion-styles.zsh   <- fzf-tab zstyles, before compinit
   #   560  plugin path/fpath       [HM, fzf-tab]
   #   570  compinit                [HM]
+  #   580  completions.zsh         <- compdef registrations, after compinit
   #   700  autosuggestion source   [HM]
   #   720  zsh-options.zsh         <- setopts, keybinds, take/mkcd
   #   750  git-aliases.zsh         <- vendored OMZ git plugin + helpers
@@ -33,6 +34,7 @@ let
   zshInitContent = lib.mkMerge [
     (lib.mkOrder 525 (builtins.readFile ./shell/homebrew.zsh))
     (lib.mkOrder 550 (builtins.readFile ./shell/completion-styles.zsh))
+    (lib.mkOrder 580 (builtins.readFile ./shell/completions.zsh))
     (lib.mkOrder 720 (builtins.readFile ./shell/zsh-options.zsh))
     (lib.mkOrder 750 (builtins.readFile ./shell/git-aliases.zsh))
     (lib.mkOrder 1000 (builtins.readFile ./shell/init.zsh))
