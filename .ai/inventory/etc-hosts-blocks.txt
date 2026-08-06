@@ -22,14 +22,14 @@
 # Every line beyond the Apple-default header, exact verbatim.
 # Total custom lines (including 4 Docker-comment lines and 1 blank-separator omitted): see Summary.
 
-0.0.0.0 connect.facebook.net
+# 0.0.0.0 connect.facebook.net  # temp-unblock 2026-08-06 (fb login/dev access)
 # 2026-08-06: temporarily unblocked (developer.facebook.com access)
 # 0.0.0.0 facebook.com
 0.0.0.0 fbcdn.com
 0.0.0.0 fbsbx.com
 0.0.0.0 fbcdn.net
-0.0.0.0 graph.facebook.com
-0.0.0.0 login.facebook.com
+# 0.0.0.0 graph.facebook.com  # temp-unblock 2026-08-06 (fb login/dev access)
+# 0.0.0.0 login.facebook.com  # temp-unblock 2026-08-06 (fb login/dev access)
 0.0.0.0 s-static.ak.facebook.com
 0.0.0.0 static.ak.connect.facebook.com
 0.0.0.0 static.ak.fbcdn.net
@@ -321,7 +321,7 @@
 0.0.0.0 edge-snaptu-tunnel-shv-02-cai1.facebook.com
 0.0.0.0 edge-star-shv-12-frc3.facebook.com
 0.0.0.0 instagram.c10r.facebook.com1
-0.0.0.0 l.facebook.com
+# 0.0.0.0 l.facebook.com  # temp-unblock 2026-08-06 (fb login/dev access)
 0.0.0.0 liverail.c10r.facebook.com
 0.0.0.0 lm.facebook.com
 0.0.0.0 m.facebook.com
@@ -333,14 +333,14 @@
 0.0.0.0 snaptu-d-shv-05-frc3.facebook.com
 0.0.0.0 snaptu-d-shv-10-frc1.facebook.com
 0.0.0.0 s-static.ak.facebook.com.edgekey.net
-0.0.0.0 star.c10r.facebook.com
+# 0.0.0.0 star.c10r.facebook.com  # temp-unblock 2026-08-06 (fb login/dev access)
 0.0.0.0 star.facebook.com
-0.0.0.0 star-mini.c10r.facebook.com
+# 0.0.0.0 star-mini.c10r.facebook.com  # temp-unblock 2026-08-06 (fb login/dev access)
 0.0.0.0 static.ak.facebook.com
 0.0.0.0 static.ak.facebook.com.edgesuite.net
 0.0.0.0 staticxx.facebook.com
 0.0.0.0 webdav.facebook.com
-0.0.0.0 z-m.c10r.facebook.com
+# 0.0.0.0 z-m.c10r.facebook.com  # temp-unblock 2026-08-06 (fb login/dev access)
 0.0.0.0 z-m.facebook.com
 0.0.0.0 edge-sonar-shv-01-ams2.fbcdn.net
 0.0.0.0 edge-sonar-shv-01-ams3.fbcdn.net
@@ -506,7 +506,7 @@
 0.0.0.0 scontent-vie.xx.fbcdn.net
 0.0.0.0 scontent.fsjc1-2.fna.fbcdn.net
 0.0.0.0 scontent.fsnc1-1.fna.fbcdn.net
-0.0.0.0 scontent.xx.fbcdn.net
+# 0.0.0.0 scontent.xx.fbcdn.net  # temp-unblock 2026-08-06 (fb login/dev access)
 0.0.0.0 sonar-iad.xx.fbcdn.net
 0.0.0.0 sphotos-a-ams.xx.fbcdn.net
 0.0.0.0 sphotos-a-atl.xx.fbcdn.net
@@ -544,7 +544,7 @@
 0.0.0.0 sphotos-b.xx.fbcdn.net
 0.0.0.0 sphotos.xx.fbcdn.net
 0.0.0.0 sphotosbord.xx.fbcdn.net
-0.0.0.0 static.xx.fbcdn.net
+# 0.0.0.0 static.xx.fbcdn.net  # temp-unblock 2026-08-06 (fb login/dev access)
 0.0.0.0 video-iad3-1.xx.fbcdn.net
 0.0.0.0 vthumb.xx.fbcdn.net
 0.0.0.0 xx-fbcdn-shv-01-ams2.fbcdn.net
