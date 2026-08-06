@@ -23,7 +23,8 @@
 # Total custom lines (including 4 Docker-comment lines and 1 blank-separator omitted): see Summary.
 
 0.0.0.0 connect.facebook.net
-0.0.0.0 facebook.com
+# 2026-08-06: temporarily unblocked (developer.facebook.com access)
+# 0.0.0.0 facebook.com
 0.0.0.0 fbcdn.com
 0.0.0.0 fbsbx.com
 0.0.0.0 fbcdn.net
@@ -33,7 +34,8 @@
 0.0.0.0 static.ak.connect.facebook.com
 0.0.0.0 static.ak.fbcdn.net
 0.0.0.0 www.connect.facebook.net
-0.0.0.0 www.facebook.com
+# 2026-08-06: temporarily unblocked (developer.facebook.com access)
+# 0.0.0.0 www.facebook.com
 0.0.0.0 www.fbcdn.com
 0.0.0.0 www.fbcdn.net
 0.0.0.0 www.graph.facebook.com
