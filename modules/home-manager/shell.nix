@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, hostName, ... }:
 
 let
   homeDir = config.home.homeDirectory;
@@ -94,7 +94,7 @@ in
       jqs = "jq -r '[path(..)|map(if type==\"number\" then \"[]\" else tostring end)|join(\".\")|split(\".[]\")|join(\"[]\")]|unique|map(\".\" + .)|.[]'";
       cc = "claude --dangerously-skip-permissions";
       herder = "herdr";
-      drs = "sudo darwin-rebuild switch --flake path:/Users/CASE/manager#AVA";
+      drs = "sudo darwin-rebuild switch --flake path:${homeDir}/manager#${hostName}";
     };
 
     shellGlobalAliases = {

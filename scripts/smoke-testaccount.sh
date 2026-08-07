@@ -2,12 +2,12 @@
 # smoke-testaccount.sh — post-activation smoke battery.
 #
 # Per MIGRATION.md D20 + D28: testaccount is the permanent validation
-# seat. Run this script after `darwin-rebuild switch --flake .#AVA` (as either
-# CASE or testaccount) to confirm each surface is alive.
+# seat. Run this script after `darwin-rebuild switch --flake .#<host>` (as
+# either the primary user or testaccount) to confirm each surface is alive.
 #
 # Usage:
 #   su - testaccount
-#   bash /Users/CASE/manager/scripts/smoke-testaccount.sh
+#   bash <repo-root>/scripts/smoke-testaccount.sh
 #
 # What it checks:
 #   - Determinate-managed Nix (MIGRATION.md architecture block)
