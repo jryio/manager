@@ -59,6 +59,20 @@ Each machine lives under `hosts/<config-name>/`:
 
 The bootstrap currently uses the machine `LocalHostName` as the default config name.
 
+## Portability Rule
+
+This repo runs on multiple machines with different usernames. No module, asset,
+or script may hard-code a specific username or home directory (e.g. `/Users/CASE`):
+
+- Nix modules take the user from `host.username` / `host.homeDirectory`
+  (via `hosts/<name>/default.nix`, threaded through `vars` and
+  `config.home.homeDirectory`). Host files are the only place a literal
+  username or home path may appear.
+- Shell scripts and vendored assets use `$HOME` (or `vim.fn.expand("~/...")`
+  in Lua, `~` where the consumer expands it).
+- Scripts resolve the repo root from their own location, never from an
+  absolute clone path.
+
 ## Notes
 
 - The installer path is Determinate Nix only.

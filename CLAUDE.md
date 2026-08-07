@@ -4,6 +4,7 @@ This repository is the source of truth for the macOS setup. Determinate provides
 
 - For all real Nix installs, rebuilds, debugging, and mutable validation on macOS, switch to `testaccount`. The password for that user is `testaccount`.
 - Non-mutating checks such as reading files, shell syntax checks, or documentation updates may run as the current user.
+- This repo runs on multiple machines with different usernames. NEVER hard-code a specific username or home directory (e.g. `/Users/CASE`) in modules, assets, or scripts. Usernames and home paths belong only in `hosts/<name>/default.nix`; everything else derives them from `host.*` / `vars` / `config.home.homeDirectory` in Nix, or `$HOME` in shell/asset files. See "Portability Rule" in `README.md`.
 ## Overall Approach
 - Make conventional commits for all work. Do not push.
 
