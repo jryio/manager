@@ -62,7 +62,14 @@ shell-integration-features = no-cursor, no-title
 confirm-close-surface = false
 
 # Environment
-term = xterm-256color-italic
+# Was xterm-256color-italic, a bespoke entry that only ever existed because the
+# legacy ~/dotfiles compiled it into ~/.terminfo on one machine. Any other host
+# got an undefined TERM: nix-darwin's set-environment errored on every shell,
+# tput/clear failed, and zle lost cursor addressing (typed characters doubled).
+# xterm-256color is universally present and already carries sitm/ritm, so
+# italics are unaffected. Ghostty's own xterm-ghostty is not used because it
+# ships inside the app bundle, outside TERMINFO_DIRS, so it breaks under ssh.
+term = xterm-256color
 
 # Window
 window-decoration = auto
