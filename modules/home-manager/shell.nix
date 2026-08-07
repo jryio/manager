@@ -1,4 +1,4 @@
-{ config, lib, pkgs, hostName, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   homeDir = config.home.homeDirectory;
@@ -30,6 +30,7 @@ let
   #         starship init zsh      [HM, default 1000]
   #  1010  mise.zsh                <- mise activate (after nvm so it wins its dirs)
   #  1020  herdr.zsh               <- hwt worktree + per-repo layouts
+  #  1030  darwin-rebuild.zsh      <- drs/drb, resolved at runtime not build time
   #  1100  shellAliases / global   [HM]
   #  1200  syntaxHighlighting      [HM]
   zshInitContent = lib.mkMerge [
@@ -41,6 +42,7 @@ let
     (lib.mkOrder 1000 (builtins.readFile ./shell/init.zsh))
     (lib.mkOrder 1010 (builtins.readFile ./shell/mise.zsh))
     (lib.mkOrder 1020 (builtins.readFile ./shell/herdr.zsh))
+    (lib.mkOrder 1030 (builtins.readFile ./shell/darwin-rebuild.zsh))
   ];
 in
 {
@@ -94,7 +96,9 @@ in
       jqs = "jq -r '[path(..)|map(if type==\"number\" then \"[]\" else tostring end)|join(\".\")|split(\".[]\")|join(\"[]\")]|unique|map(\".\" + .)|.[]'";
       cc = "claude --dangerously-skip-permissions";
       herder = "herdr";
-      drs = "sudo darwin-rebuild switch --flake path:${homeDir}/manager#${hostName}";
+      # drs/drb are functions in shell/darwin-rebuild.zsh, not aliases: an alias
+      # bakes the repo path and host name into ~/.zshrc at build time, so a
+      # stale generation cannot be repaired with the very command that repairs it.
     };
 
     shellGlobalAliases = {
