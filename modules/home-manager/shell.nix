@@ -95,6 +95,7 @@ in
       tx = "nocorrect tmux attach-session 2>/dev/null || tmux new-session";
       jqs = "jq -r '[path(..)|map(if type==\"number\" then \"[]\" else tostring end)|join(\".\")|split(\".[]\")|join(\"[]\")]|unique|map(\".\" + .)|.[]'";
       cc = "claude --dangerously-skip-permissions";
+      cdx = "codex --dangerously-bypass-approvals-and-sandbox";
       herder = "herdr";
       # drs/drb are functions in shell/darwin-rebuild.zsh, not aliases: an alias
       # bakes the repo path and host name into ~/.zshrc at build time, so a
