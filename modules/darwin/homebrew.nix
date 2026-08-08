@@ -16,6 +16,7 @@
     # core), so tapping them fails on a fresh machine. They remain tapped
     # locally on AVA per cleanup = "none"; that is harmless.
     taps = [
+      "can1357/tap"
       "charmbracelet/tap"
       "docker/tap"
       "heroku/brew"
@@ -37,6 +38,7 @@
       "blueutil"
       # btop: Nix-managed via programs.btop in modules/home-manager/monitoring.nix (D5)
       "caddy"
+      "can1357/tap/omp" # Oh My Pi; authored config will belong in a future Home Manager module
       "cask"
       "ccusage"
       "charmbracelet/tap/crush"
