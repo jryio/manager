@@ -215,3 +215,7 @@
 - [hlo-relayout-2026-08-07]: hwt's pane layout extracted into a standalone `hlo` tab-relayout command
   - `modules/home-manager/shell/herdr.zsh`: `hlo` closes every other pane in the current tab (`herdr pane list` filtered by tab_id → `herdr pane close`), then rebuilds the per-repo layout around the surviving pane. `hwt` now calls the same `_hwt_layout_fn` dispatch + `_hwt_layout_*` helper; tab rename stays in `hwt` (hlo preserves the current tab name). hlo errors out BEFORE closing anything when no layout matches — no destructive no-op.
   - Dispatch keys on the MAIN repo root via `git rev-parse --path-format=absolute --git-common-dir` (strip `/.git`), so `hlo` matches from inside `~/.herdr/worktrees/<repo>/<branch>` checkouts where `--show-toplevel` would never hit the `*/cloudx/cloudx` case arm. Layout cwd still uses `--show-toplevel` (the worktree checkout). Verified live against real herdr state; nix eval AVA clean.
+
+- [cloudx-worktree-compose-2026-08-07]: hwt starts CloudX datastores through the repo-owned worktree wrapper
+  - The TypeScript pane now runs `mise run //:compose` before install/dev. The task defaults to `docker compose up -d`, claims and reloads `.env.ports` in the same process, and avoids the fresh-pane race where bare Compose inherited base ports before mise's enter hook finished.
+  - Kept the integration deliberately small: manager owns only the `hwt` invocation; all port allocation, fail-closed validation, and tests remain in the CloudX repository.
