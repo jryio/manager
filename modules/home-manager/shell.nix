@@ -29,7 +29,7 @@ let
   #  1000  init.zsh                <- SSH agent, BUN, NVM, GPG, functions
   #         starship init zsh      [HM, default 1000]
   #  1010  mise.zsh                <- mise activate (after nvm so it wins its dirs)
-  #  1020  herdr.zsh               <- hwt worktree + per-repo layouts
+  #  1020  herdr.zsh               <- hwt worktree + hlo relayout + per-repo layouts
   #  1030  darwin-rebuild.zsh      <- drs/drb, resolved at runtime not build time
   #  1100  shellAliases / global   [HM]
   #  1200  syntaxHighlighting      [HM]
