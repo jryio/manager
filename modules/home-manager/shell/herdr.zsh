@@ -103,7 +103,7 @@ _hwt_layout_cloudx() {
   herdr pane rename "$pane_prov" provisioning > /dev/null
   herdr pane rename "$pane_admin" admin > /dev/null
 
-  herdr pane run "$pane_ts" 'docker compose up -d && mise run -C typescript //:typescript:install && mise run -C typescript //:typescript:dev'
+  herdr pane run "$pane_ts" 'docker compose up -d && mise run -C typescript //typescript:install && mise run -C typescript //typescript:dev'
   herdr pane run "$pane_prov" 'mise run //:provisioning:air'
   herdr pane run "$pane_admin" 'mise run //:admin-service:air'
 }
