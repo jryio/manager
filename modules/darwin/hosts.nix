@@ -22,9 +22,20 @@ let
     (line: lib.hasPrefix "0.0.0.0 " line || lib.hasPrefix "0.0.0.0\t" line)
     (lib.splitString "\n" rawHosts);
 
+  blockedHosts = map
+    (line: lib.last (lib.filter (s: s != "")
+      (lib.splitString " " (lib.replaceStrings [ "\t" ] [ " " ] line))))
+    blockedLines;
+
+  # Each host gets both an A (0.0.0.0) and AAAA (::) pin — an IPv4-only entry
+  # leaks on IPv6 networks because the AAAA lookup falls through to DNS.
+  # Trailing newline is load-bearing: without it /etc/hosts ends mid-line and
+  # anything that later appends (Docker Desktop does) glues onto the END marker.
   managedBlockText = lib.concatStringsSep "\n" (
-    [ blockMarker.begin ] ++ blockedLines ++ [ blockMarker.end ]
-  );
+    [ blockMarker.begin ]
+    ++ lib.concatMap (h: [ "0.0.0.0 ${h}" ":: ${h}" ]) blockedHosts
+    ++ [ blockMarker.end ]
+  ) + "\n";
 
   managedBlock = pkgs.writeText "etc-hosts-managed-block" managedBlockText;
 in
@@ -53,6 +64,7 @@ in
       /^# END nix-darwin managed block/   { skip = 0; next }
       skip                                  { next }
       /^0\.0\.0\.0[[:space:]]/              { next }
+      /^::[[:space:]]/                      { next }
       { print }
     ' /etc/hosts > /etc/hosts.tmp
 

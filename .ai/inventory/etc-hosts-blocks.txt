@@ -22,22 +22,25 @@
 # Every line beyond the Apple-default header, exact verbatim.
 # Total custom lines (including 4 Docker-comment lines and 1 blank-separator omitted): see Summary.
 # 2026-08-07: all facebook-family hosts (facebook.*, fbcdn, fbsbx, tfbnw.net, fb.com, fb.me + CNAME targets) permanently removed per operator request. Instagram/WhatsApp/Messenger blocks retained.
+# 2026-08-09: corrected trailing-"1" typos on Instagram entries (they resolved
+# nothing, so Instagram was not actually blocked) and removed duplicate
+# messenger.com/m.me pair. See DATA QUALITY section below.
 
 0.0.0.0 messenger.com
 0.0.0.0 m.me
-0.0.0.0 api.instagram.com1
-0.0.0.0 black.ish.instagram.com1
-0.0.0.0 i.instagram.com1
-0.0.0.0 instagram.com1
-0.0.0.0 instagramstatic-a.akamaihd.net1
-0.0.0.0 instagramstatic-a.akamaihd.net.edgesuite.net1
-0.0.0.0 logger.instagram.com1
-0.0.0.0 platform.instagram.com1
-0.0.0.0 scontent-iad3-1.cdninstagram.com1
-0.0.0.0 scontent.cdninstagram.com1
-0.0.0.0 telegraph-ash.instagram.com1
-0.0.0.0 white.ish.instagram.com1
-0.0.0.0 www.instagram.com1
+0.0.0.0 api.instagram.com
+0.0.0.0 black.ish.instagram.com
+0.0.0.0 i.instagram.com
+0.0.0.0 instagram.com
+0.0.0.0 instagramstatic-a.akamaihd.net
+0.0.0.0 instagramstatic-a.akamaihd.net.edgesuite.net
+0.0.0.0 logger.instagram.com
+0.0.0.0 platform.instagram.com
+0.0.0.0 scontent-iad3-1.cdninstagram.com
+0.0.0.0 scontent.cdninstagram.com
+0.0.0.0 telegraph-ash.instagram.com
+0.0.0.0 white.ish.instagram.com
+0.0.0.0 www.instagram.com
 0.0.0.0 whatsapp.com
 0.0.0.0 www.whatsapp.com
 0.0.0.0 web.whatsapp.com
@@ -50,8 +53,6 @@
 0.0.0.0 w7.web.whatsapp.com
 0.0.0.0 w8.web.whatsapp.com
 0.0.0.0 w9.web.whatsapp.com
-0.0.0.0 messenger.com
-0.0.0.0 m.me
 # Added by Docker Desktop
 # To allow the same kube context to work on the host and the container:
 127.0.0.1 kubernetes.docker.internal
@@ -62,19 +63,19 @@
 ### 0.0.0.0
 # Sorted unique hostnames mapped to 0.0.0.0 (deduped). Copy-paste source for
 # networking.hosts."0.0.0.0" in modules/darwin/hosts.nix.
-api.instagram.com1
-black.ish.instagram.com1
-i.instagram.com1
-instagram.com1
-instagramstatic-a.akamaihd.net.edgesuite.net1
-instagramstatic-a.akamaihd.net1
-logger.instagram.com1
+api.instagram.com
+black.ish.instagram.com
+i.instagram.com
+instagram.com
+instagramstatic-a.akamaihd.net.edgesuite.net
+instagramstatic-a.akamaihd.net
+logger.instagram.com
 m.me
 messenger.com
-platform.instagram.com1
-scontent-iad3-1.cdninstagram.com1
-scontent.cdninstagram.com1
-telegraph-ash.instagram.com1
+platform.instagram.com
+scontent-iad3-1.cdninstagram.com
+scontent.cdninstagram.com
+telegraph-ash.instagram.com
 w1.web.whatsapp.com
 w2.web.whatsapp.com
 w3.web.whatsapp.com
@@ -86,8 +87,8 @@ w8.web.whatsapp.com
 w9.web.whatsapp.com
 web.whatsapp.com
 whatsapp.com
-white.ish.instagram.com1
-www.instagram.com1
+white.ish.instagram.com
+www.instagram.com
 www.whatsapp.com
 
 ### 127.0.0.1
@@ -126,7 +127,7 @@ kubernetes.docker.internal        # added by Docker Desktop — out of scope for
 - Apple-default boundary recognized: Y. Starts at line 1, ends at line 9. Line 10 is blank. Custom block starts at line 11.
 - Per-base-domain breakdown (top 10):
      12 *.whatsapp.com
-      9 *.instagram.com1 (typo: trailing "1")
+      9 *.instagram.com
       2 *.online-metrix.net
       2 *.messenger.com
       2 *.m.me
@@ -136,15 +137,9 @@ kubernetes.docker.internal        # added by Docker Desktop — out of scope for
 because the resolver cannot match them. They appear to be the artifact of a
 historical sed/awk pipeline that mangled a paste of a tracker list.
 
-Examples:
-- api.instagram.com1
-- black.ish.instagram.com1
-
-Recommendation for manager-4.18 (the /etc/hosts implementation ticket):
-- Drop all 206 trailing-"1" entries from the declarative list (or correct them).
-  D26 keeps the spirit of the existing block; carrying forward typoed entries
-  has no effect and pollutes the module.
-  internal infrastructure, unlikely to be resolvable from a client anyway).
+RESOLVED 2026-08-09: the trailing-"1" entries above were corrected in place
+(suffix stripped, restoring the intended Instagram block) and the duplicate
+messenger.com/m.me pair removed.
 - D26 explicitly notes "Open to extending with a maintained tracker list later"
   — this artifact only captures what is on disk today; tracker-list extension
   is a separate decision.
