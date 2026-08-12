@@ -10,6 +10,7 @@ return {
         { "<leader>v", group = "Accordion" },
         { "<leader>t", group = "Trouble" },
         { "<leader>m", group = "Minimap" },
+        { "<leader>n", group = "Explorer" },
       },
     },
   },

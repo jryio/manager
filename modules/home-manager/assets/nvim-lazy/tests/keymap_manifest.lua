@@ -163,4 +163,23 @@ return {
   { mode = "n", lhs = "<leader>tq", rhs = "<cmd>Trouble qflist toggle<cr>", phase = 4 },
   { mode = "n", lhs = "<leader>tl", rhs = "<cmd>Trouble loclist toggle<cr>", phase = 4 },
   { mode = "n", lhs = "<leader>tw", rhs = "<cmd>Trouble diagnostics toggle<cr>", phase = 4 },
+
+  -- ---------------------------------------------------------------- phase 5
+  { mode = "n", lhs = "<leader>e", desc = "Explorer", phase = 5 },
+  { mode = "n", lhs = "<leader>f", desc = "Find File", phase = 5 },
+  { mode = "n", lhs = "<leader>P", desc = "Projects", phase = 5 },
+  { mode = "n", lhs = "<leader>sb", desc = "Checkout branch", phase = 5 },
+  { mode = "n", lhs = "<leader>sc", desc = "Colorscheme", phase = 5 },
+  { mode = "n", lhs = "<leader>sf", desc = "Find File", phase = 5 },
+  { mode = "n", lhs = "<leader>sh", desc = "Find Help", phase = 5 },
+  { mode = "n", lhs = "<leader>sH", desc = "Find highlight groups", phase = 5 },
+  { mode = "n", lhs = "<leader>sM", desc = "Man Pages", phase = 5 },
+  { mode = "n", lhs = "<leader>sr", desc = "Open Recent File", phase = 5 },
+  { mode = "n", lhs = "<leader>sR", desc = "Registers", phase = 5 },
+  { mode = "n", lhs = "<leader>st", desc = "Text", phase = 5 },
+  { mode = "n", lhs = "<leader>sk", desc = "Keymaps", phase = 5 },
+  { mode = "n", lhs = "<leader>sC", desc = "Commands", phase = 5 },
+  { mode = "n", lhs = "<leader>sl", desc = "Resume last search", phase = 5 },
+  { mode = "n", lhs = "<leader>sp", desc = "Colorscheme with Preview", phase = 5 },
+  { mode = "n", lhs = "<leader>nf", desc = "Reveal File", phase = 5 },
 }

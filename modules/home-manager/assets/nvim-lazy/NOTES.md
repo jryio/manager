@@ -140,6 +140,29 @@ Superseded rather than dropped: the coc completion keys (`<Tab>`, `<CR>`,
   `diagnostics filter.buf=0`, `lsp_workspace_diagnostics` is `diagnostics`, and
   `quickfix` is `qflist`. LazyVim's own `<leader>x` group stays.
 
+## Picker and explorer (phase 5)
+
+Jacob chose the snacks explorer over the neo-tree of decision 4, once it turned
+out neo-tree is not a LazyVim 16 default. So both picker and tree are snacks,
+and nothing extra gets installed.
+
+- Snacks explorer already matches most of his nvim-tree and Zed habits: `h` and
+  `l` collapse and expand, `a` adds, `d` deletes, `r` renames, `c` copies, `p`
+  pastes. Only three gaps needed filling — `A` as an add alias, `x` to cut
+  (snacks calls it `explorer_move`) and `Y` for a *relative* path, which snacks
+  has no action for, since its `y` yanks absolute paths.
+- **`<leader>sr` was a silent loss.** LazyVim gives it to grug-far's search and
+  replace, and with two plugins claiming one key, whichever spec registers last
+  wins — grug-far did. His `sr` is "Open Recent File", so grug-far's entry is
+  disabled and `:GrugFar` still opens it. The manifest caught this only because
+  it asserts descriptions, not just presence.
+- `<leader>st` is text search, as in lvim, displacing LazyVim's todo search.
+  Todo is still on `<leader>Ts` from phase 3 and LazyVim's own `<leader>sT`.
+- `<leader>f` maps straight to the file picker. LazyVim's file group stays
+  reachable at `<leader>ff`, `<leader>fr` and so on.
+- `<leader>nf` keeps lvim's minimap dance: close the minimap, then reveal, so
+  the tree is not resized by it.
+
 ## Flagged for Jacob (out of scope for the behaviour-preserving migration)
 
 - `assets/lvim/config.lua`'s avante block references 1Password vault
