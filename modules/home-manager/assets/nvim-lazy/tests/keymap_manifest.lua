@@ -80,7 +80,7 @@ return {
   { mode = "n", lhs = "c", rhs = '"_c', phase = 2 },
   { mode = "v", lhs = "c", rhs = '"_c', phase = 2 },
   { mode = "n", lhs = "dw", rhs = "de", phase = 2 },
-  { mode = "n", lhs = "cw", rhs = "ce", phase = 2 },
+  { mode = "n", lhs = "cw", rhs = '"_ce', phase = 2 },
   { mode = "n", lhs = "p", rhs = "p`]", phase = 2 },
   { mode = "n", lhs = "J", rhs = "mzJ`z", phase = 2 },
   { mode = "n", lhs = "S", rhs = "mzi<CR><Esc>`z", phase = 2 },
@@ -134,4 +134,23 @@ return {
   -- cmdline
   { mode = "c", lhs = "ww", rhs = "wqall", phase = 2 },
   { mode = "c", lhs = "qq", rhs = "qall", phase = 2 },
+
+  -- ---------------------------------------------------------------- phase 3
+  { mode = "n", lhs = ",w", rhs = "<cmd>Sayonara!<cr>", phase = 3 },
+  { mode = "n", lhs = ",q", rhs = "<cmd>Sayonara<cr>", phase = 3 },
+  { mode = "n", lhs = "w", has = "CamelCaseMotion_w", phase = 3 },
+  { mode = "n", lhs = "b", has = "CamelCaseMotion_b", phase = 3 },
+  { mode = "n", lhs = "e", has = "CamelCaseMotion_e", phase = 3 },
+  { mode = "n", lhs = "ge", has = "CamelCaseMotion_ge", phase = 3 },
+  { mode = "v", lhs = "v", has = "expand_region_expand", phase = 3 },
+  { mode = "v", lhs = "<C-v>", has = "expand_region_shrink", phase = 3 },
+  { mode = "n", lhs = "<leader>vv", rhs = "<cmd>Accordion 3<cr>", phase = 3 },
+  { mode = "n", lhs = "<leader>vs", rhs = "<cmd>AccordionStop<cr>", phase = 3 },
+  { mode = "n", lhs = "<leader>v4", rhs = "<cmd>Accordion 4<cr>", phase = 3 },
+  { mode = "n", lhs = "<leader>v+", rhs = "<cmd>AccordionZoomIn<cr>", phase = 3 },
+  { mode = "n", lhs = "<leader>v-", rhs = "<cmd>AccordionZoomOut<cr>", phase = 3 },
+  { mode = "n", lhs = "<leader>Tl", rhs = "<cmd>Trouble todo toggle<cr>", phase = 3 },
+  { mode = "n", lhs = "<leader>Ts", desc = "Search", phase = 3 },
+  { mode = "n", lhs = "<leader>Tn", desc = "Next Comment", phase = 3 },
+  { mode = "n", lhs = "<leader>Tk", desc = "Prev Comment", phase = 3 },
 }

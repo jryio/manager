@@ -55,7 +55,8 @@ local cases = {
   {
     phase = 2,
     name = "c does not clobber the unnamed register",
-    -- yank "one", change "two" with cw, then paste: "one" must survive.
+    -- Yank "one", change "two" with cw, then paste: "one" must survive, and cw
+    -- must consume the whole word despite CamelCaseMotion owning `e`.
     lines = { "one", "two" },
     keys = "yiwjcwxxx<Esc>p",
     want = { "one", "xxxone" },

@@ -6,6 +6,8 @@ return {
     opts = {
       spec = {
         { "<leader>S", group = "Session" },
+        { "<leader>T", group = "Todo" },
+        { "<leader>v", group = "Accordion" },
       },
     },
   },

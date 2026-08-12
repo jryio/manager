@@ -103,6 +103,22 @@ Superseded rather than dropped: the coc completion keys (`<Tab>`, `<CR>`,
 `<C-j>`/`<C-k>` in insert) now belong to blink.cmp, and the vim-plug bindings
 `<leader>p{i,u,U,c}` have no meaning under lazy.nvim, like the `<F5>` reload.
 
+## Editing plugins (phase 3)
+
+- **LazyVim 16 ships no surround plugin**, so tpope's vim-surround lands
+  unopposed and `ys`/`cs`/`ds` keep working.
+- **vim-expand-region went in verbatim.** The plan preferred treesitter
+  incremental selection, but nvim-treesitter's main branch — the one LazyVim 16
+  uses — dropped that module, and `v`/`<C-v>` are what his fingers know.
+- **`cw` spells out the black hole: `"_ce`.** Recursive onto the `c` mapping, it
+  also picks up CamelCaseMotion's `e`, which sits one short under an operator and
+  leaves the last letter behind. The legacy config had that quirk. Being
+  explicit gets both intents — no register clobber, whole word gone — and keeps
+  `cw` symmetric with `dw`.
+- `<leader>Ts` uses `Snacks.picker.todo_comments()`. lvim's `TodoTelescope` has
+  no telescope to call here.
+- LazyVim's own todo bindings stay: `]t`, `[t`, `<leader>st`, `<leader>x{t,T}`.
+
 ## Flagged for Jacob (out of scope for the behaviour-preserving migration)
 
 - `assets/lvim/config.lua`'s avante block references 1Password vault

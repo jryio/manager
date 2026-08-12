@@ -85,11 +85,14 @@ map("n", "Y", "<cmd>%y+<cr>", { desc = "Yank File to Clipboard" })
 map({ "n", "v" }, "c", '"_c', { desc = "Change (no yank)" })
 
 -- :help dw -- vim treats the last word of a line specially.
--- `cw` is recursive, as the legacy config had it, so it still reaches the
--- black-hole `c` above; non-recursive, `cw` would quietly clobber the register
--- that `c` exists to protect. `dw` matches lvim, and `d` is not remapped.
+--
+-- `cw` spells out the black hole rather than leaning on the `c` mapping above.
+-- Recursive, as the legacy config had it, `ce` also picks up CamelCaseMotion's
+-- `e`, which sits one character short under an operator and leaves the last
+-- letter behind. Non-recursive without the register, `cw` would clobber the very
+-- register `c` exists to protect. This way `cw` and `dw` stay symmetric.
 map("n", "dw", "de")
-map("n", "cw", "ce", { remap = true })
+map("n", "cw", '"_ce')
 
 -- Land at the end of pasted or joined text instead of the start.
 map("n", "p", "p`]", { desc = "Paste" })
