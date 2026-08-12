@@ -31,6 +31,35 @@ Later phases should trust this file over the original plan.
   its own tables, so `tests/baseline/lvim-keymaps.json` contains none of them.
   `assets/lvim/config.lua` is the only authority for leader bindings.
 
+## Options (phase 1)
+
+- **LazyVim has no formatoptions autocmd.** It assigns `opt.formatoptions` once,
+  so the planned `nvim_del_augroup_by_name` counterpart to LunarVim's
+  `_format_options` deletion is unnecessary.
+- **Filetype plugins amend formatoptions per buffer, under lvim too.** In a Lua
+  buffer lvim lands on `vjncroql`, because `ftplugin/lua.vim` drops `t` and adds
+  `o` — his configured `qcrntjlv` is the global default, not what he types
+  against. Forcing the set per buffer would be a behaviour *change*, so the
+  global is set and the test asserts both values.
+- **`LazyVim.set_default` cannot see user options.** It records its baseline
+  after `lua/config/options.lua` runs, so `foldmethod = "manual"` is
+  indistinguishable from LazyVim's own default and gets overwritten to `expr`
+  once treesitter attaches. This surfaced as a flaky test — it only fires once
+  the parser is installed. Fixed by disabling the fold features themselves in
+  `lua/plugins/folds.lua`; treesitter reads `folds.enable`, the LSP spec reads
+  `folds.enabled`.
+- **Buffer-local `foldexpr` is nvim's, not LazyVim's.** `ftplugin/lua.lua`
+  installs `v:lua.vim.treesitter.foldexpr()`; lvim shows exactly the same value,
+  and it is inert under `foldmethod=manual`. Only the global is asserted.
+- **lvim never set `spellfile`** — the legacy config did, so words added with
+  `zg` in lvim go nowhere today. Phase 1 restores it, and the dictionary moved
+  to `spell/dictionary.utf-8.add` beside the config, where Phase 9's
+  `mkOutOfStoreSymlink` keeps it writable.
+- **`spelllang` needs no action**: lvim resolves to `en`, same as LazyVim.
+- LazyVim soft-wraps prose filetypes via its `lazyvim_wrap_spell` augroup;
+  neither lvim nor the legacy config wrapped. Replaced with a spell-only
+  autocmd, which is what the legacy config had for markdown.
+
 ## Flagged for Jacob (out of scope for the behaviour-preserving migration)
 
 - `assets/lvim/config.lua`'s avante block references 1Password vault
