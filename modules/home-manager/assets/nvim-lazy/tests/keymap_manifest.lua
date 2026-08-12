@@ -191,4 +191,12 @@ return {
   { mode = "n", lhs = "<leader>lf", desc = "Format", phase = 6 },
   { mode = "n", lhs = "<leader>ld", rhs = "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", phase = 6 },
   { mode = "n", lhs = "<leader>li", rhs = "<cmd>checkhealth vim.lsp<cr>", phase = 6 },
+
+  -- ---------------------------------------------------------------- phase 7
+  { mode = "n", lhs = ",hs", desc = "Stage Hunk", phase = 7 },
+  { mode = "n", lhs = ",hr", desc = "Reset Hunk", phase = 7 },
+  -- Hunk navigation, which the legacy config had on GitGutter. Bound globally
+  -- in lua/plugins/git.lua rather than left to gitsigns' on_attach.
+  { mode = "n", lhs = "]h", desc = "Next Hunk", phase = 7 },
+  { mode = "n", lhs = "[h", desc = "Prev Hunk", phase = 7 },
 }

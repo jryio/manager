@@ -189,6 +189,18 @@ and nothing extra gets installed.
   spawn jdtls with an empty command, since Mason has not installed it. It
   resolves the first time he opens a Java file.
 
+## Git (phase 7)
+
+- **`]h`/`[h` are not dependable as LazyVim defaults.** LazyVim does bind them,
+  but inside gitsigns' `on_attach`, which makes them buffer-local and dependent
+  on attach timing. In a tracked buffer that gitsigns had demonstrably attached
+  to (`gitsigns_status_dict` set, plugin loaded) the hunk maps were absent, while
+  the treesitter-textobjects buffer-local maps were all present. Rather than
+  leave a muscle-memory binding to chance, `lua/plugins/git.lua` binds all four
+  hunk keys globally through `gitsigns.nav_hunk`. LazyVim's `<leader>gh` group
+  is still on_attach-based and inherits the same caveat.
+- octo.nvim defaults to telescope, so its spec sets `picker = "snacks"`.
+
 ## Flagged for Jacob (out of scope for the behaviour-preserving migration)
 
 - `assets/lvim/config.lua`'s avante block references 1Password vault
