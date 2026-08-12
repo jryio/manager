@@ -201,6 +201,21 @@ and nothing extra gets installed.
   is still on_attach-based and inherits the same caveat.
 - octo.nvim defaults to telescope, so its spec sets `picker = "snacks"`.
 
+## AI (phase 8)
+
+- **avante's `auto_set_keymaps` already owns `<leader>aa`, `<leader>at` and
+  visual `<leader>ae`**, and wins over a lazy `keys` entry. That is not new: the
+  lvim baseline shows `<leader>aa` as `avante: ask` and `<leader>at` as
+  `avante: toggle` today, so his which-key entries for them never took effect
+  there either. Only `<leader>ak` and `<leader>ap`, which avante does not claim,
+  are bound in the spec. Ask and Toggle both open the sidebar.
+- **`make BUILD_FROM_SOURCE=true` exceeds lazy.nvim's build timeout.** The task
+  is killed at 120s mid-compile (`make: *** [luajit-templates] Terminated: 15`),
+  leaving no native library and a broken `require("avante_lib").load()`. Running
+  the make by hand in the plugin directory finishes in about three minutes and
+  writes the four `.so` files into `lua/`. Worth knowing after any avante update:
+  if avante starts erroring about its library, rebuild by hand.
+
 ## Flagged for Jacob (out of scope for the behaviour-preserving migration)
 
 - `assets/lvim/config.lua`'s avante block references 1Password vault

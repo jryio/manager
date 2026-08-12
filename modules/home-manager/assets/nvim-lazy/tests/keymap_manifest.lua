@@ -199,4 +199,12 @@ return {
   -- in lua/plugins/git.lua rather than left to gitsigns' on_attach.
   { mode = "n", lhs = "]h", desc = "Next Hunk", phase = 7 },
   { mode = "n", lhs = "[h", desc = "Prev Hunk", phase = 7 },
+
+  -- ---------------------------------------------------------------- phase 8
+  -- avante sets these itself, with the same descriptions lvim shows today.
+  { mode = "n", lhs = "<leader>aa", desc = "avante: ask", phase = 8 },
+  { mode = "n", lhs = "<leader>at", desc = "avante: toggle", phase = 8 },
+  { mode = "n", lhs = "<leader>ak", rhs = "<cmd>AvanteClear<cr>", phase = 8 },
+  { mode = "n", lhs = "<leader>ap", desc = "Provider", phase = 8 },
+  { mode = "v", lhs = "<leader>ae", desc = "avante: edit", phase = 8 },
 }
