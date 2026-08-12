@@ -8,6 +8,8 @@ return {
         { "<leader>S", group = "Session" },
         { "<leader>T", group = "Todo" },
         { "<leader>v", group = "Accordion" },
+        { "<leader>t", group = "Trouble" },
+        { "<leader>m", group = "Minimap" },
       },
     },
   },

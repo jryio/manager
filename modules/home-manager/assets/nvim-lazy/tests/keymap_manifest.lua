@@ -153,4 +153,14 @@ return {
   { mode = "n", lhs = "<leader>Ts", desc = "Search", phase = 3 },
   { mode = "n", lhs = "<leader>Tn", desc = "Next Comment", phase = 3 },
   { mode = "n", lhs = "<leader>Tk", desc = "Prev Comment", phase = 3 },
+
+  -- ---------------------------------------------------------------- phase 4
+  { mode = "n", lhs = "<leader>mm", rhs = "<cmd>MinimapToggle<cr>", phase = 4 },
+  { mode = "n", lhs = "<leader>o", rhs = "<cmd>Outline<cr>", phase = 4 },
+  { mode = "n", lhs = "<leader>tr", rhs = "<cmd>Trouble lsp_references toggle<cr>", phase = 4 },
+  { mode = "n", lhs = "<leader>tf", rhs = "<cmd>Trouble lsp_definitions toggle<cr>", phase = 4 },
+  { mode = "n", lhs = "<leader>td", rhs = "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", phase = 4 },
+  { mode = "n", lhs = "<leader>tq", rhs = "<cmd>Trouble qflist toggle<cr>", phase = 4 },
+  { mode = "n", lhs = "<leader>tl", rhs = "<cmd>Trouble loclist toggle<cr>", phase = 4 },
+  { mode = "n", lhs = "<leader>tw", rhs = "<cmd>Trouble diagnostics toggle<cr>", phase = 4 },
 }

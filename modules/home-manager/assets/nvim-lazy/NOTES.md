@@ -46,7 +46,7 @@ Later phases should trust this file over the original plan.
   indistinguishable from LazyVim's own default and gets overwritten to `expr`
   once treesitter attaches. This surfaced as a flaky test — it only fires once
   the parser is installed. Fixed by disabling the fold features themselves in
-  `lua/plugins/folds.lua`; treesitter reads `folds.enable`, the LSP spec reads
+  `lua/plugins/parity.lua`; treesitter reads `folds.enable`, the LSP spec reads
   `folds.enabled`.
 - **Buffer-local `foldexpr` is nvim's, not LazyVim's.** `ftplugin/lua.lua`
   installs `v:lua.vim.treesitter.foldexpr()`; lvim shows exactly the same value,
@@ -65,11 +65,10 @@ Later phases should trust this file over the original plan.
 - **`c` was dead in lvim.** lvim maps `c` to `<NOP>`, so `c`, `cw`, `ciw` and
   `cc` do nothing at all today. The legacy config used register x. Both were
   reaching for "change without clobbering the yank", so `c` is now `"_c`.
-- **`cw` has to be recursive** to reach that `"_c`. The legacy config used `nmap`
-  for exactly this reason. Non-recursive, `cw` silently clobbers the register
-  that `c` exists to protect — a functional test caught it, the mapping
-  assertion did not. `dw` stays non-recursive, matching lvim; `d` is not
-  remapped, so it makes no difference.
+- **`cw` needs the black hole spelled out.** Non-recursive plain `ce` clobbers
+  the register that `c` exists to protect — a functional test caught it, the
+  mapping assertion did not. Phase 3 settles on `"_ce`; see below for why
+  recursion is not the answer. `dw` stays non-recursive, matching lvim.
 - **Treesitter indent broke `S` parity.** LazyVim's treesitter indent reindents
   the new line, so `S` on `abcdef` left `abc` / `  def` where lvim leaves
   `abc` / `def`. The same gap would show on every `o`, `O` and `=`, so
@@ -118,6 +117,28 @@ Superseded rather than dropped: the coc completion keys (`<Tab>`, `<CR>`,
 - `<leader>Ts` uses `Snacks.picker.todo_comments()`. lvim's `TodoTelescope` has
   no telescope to call here.
 - LazyVim's own todo bindings stay: `]t`, `[t`, `<leader>st`, `<leader>x{t,T}`.
+
+## UI (phase 4)
+
+- **LunarVim's lualine components do not exist here.** `lvim.core.lualine.*`
+  went with LunarVim, so the seven he uses are rebuilt from lualine builtins
+  with the icons, colours and `hide_in_width` condition read out of the
+  installed LunarVim tree. `process_sections`, the scrollbar, the search counter
+  and the `+` modified flag are his own code, carried across as written.
+- **A loaded statusline is not a rendered one.** None of the custom components
+  run until a line is drawn, so `verify_boot.lua` now calls
+  `require("lualine").statusline()` from phase 4 on.
+- **`romgrk/nvim-treesitter-context` is stale**; the maintained plugin is
+  `nvim-treesitter/nvim-treesitter-context`. Its `patterns` option is gone —
+  class, function and method are what it matches by default now — so the port
+  keeps `max_lines = 0` and drops the pattern table.
+- **`simrat39/symbols-outline.nvim` is archived**, so `<leader>o` opens
+  `outline.nvim` and the command becomes `:Outline`. Width 45, as lvim set it.
+- Indent-guide exclusions moved to snacks indent's `filter`, LazyVim 16 having
+  no indent-blankline.
+- Trouble v3 renamed the lot: `lsp_document_diagnostics` is now
+  `diagnostics filter.buf=0`, `lsp_workspace_diagnostics` is `diagnostics`, and
+  `quickfix` is `qflist`. LazyVim's own `<leader>x` group stays.
 
 ## Flagged for Jacob (out of scope for the behaviour-preserving migration)
 

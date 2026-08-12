@@ -27,6 +27,19 @@ for line in messages:gmatch("[^\n]+") do
   end
 end
 
+-- Render the statusline. Loading lualine proves nothing about the custom
+-- components in lua/plugins/ui.lua: process_sections, the scrollbar and the
+-- search counter only run when a line is actually drawn.
+if h.phase() >= 4 then
+  vim.cmd.edit(vim.fn.stdpath("config") .. "/tests/fixtures/sample.lua")
+  local ok, rendered = pcall(function()
+    return require("lualine").statusline()
+  end)
+  if h.check(ok, "statusline renders", not ok and tostring(rendered) or nil) then
+    h.check(type(rendered) == "string" and rendered ~= "", "statusline is not empty", "got: " .. vim.inspect(rendered))
+  end
+end
+
 -- checkhealth renders into a scratch buffer; scrape it for ERROR lines.
 for _, target in ipairs({ "lazy", "vim.lsp", "vim.treesitter" }) do
   local ok, err = pcall(vim.cmd, "checkhealth " .. target)
