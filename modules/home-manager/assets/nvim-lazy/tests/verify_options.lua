@@ -54,6 +54,7 @@ local specs = {
   -- ftplugin/lua.lua installs v:lua.vim.treesitter.foldexpr() -- lvim lands on
   -- exactly the same value, and with foldmethod=manual it is inert anyway.
   { phase = 1, global = "foldexpr", want = "" },
+  { phase = 6, opt = "formatexpr", want = "" },
   -- The set lvim reaches in a Lua buffer: ftplugin/lua.vim drops `t`, adds `o`.
   -- Asserting the global set here would claim behaviour he has never had.
   { phase = 1, opt = "formatoptions", chars = "vjncroql" },

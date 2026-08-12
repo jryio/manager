@@ -182,4 +182,13 @@ return {
   { mode = "n", lhs = "<leader>sl", desc = "Resume last search", phase = 5 },
   { mode = "n", lhs = "<leader>sp", desc = "Colorscheme with Preview", phase = 5 },
   { mode = "n", lhs = "<leader>nf", desc = "Reveal File", phase = 5 },
+
+  -- ---------------------------------------------------------------- phase 6
+  { mode = "n", lhs = "<leader>la", desc = "Code Action", phase = 6 },
+  { mode = "n", lhs = "<leader>lj", desc = "Next Diagnostic", phase = 6 },
+  { mode = "n", lhs = "<leader>lk", desc = "Prev Diagnostic", phase = 6 },
+  { mode = "n", lhs = "<leader>lr", desc = "Rename", phase = 6 },
+  { mode = "n", lhs = "<leader>lf", desc = "Format", phase = 6 },
+  { mode = "n", lhs = "<leader>ld", rhs = "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", phase = 6 },
+  { mode = "n", lhs = "<leader>li", rhs = "<cmd>checkhealth vim.lsp<cr>", phase = 6 },
 }

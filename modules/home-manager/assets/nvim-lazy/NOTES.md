@@ -163,6 +163,32 @@ and nothing extra gets installed.
 - `<leader>nf` keeps lvim's minimap dance: close the minimap, then reveal, so
   the tree is not resized by it.
 
+## LSP, formatting, linting (phase 6)
+
+- **`formatexpr` is LazyVim's, set at options time**, not on LSP attach:
+  `v:lua.LazyVim.format.formatexpr()`. lvim clears it so `gq` reflows comments
+  with textwidth, so `lua/config/options.lua` clears it too (that file loads
+  after LazyVim's own options). Neovim reinstalls one on attach, which the
+  `LspAttach` autocmd in `lua/plugins/formatting.lua` clears again. The format
+  test proves `gq` really wraps at 80 and keeps the comment leader.
+- **LazyVim's python extra enables `pyright`, not `basedpyright`** — it
+  configures both and picks pyright unless `vim.g.lazyvim_python_lsp` says
+  otherwise. It also enables `ruff`.
+- **The rust extra drives rust_analyzer through rustaceanvim**, so the
+  `rust_analyzer` server spec is deliberately off. Asserting it enabled would be
+  wrong; the test asserts rustaceanvim is installed instead.
+- `lang.typescript` is a directory with an `init.lua`, not `typescript.lua`, so
+  the extra module path still resolves.
+- lvim disabled tsserver globally to make deno work. Here `vtsls` only stands
+  down inside a deno root, so TypeScript projects keep a server either way.
+- The deno gate keys off `deno.imports.json`, his own marker, ported as-is
+  rather than "fixed" to `deno.json`.
+- Server attachment is only asserted when the executable exists, so the suite
+  does not demand half a gigabyte of Mason downloads to be useful.
+- Harmless test noise: force-loading every plugin makes the java extra try to
+  spawn jdtls with an empty command, since Mason has not installed it. It
+  resolves the first time he opens a Java file.
+
 ## Flagged for Jacob (out of scope for the behaviour-preserving migration)
 
 - `assets/lvim/config.lua`'s avante block references 1Password vault

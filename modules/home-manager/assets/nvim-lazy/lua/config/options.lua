@@ -29,6 +29,13 @@ opt.listchars:append("nbsp:·")
 opt.foldmethod = "manual"
 opt.foldexpr = ""
 
+-- lvim sets lsp.buffer_options.formatexpr = "" so `gq` reflows comments with
+-- textwidth and formatoptions instead of asking conform or the language server.
+-- LazyVim installs v:lua.LazyVim.format.formatexpr() during its own options, and
+-- this file loads after it. Neovim reinstalls one on LSP attach, which
+-- lua/plugins/formatting.lua clears again.
+opt.formatexpr = ""
+
 -- Carried over from the legacy config, dictionary and all.
 opt.spellfile = vim.fn.stdpath("config") .. "/spell/dictionary.utf-8.add"
 

@@ -11,6 +11,7 @@ return {
         { "<leader>t", group = "Trouble" },
         { "<leader>m", group = "Minimap" },
         { "<leader>n", group = "Explorer" },
+        { "<leader>l", group = "LSP" },
       },
     },
   },
