@@ -60,6 +60,49 @@ Later phases should trust this file over the original plan.
   neither lvim nor the legacy config wrapped. Replaced with a spell-only
   autocmd, which is what the legacy config had for markdown.
 
+## Keymaps (phase 2)
+
+- **`c` was dead in lvim.** lvim maps `c` to `<NOP>`, so `c`, `cw`, `ciw` and
+  `cc` do nothing at all today. The legacy config used register x. Both were
+  reaching for "change without clobbering the yank", so `c` is now `"_c`.
+- **`cw` has to be recursive** to reach that `"_c`. The legacy config used `nmap`
+  for exactly this reason. Non-recursive, `cw` silently clobbers the register
+  that `c` exists to protect — a functional test caught it, the mapping
+  assertion did not. `dw` stays non-recursive, matching lvim; `d` is not
+  remapped, so it makes no difference.
+- **Treesitter indent broke `S` parity.** LazyVim's treesitter indent reindents
+  the new line, so `S` on `abcdef` left `abc` / `  def` where lvim leaves
+  `abc` / `def`. The same gap would show on every `o`, `O` and `=`, so
+  `lua/plugins/parity.lua` turns treesitter indent off and lvim's classic
+  ftplugin indent stands.
+- **Visual `L` is `$`, not `g_`.** lvim and the legacy config disagree here, and
+  decision 5 gives it to lvim. The plan's table noted the legacy `g_` in
+  passing; changing it is a one-line edit if he misses it.
+- Keys removed through plugin specs rather than `vim.keymap.del`, because that is
+  where they are defined: bufferline's `<S-h>`/`<S-l>`, flash's `S`, snacks'
+  `<leader>S`. `[b` and `]b` still cycle buffers.
+
+### Legacy bindings found but not ported
+
+Present in `assets/nvim/init.vim`, absent from both lvim and the plan's table.
+Listed so the decision is Jacob's rather than an oversight:
+
+- `i_CTRL-U` uppercase the current word (`<Esc>mzgUiw`za`) — note this shadows
+  vim's own "delete to start of line" in insert mode.
+- `i_CTRL-S` fix the last spelling mistake (`<C-g>u<Esc>[s1z=`]a<C-g>u`).
+- visual `zf` staying put after creating a fold (`mzzf`zzz`).
+- `<Space>?` repeating the last search backwards. `<Space>/` went to comment
+  toggle, per lvim.
+- terminal `,<Esc>` sending a literal escape through to the program.
+- `[f`/`]f` and `[l`/`]l` quickfix and location-list navigation from vim-qf.
+  `[q`/`]q` are LazyVim defaults and Trouble-aware.
+- `<C-w>z` in *insert* mode, which inserted `:MaximizerToggle<CR>` as text.
+  Left out deliberately: it never worked.
+
+Superseded rather than dropped: the coc completion keys (`<Tab>`, `<CR>`,
+`<C-j>`/`<C-k>` in insert) now belong to blink.cmp, and the vim-plug bindings
+`<leader>p{i,u,U,c}` have no meaning under lazy.nvim, like the `<F5>` reload.
+
 ## Flagged for Jacob (out of scope for the behaviour-preserving migration)
 
 - `assets/lvim/config.lua`'s avante block references 1Password vault

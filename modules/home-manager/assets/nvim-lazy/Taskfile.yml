@@ -20,6 +20,7 @@ tasks:
       - task: test:boot
       - task: test:options
       - task: test:keymaps
+      - task: test:behaviour
       - task: test:lsp
       - task: test:format
       - task: test:startup
@@ -54,6 +55,10 @@ tasks:
   test:keymaps:
     desc: Assert the keymap manifest 1:1
     cmds: ['{{.TASKFILE_DIR}}/tests/run.sh verify_keymaps.lua']
+
+  test:behaviour:
+    desc: Exercise bindings whose effect is an edit, not just a mapping
+    cmds: ['{{.TASKFILE_DIR}}/tests/run.sh verify_behaviour.lua']
 
   test:lsp:
     desc: Assert the expected server attaches per language fixture
