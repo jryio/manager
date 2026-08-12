@@ -1,0 +1,83 @@
+version: "3"
+
+# CLI-only harness for the LunarVim -> LazyVim migration. No GUI, ever.
+#
+# Phase gating: NVIM_TEST_PHASE=<n> makes the verifiers skip manifest entries
+# introduced after phase n, so a phase can pass before later phases land.
+# Unset means "assert everything".
+
+env:
+  NVIM_APPNAME: nvim-lazy
+
+tasks:
+  default:
+    desc: Run the whole suite
+    cmds: [{ task: test }]
+
+  test:
+    desc: Run every check
+    cmds:
+      - task: test:boot
+      - task: test:options
+      - task: test:keymaps
+      - task: test:lsp
+      - task: test:format
+      - task: test:startup
+
+  sync:
+    desc: Install plugins exactly as pinned in lazy-lock.json
+    cmds:
+      - nvim --headless "+Lazy! restore" +qa
+
+  update:
+    desc: Update plugins and re-pin the lockfile (deliberate, never automatic)
+    cmds:
+      - nvim --headless "+Lazy! sync" +qa
+
+  test:boot:
+    desc: Clean headless start, no load errors, checkhealth free of ERROR
+    cmds:
+      - |
+        set -eu
+        err="$(nvim --headless +qa 2>&1 || true)"
+        if [ -n "$err" ]; then
+          printf 'FAIL boot: stderr was not empty\n%s\n' "$err" >&2
+          exit 1
+        fi
+        printf 'HARNESS ok   boot: clean start, empty stderr\n'
+      - '{{.TASKFILE_DIR}}/tests/run.sh verify_boot.lua'
+
+  test:options:
+    desc: Assert options parity (textwidth, formatoptions, listchars, mouse, ...)
+    cmds: ['{{.TASKFILE_DIR}}/tests/run.sh verify_options.lua']
+
+  test:keymaps:
+    desc: Assert the keymap manifest 1:1
+    cmds: ['{{.TASKFILE_DIR}}/tests/run.sh verify_keymaps.lua']
+
+  test:lsp:
+    desc: Assert the expected server attaches per language fixture
+    cmds: ['{{.TASKFILE_DIR}}/tests/run.sh verify_lsp.lua']
+
+  test:format:
+    desc: Assert formatter wiring (blackd-client, gq/textwidth)
+    cmds: ['{{.TASKFILE_DIR}}/tests/run.sh verify_format.lua']
+
+  test:startup:
+    desc: Fail if startup is slower than the lvim baseline x1.2
+    cmds: ['{{.TASKFILE_DIR}}/tests/startuptime.sh check']
+
+  test:startup:baseline:
+    desc: (Re)capture the lvim startup baseline
+    cmds: ['{{.TASKFILE_DIR}}/tests/startuptime.sh baseline']
+
+  dump:keymaps:
+    desc: Dump this config's mappings as JSON (authoring aid)
+    cmds: ['{{.TASKFILE_DIR}}/tests/run.sh dump_keymaps.lua']
+
+  dump:keymaps:lvim:
+    desc: Re-capture the lvim keymap baseline
+    env:
+      NVIM_DUMP_OUT: '{{.TASKFILE_DIR}}/tests/baseline/lvim-keymaps.json'
+    cmds:
+      - lvim --headless -c "luafile {{.TASKFILE_DIR}}/tests/dump_keymaps.lua" -c "qa"

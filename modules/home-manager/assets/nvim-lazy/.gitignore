@@ -1,0 +1,4 @@
+# Harness scratch output — baselines are committed, run artifacts are not.
+tests/out/
+doc/tags
+*.log
