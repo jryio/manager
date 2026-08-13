@@ -55,6 +55,23 @@ local specs = {
   -- exactly the same value, and with foldmethod=manual it is inert anyway.
   { phase = 1, global = "foldexpr", want = "" },
   { phase = 6, opt = "formatexpr", want = "" },
+
+  -- phase 10: the layout options, each one found by diffing the two editors'
+  -- running state rather than by reading either config. See
+  -- tests/visual/compare.py.
+  --
+  -- cmdheight is the command line itself: LazyVim hides the row (0) and lets
+  -- noice float a box mid-screen instead.
+  { phase = 10, opt = "cmdheight", want = 1 },
+  { phase = 10, opt = "relativenumber", want = false },
+  { phase = 10, opt = "conceallevel", want = 0 },
+  { phase = 10, opt = "scrolloff", want = 8 },
+  { phase = 10, opt = "pumblend", want = 0 },
+  { phase = 10, opt = "showcmd", want = false },
+  -- Stock number column and stock fillchars: LazyVim replaces the first with
+  -- its own statuscolumn and blanks the end-of-buffer tildes with the second.
+  { phase = 10, opt = "statuscolumn", want = "" },
+  { phase = 10, opt = "fillchars", want = "" },
   -- The set lvim reaches in a Lua buffer: ftplugin/lua.vim drops `t`, adds `o`.
   -- Asserting the global set here would claim behaviour he has never had.
   { phase = 1, opt = "formatoptions", chars = "vjncroql" },

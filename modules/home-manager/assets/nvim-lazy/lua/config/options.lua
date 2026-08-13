@@ -41,3 +41,34 @@ opt.spellfile = vim.fn.stdpath("config") .. "/spell/dictionary.utf-8.add"
 
 -- lvim has no scroll or window animation; match it.
 vim.g.snacks_animate = false
+
+----------------------------------------------------------------
+-- LAYOUT PARITY
+----------------------------------------------------------------
+-- Every option below was found by diffing the two editors' running state --
+-- `tests/visual/pty.sh dump` then `tests/visual/compare.py layout` -- rather
+-- than by reading either config, so the list is what actually differed.
+
+-- The command line lives at the bottom of the screen, one row high. LazyVim
+-- hands it to noice, which hides the row entirely (cmdheight 0) and opens a
+-- floating box mid-screen instead; noice is disabled in lua/plugins/ui.lua.
+opt.cmdheight = 1
+
+-- Absolute line numbers. LazyVim turns relativenumber on.
+opt.relativenumber = false
+
+-- No concealing: lvim shows quotes in JSON and markup characters as typed.
+opt.conceallevel = 0
+
+-- LazyVim replaces the number column with its own statuscolumn (fold column
+-- plus signs plus number). lvim uses the stock one, which is why its gutter is
+-- a column wider and carries the LineNr background.
+opt.statuscolumn = ""
+
+-- Stock fillchars: `~` past the end of the buffer, and no fold glyphs. LazyVim
+-- sets "eob: " among others, which blanks the tildes.
+opt.fillchars = ""
+
+opt.scrolloff = 8
+opt.pumblend = 0
+opt.showcmd = false
