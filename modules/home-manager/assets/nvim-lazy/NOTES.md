@@ -216,14 +216,83 @@ and nothing extra gets installed.
   writes the four `.so` files into `lua/`. Worth knowing after any avante update:
   if avante starts erroring about its library, rebuild by hand.
 
+## Looking like lvim (phase 10)
+
+The earlier phases matched behaviour and left appearance alone, which turned out
+to be most of it: LazyVim was still on tokyonight-moon, and 89 of the 92
+highlight groups a user looks at differed. Appearance is now measured, not
+eyeballed -- `tests/visual/` captures each screen from a real terminal and
+compares it cell by cell. `task test:visual` asserts five screens; all five are
+identical to lvim, glyph for glyph and colour for colour.
+
+- **Nothing about colour can be measured headlessly.** minimal.nvim aborts with
+  "&termguicolors must be set", nvim keeps its own palette, and every assertion
+  then compares nvim's defaults against themselves. `tests/visual/pty.sh` runs
+  each editor inside tmux with RGB forced on, which is also the only way to read
+  back what was actually painted.
+- **Eight statusline glyphs and three separators had been silently emptied.**
+  Every icon in `lua/plugins/ui.lua` -- the git diff symbols, the four
+  diagnostic symbols, the treesitter tree, and the  and  powerline
+  separators -- was a bare space. The statusline had no icons and its sections
+  met in flat blocks. All of them are now `\u{...}` escapes, in this file and in
+  `breadcrumbs.lua`, where all 32 navic kind icons had gone the same way.
+- **lvim's palette has holes, and they are load-bearing.** Its statusline block
+  asks for `colors.white`, `colors.red` and `colors.nord13`, none of which its
+  palette defines. The earlier port "fixed" them to real colours, which stopped
+  lualine emitting transitional highlights and removed the arrows between
+  sections. They are now reproduced as nil.
+- **LazyVim mocks nvim-web-devicons with mini.icons**, which changes both glyph
+  and colour: a Lua buffer showed  DevIconLua in lvim against 󰢱 MiniIconsAzure
+  here. mini.icons is off and devicons is real. Fifteen icons upstream has
+  recoloured since lvim's 2024 pin are restored by name rather than by pinning
+  devicons back two years.
+- **lvim has no noice.** The command line is a real row at the bottom (LazyVim
+  hides it, `cmdheight=0`, and floats a box mid-screen), and ten layout options
+  differed besides -- `relativenumber`, `fillchars`, `statuscolumn`,
+  `conceallevel`, `scrolloff`, `pumblend`, `showcmd`. All are asserted in
+  `verify_options.lua` as phase 10.
+- **lvim draws a winbar**, file icon then LSP symbol path, which LazyVim has no
+  equivalent of. Ported onto nvim-navic in `lua/plugins/breadcrumbs.lua`.
+- **The minimap needed taking off the plugin's own autostart.** Its BufWinEnter
+  hook misses the file named on the command line, whose BufWinEnter has already
+  fired by load time, and fires for the nameless buffer of a bare `nvim` --
+  where the extra window then makes the dashboard decline to draw. `:Minimap`
+  also reports success and leaves no window if called at VimEnter; it needs
+  300ms.
+- **lazy.nvim keeps only the last `init` among a plugin's spec fragments.** Two
+  snacks fragments with an `init` each meant one was silently dropped, which is
+  how the dashboard's highlight links went missing while the indent ones worked.
+  Every parity highlight now lives in one table in `lua/config/autocmds.lua`.
+- lvim underlines the other occurrences of the symbol under the cursor
+  (vim-illuminate); LazyVim bolds them (neovim's own document highlight, and
+  `LspReference*` is bold in this theme). Same cells, so only the attribute is
+  changed.
+- lvim's diagnostics use codicon signs, no source suffix in the virtual text,
+  and pass each sign as `numhl`, which is what tints the line number of a
+  diagnostic line.
+- The start screen is alpha's, rebuilt on snacks: same banner, same seven
+  entries, and a block 50 columns wide rather than snacks' 60. lvim configures a
+  footer that never reaches the screen, so there is none here either.
+- Blank cells are compared by background only. Alpha writes its banner padding
+  in the banner's highlight and snacks writes the same spaces in Normal; that is
+  a difference in the escape sequence and not on the screen.
+- **One cell is not matched, deliberately**: the `:` command line. lvim prints a
+  transient LSP deprecation warning over that row, which makes an unstable
+  baseline, so `cmdheight` is asserted instead.
+
 ## Flagged for Jacob (out of scope for the behaviour-preserving migration)
 
-- `assets/lvim/config.lua`'s avante block references 1Password vault
-  `ifpq6udm2wag2mo3ipcoiu666e`, which no longer exists — capturing the lvim
-  baseline printed `isn't a vault in this account`. The Claude API key lookup in
-  today's lvim is already broken. Needs a current vault ID at Phase 8.
+- The 1Password lookup is gone from both configs. Their avante blocks shelled
+  out to `op item get` against vault `ifpq6udm2wag2mo3ipcoiu666e`, which no
+  longer exists, so every lvim start asked 1Password for permission and then
+  failed with `isn't a vault in this account`. Both now fall back to
+  `ANTHROPIC_API_KEY`; point `api_key_name` at a live item to get the prompt
+  back. lvim's copy takes effect on the next `darwin-rebuild switch`, its config
+  being a Nix store symlink.
 - avante's pinned model `claude-3-5-sonnet-20241022` is long superseded.
-- avante in lvim also warns that its whole `claude = { ... }` block moved under
-  `providers.claude`, with `temperature` and `max_tokens` under
-  `providers.claude.extra_request_body`. Porting the spec verbatim at Phase 8
-  carries these deprecations across; migrating the schema is a separate call.
+- avante's `claude = { ... }` block has been moved to `providers.claude`, with
+  `temperature` and `max_tokens` under `extra_request_body`. The verbatim port
+  warned three times on every start. Together with naming mini.icons by its
+  current repository, this clears all eight startup warnings; assert with
+  `Snacks.notifier.get_history()`, not `:messages` -- LazyVim routes notify
+  through snacks, which is why the warnings never appeared in `:messages`.
