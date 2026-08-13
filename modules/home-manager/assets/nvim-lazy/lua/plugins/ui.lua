@@ -20,6 +20,30 @@ local colors = {
   nord14 = "#EBCB8B",
 }
 
+-- Nerd Font glyphs, spelled as escapes because they are load-bearing: an
+-- earlier pass through this file replaced all eight with a bare space, which
+-- silently emptied the git, diagnostic and treesitter indicators. Names and
+-- codepoints are lvim/icons.lua's.
+local icons = {
+  line_added = "\u{eadc}",
+  line_modified = "\u{eade}",
+  line_removed = "\u{eadf}",
+  bold_error = "\u{f057}",
+  bold_warning = "\u{f071}",
+  bold_information = "\u{f05a}",
+  bold_hint = "\u{ea61}",
+  tree = "\u{f1bb}",
+}
+
+-- Powerline separators, escaped for the same reason. These are what make the
+-- sections meet in arrows; blank strings leave the statusline in flat blocks.
+local seps = {
+  right_arrow = "\u{e0b0}",
+  left_arrow = "\u{e0b2}",
+  thin_right = "\u{e0b1}",
+  thin_left = "\u{e0b3}",
+}
+
 -- lvim/core/lualine/conditions.lua
 local function hide_in_width()
   return vim.o.columns > 100
@@ -37,7 +61,11 @@ local components = {
   diff = {
     "diff",
     source = diff_source,
-    symbols = { added = " ", modified = " ", removed = " " },
+    symbols = {
+      added = icons.line_added .. " ",
+      modified = icons.line_modified .. " ",
+      removed = icons.line_removed .. " ",
+    },
     padding = { left = 2, right = 1 },
     diff_color = {
       added = { fg = colors.green },
@@ -49,11 +77,16 @@ local components = {
   diagnostics = {
     "diagnostics",
     sources = { "nvim_diagnostic" },
-    symbols = { error = " ", warn = " ", info = " ", hint = " " },
+    symbols = {
+      error = icons.bold_error .. " ",
+      warn = icons.bold_warning .. " ",
+      info = icons.bold_information .. " ",
+      hint = icons.bold_hint .. " ",
+    },
   },
   treesitter = {
     function()
-      return ""
+      return icons.tree
     end,
     color = function()
       local ts = vim.treesitter.highlighter.active[vim.api.nvim_get_current_buf()]
@@ -121,15 +154,21 @@ local function process_sections(sections)
   for name, section in pairs(sections) do
     local left = name:sub(9, 10) < "x"
     for pos = 1, name ~= "lualine_z" and #section or #section - 1 do
-      table.insert(section, pos * 2, { empty, color = { fg = colors.nord3, bg = colors.nord3 } })
+      -- Deliberately uncoloured. lvim writes `color = { fg = colors.white, bg =
+      -- colors.white }` against a palette that defines no `white`, so both are
+      -- nil and the spacer inherits its section's colour. Giving it a real
+      -- colour instead makes lualine emit a static highlight rather than a
+      -- transitional one, and the  arrows between sections disappear.
+      table.insert(section, pos * 2, { empty, color = {} })
     end
     for id, comp in ipairs(section) do
       if type(comp) ~= "table" then
         comp = { comp }
         section[id] = comp
       end
-      comp.separator = left and { right = "" } or { left = "" }
-      -- lualine_z holds the scrollbar, so it gets no left arrow
+      comp.separator = left and { right = seps.right_arrow } or { left = seps.left_arrow }
+      -- lualine_z holds the scrollbar, so it gets no left arrow. Empty in lvim
+      -- too, unlike the two above.
       if name == "lualine_z" and id == 3 and not left then
         comp.separator = { left = "" }
       end
@@ -152,7 +191,10 @@ return {
             },
             insert = { a = { fg = colors.nord1, bg = colors.nord6 } },
             visual = { a = { fg = colors.nord1, bg = colors.nord7 } },
-            replace = { a = { fg = colors.nord1, bg = colors.nord14 } },
+            -- lvim names `colors.nord13` here, which its palette never defines,
+            -- so replace mode keeps the normal-mode background. Reproduced
+            -- rather than corrected: nord14 would recolour a real mode.
+            replace = { a = { fg = colors.nord1 } },
             inactive = {
               a = { fg = colors.nord1, bg = colors.nord8 },
               b = { fg = colors.nord5, bg = colors.nord1 },
@@ -160,15 +202,19 @@ return {
             },
           },
           component_separators = "",
-          section_separators = { left = "", right = "" },
+          section_separators = { left = seps.thin_right, right = seps.thin_left },
           globalstatus = vim.o.laststatus == 3,
+          -- lvim's start screen has no statusline; the row is simply blank.
+          disabled_filetypes = { statusline = { "snacks_dashboard", "alpha" } },
         },
         sections = process_sections({
           lualine_a = { "mode" },
           lualine_b = {
             components.filename,
             components.diff,
-            { modified, color = { fg = colors.red } },
+            -- lvim asks for `bg = colors.red` from a palette with no `red`; the
+            -- `+` therefore draws in the section's own colours.
+            { modified, color = {} },
             { "%w", cond = function() return vim.wo.previewwindow end },
             { "%r", cond = function() return vim.bo.readonly end },
             { "%q", cond = function() return vim.bo.buftype == "quickfix" end },
@@ -203,11 +249,71 @@ return {
     },
   },
 
+  -- File icons come from nvim-web-devicons, as in lvim. LazyVim substitutes
+  -- mini.icons and preloads it under the devicons module name, which changes
+  -- both glyph and colour: a Lua buffer showed  (DevIconLua) in lvim against
+  -- 󰢱 (MiniIconsAzure) here, in the statusline and the winbar alike.
+  -- The repository moved; naming it by its old name makes LazyVim warn about a
+  -- rename on every start, disabled or not.
+  { "nvim-mini/mini.icons", enabled = false },
+  {
+    "nvim-tree/nvim-web-devicons",
+    lazy = false,
+    config = function()
+      require("nvim-web-devicons").setup({})
+
+      -- lvim pins devicons at e37bb1f (May 2024) and upstream has since
+      -- recoloured fifteen icons -- Go from #519ABA to the official #00ADD8,
+      -- YAML from grey to red, and so on. Rather than pin two years back and
+      -- lose every icon added since, the old colours are restored by name.
+      -- Regenerate by diffing the DevIcon groups of two `pty.sh dump` files.
+      local overrides = {
+        DevIconBSPWM = "#2F2F2F",
+        DevIconCMake = "#6D8086",
+        DevIconCMakeLists = "#6D8086",
+        DevIconCss = "#42A5F5",
+        DevIconD = "#427819",
+        DevIconFreeCAD = "#CB0D0D",
+        DevIconFreeCADConfig = "#CB0D0D",
+        DevIconGo = "#519ABA",
+        DevIconLogos = "#599EFF",
+        DevIconMailmap = "#41535B",
+        DevIconNotebook = "#51A0CF",
+        DevIconUI = "#0C306E",
+        DevIconVala = "#7239B3",
+        DevIconYaml = "#6D8086",
+        DevIconYml = "#6D8086",
+      }
+
+      -- devicons redefines these groups on every colourscheme change.
+      local function apply()
+        for group, fg in pairs(overrides) do
+          vim.api.nvim_set_hl(0, group, { fg = fg })
+        end
+      end
+      vim.api.nvim_create_autocmd("ColorScheme", {
+        group = vim.api.nvim_create_augroup("devicon_parity", { clear = true }),
+        callback = apply,
+      })
+      apply()
+    end,
+  },
+
+  -- lvim has no noice: the command line is a real row at the bottom of the
+  -- screen and messages print into it. LazyVim routes both through noice, which
+  -- sets cmdheight to 0 and opens a floating command box mid-screen instead.
+  { "folke/noice.nvim", enabled = false },
+  { "rcarriga/nvim-notify", enabled = false },
+
   -- lvim's indent-guide exclusions, on LazyVim's snacks indent.
   {
     "folke/snacks.nvim",
     opts = {
       indent = {
+        -- indent-blankline drew lvim's guides with lvim.icons.ui.LineLeft;
+        -- snacks defaults to a full-height box char, which reads heavier.
+        indent = { char = "▏" },
+        scope = { char = "▏" },
         filter = function(buf)
           local excluded = {
             help = true,
@@ -232,10 +338,57 @@ return {
     "wfxr/minimap.vim",
     -- The code-minimap binary is already installed for lvim.
     build = "cargo install --locked code-minimap",
-    cmd = { "Minimap", "MinimapClose", "MinimapToggle", "MinimapRefresh", "MinimapUpdateHighlight" },
+    -- Not lazy: minimap_auto_start only takes effect at load, and lvim shows the
+    -- minimap from the moment a file opens.
+    lazy = false,
     keys = {
       { "<leader>mm", "<cmd>MinimapToggle<cr>", desc = "Minimap Toggle" },
     },
+    config = function()
+      -- minimap_auto_start is deliberately off; this autocmd replaces it,
+      -- because the plugin's own version misfires at both ends of startup:
+      --
+      --   * it opens on the nameless buffer of a bare `nvim`, and that second
+      --     window makes the dashboard decline to draw -- lvim never has this
+      --     problem, since alpha claims the buffer before BufWinEnter and
+      --     "alpha" is in the block list, whereas "snacks_dashboard" is not the
+      --     filetype yet at that point;
+      --   * it misses the file named on the command line entirely, whose
+      --     BufWinEnter has already fired by the time the plugin loads.
+      --
+      -- A real, named file buffer is what lvim shows a minimap for.
+      local function wanted()
+        return vim.bo.buftype == ""
+          and vim.api.nvim_buf_get_name(0) ~= ""
+          and not vim.tbl_contains(vim.g.minimap_block_filetypes or {}, vim.bo.filetype)
+      end
+
+      local function open_here()
+        if wanted() then
+          pcall(vim.cmd, "Minimap")
+        end
+      end
+
+      vim.api.nvim_create_autocmd("BufWinEnter", {
+        group = vim.api.nvim_create_augroup("minimap_parity", { clear = true }),
+        callback = open_here,
+      })
+
+      -- The delay is not decoration. Called at VimEnter, or scheduled straight
+      -- after it, :Minimap reports success and leaves no window -- the
+      -- code-minimap job is spawned while the layout is still settling. 300ms
+      -- past VimEnter it sticks.
+      if vim.v.vim_did_enter == 1 then
+        vim.defer_fn(open_here, 300)
+      else
+        vim.api.nvim_create_autocmd("VimEnter", {
+          once = true,
+          callback = function()
+            vim.defer_fn(open_here, 300)
+          end,
+        })
+      end
+    end,
     init = function()
       local ignore_filetypes = {
         "help",
@@ -248,7 +401,8 @@ return {
         "lspinfo",
         "nofile",
       }
-      vim.g.minimap_auto_start = 1
+      -- Off on purpose; the BufWinEnter autocmd in `config` does this job.
+      vim.g.minimap_auto_start = 0
       vim.g.minimap_auto_start_win_enter = 0
       vim.g.minimap_highlight_range = 1
       vim.g.minimap_highlight_search = 1
