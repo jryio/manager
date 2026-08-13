@@ -1,11 +1,11 @@
 -- avante.nvim, carried over from lvim's plugin list.
 --
--- Deliberately a near-verbatim port, deprecations and all: this migration is
--- meant to preserve behaviour, and three separate things here want deciding
--- rather than quietly changing. See NOTES.md.
+-- A near-verbatim port of lvim's spec, with one exception: the provider block
+-- has been moved to the schema avante actually wants, because the old shape
+-- warned three times on every start. Two things here still want deciding rather
+-- than quietly changing. See NOTES.md.
 --   * the model is claude-3-5-sonnet-20241022
---   * the 1Password vault in api_key_name no longer exists
---   * `claude = { ... }` moved under `providers.claude` in newer avante
+--   * the API key now comes from the environment, the old vault having gone
 local function is_mac_volume()
   return string.match(vim.fn.getcwd(), "^/Volumes/") ~= nil
 end
@@ -25,7 +25,8 @@ return {
       "stevearc/dressing.nvim",
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
-      "echasnovski/mini.icons",
+      -- Icons come from devicons here, not mini.icons; see lua/plugins/ui.lua.
+      "nvim-tree/nvim-web-devicons",
       {
         "HakonHarnes/img-clip.nvim",
         event = "VeryLazy",
@@ -48,22 +49,24 @@ return {
       require("avante_lib").load()
       require("avante").setup({
         provider = "claude",
-        claude = {
-          api_key_name = {
-            "op",
-            "item",
-            "get",
-            "2oxvera3ak3no5b2usvciuwnim",
-            "--vault",
-            "ifpq6udm2wag2mo3ipcoiu666e",
-            "--fields",
-            "credential",
-            "--reveal",
+        -- lvim spells this as a top-level `claude = { ... }` with `temperature`
+        -- and `max_tokens` alongside the endpoint. avante now reads it from
+        -- `providers.claude`, with the two request parameters under
+        -- `extra_request_body`, and warns once per key per start otherwise.
+        providers = {
+          claude = {
+            -- lvim carried an `api_key_name` that shelled out to
+            -- `op item get ... --vault ifpq6udm2wag2mo3ipcoiu666e`. That vault
+            -- is gone, so the lookup prompted 1Password on every start and then
+            -- failed. Dropped here too; avante reads ANTHROPIC_API_KEY instead.
+            -- Point this back at a live vault item if the prompt is wanted.
+            endpoint = "https://api.anthropic.com",
+            model = "claude-3-5-sonnet-20241022",
+            extra_request_body = {
+              temperature = 0,
+              max_tokens = 4096,
+            },
           },
-          endpoint = "https://api.anthropic.com",
-          model = "claude-3-5-sonnet-20241022",
-          temperature = 0,
-          max_tokens = 4096,
         },
         behaviour = {
           auto_suggestions = false,

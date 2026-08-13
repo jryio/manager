@@ -887,16 +887,11 @@ lvim.plugins                       = {
           provider = "claude",
           -- auto_suggestions_provider = "copilot",
           claude = {
-            api_key_name = { "op",
-              "item",
-              "get",
-              "2oxvera3ak3no5b2usvciuwnim",
-              "--vault",
-              "ifpq6udm2wag2mo3ipcoiu666e",
-              "--fields",
-              "credential",
-              "--reveal",
-            },
+            -- No api_key_name: this used to shell out to `op item get` against
+            -- vault ifpq6udm2wag2mo3ipcoiu666e, which no longer exists. Every
+            -- lvim start therefore ran a 1Password lookup, prompted for
+            -- permission and failed anyway. avante falls back to
+            -- ANTHROPIC_API_KEY from the environment.
             endpoint = "https://api.anthropic.com",
             model = "claude-3-5-sonnet-20241022",
             temperature = 0,
