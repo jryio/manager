@@ -34,14 +34,6 @@ This repository is the source of truth for the macOS setup. Determinate provides
 
 There exists @DECISIONS.md which you must use upon completing work. What were the major changes that others should know about. What worked? What did not work? Why did it not work? What should others know about your attempt and what should they do differently. You MUST add to this at the end of every single completed session.
 
-## Issue Tracking
-
-This project uses `bd` (beads) for issue tracking.
-
-- Run `bd prime` for workflow context at session start.
-- Use `bd` for strategic work that may span sessions.
-- Run `bd sync --flush-only` before ending the session.
-
 ## Landing the Plane (Session Completion)
 
 **When ending a work session**, you MUST complete ALL steps below. Work is NOT complete until `git push` succeeds.
@@ -55,7 +47,6 @@ This project uses `bd` (beads) for issue tracking.
 4. **PUSH TO REMOTE** - This is MANDATORY:
    ```bash
    git pull --rebase
-   bd sync
    git push
    git status  # MUST show "up to date with origin"
    ```
