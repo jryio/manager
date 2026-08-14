@@ -107,6 +107,57 @@ jobscount() {
   echo "$total"
 }
 
+port-finder() {
+  local port="${1:-}"
+  local port_number pid line command executable cwd
+  local -a pids
+
+  if [[ ! "$port" =~ ^[0-9]{1,5}$ ]]; then
+    print -u2 "usage: port-finder <port>"
+    return 64
+  fi
+  port_number=$((10#$port))
+  if ((port_number < 1 || port_number > 65535)); then
+    print -u2 "usage: port-finder <port>"
+    return 64
+  fi
+
+  while IFS= read -r pid; do
+    [[ -n "$pid" ]] && pids+=("$pid")
+  done < <(
+    {
+      lsof -nP -t -iTCP:"$port_number" -sTCP:LISTEN 2>/dev/null || true
+      lsof -nP -t -iUDP:"$port_number" 2>/dev/null || true
+    } | sort -nu
+  )
+
+  if (( ${#pids[@]} == 0 )); then
+    gum style --foreground 240 "No TCP listener or UDP socket uses port $port_number."
+    return 0
+  fi
+
+  for pid in "${pids[@]}"; do
+    command=''
+    executable=''
+    cwd=''
+
+    while IFS= read -r line; do
+      case "$line" in
+        c*) command=${line#c} ;;
+        n*) executable=${line#n}; break ;;
+      esac
+    done < <(lsof -n -a -p "$pid" -d txt -Fcn 2>/dev/null || true)
+
+    while IFS= read -r line; do
+      [[ "$line" == n* ]] && { cwd=${line#n}; break; }
+    done < <(lsof -n -a -p "$pid" -d cwd -Fn 2>/dev/null || true)
+
+    printf '%s\t%s\t%s\t%s\n' "$pid" "${command:--}" "${executable:--}" "${cwd:--}"
+  done | gum table --print \
+    --separator=$'\t' \
+    --columns PID,COMMAND,EXECUTABLE,CWD
+}
+
 man() {
   env \
     LESS_TERMCAP_mb=$'\e[1;31m' \

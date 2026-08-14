@@ -268,3 +268,7 @@
 - [git-rerere-2026-08-14]: declare Git conflict-resolution reuse
   - `modules/home-manager/git.nix` enables `rerere.enabled` and `rerere.autoupdate`; AVA's evaluated Home Manager Git settings return both as `true`.
   - This records manually reviewed resolutions for equivalent merge or rebase retries. Replayed resolutions still require diff and contract-test review.
+
+- [port-finder-2026-08-14]: declare `port-finder` as a managed Zsh diagnostic
+  - `modules/home-manager/shell/init.zsh` defines `port-finder <port>`. It finds TCP listeners and UDP sockets with `lsof`, then renders each process ID, command, executable path, and working directory with Gum.
+  - `modules/home-manager/packages.nix` installs `pkgs.gum`. The function needs no repository-specific paths or service registry, so it works for every local port after `drs` and a new Zsh session.
