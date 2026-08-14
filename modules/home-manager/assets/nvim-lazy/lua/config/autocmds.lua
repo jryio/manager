@@ -22,6 +22,18 @@ local groups = {
   SnacksDashboardIcon = "Normal",
   SnacksDashboardDesc = "Normal",
   SnacksDashboardKey = "Include",
+  -- Floating windows -- the picker above all -- sit on NormalFloat, which this
+  -- theme paints #1A1C1D against the editor's own #1D1F21. lvim's telescope
+  -- windows measured as #1D1F21, so point snacks at Normal and the picker stops
+  -- reading as a darker panel.
+  SnacksNormal = "Normal",
+  SnacksNormalNC = "Normal",
+  -- The picker paints each of its windows through its own group rather than
+  -- NormalFloat directly, so all four have to be named.
+  SnacksPicker = "Normal",
+  SnacksPickerList = "Normal",
+  SnacksPickerInput = "Normal",
+  SnacksPickerPreview = "Normal",
   -- Other occurrences of the symbol under the cursor. lvim marks them with
   -- vim-illuminate, whose IlluminatedWord* groups underline; LazyVim uses
   -- neovim's own LSP document highlight, and LspReference* is bold in this

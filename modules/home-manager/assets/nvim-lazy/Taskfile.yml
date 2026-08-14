@@ -23,7 +23,6 @@ tasks:
       - task: test:behaviour
       - task: test:lsp
       - task: test:format
-      - task: test:visual
       - task: test:startup
 
   sync:
@@ -68,18 +67,6 @@ tasks:
   test:format:
     desc: Assert formatter wiring (blackd-client, gq/textwidth)
     cmds: ['{{.TASKFILE_DIR}}/tests/run.sh verify_format.lua']
-
-  test:visual:
-    desc: Compare each screen, cell by cell, against lvim's recorded screens
-    cmds: ['{{.TASKFILE_DIR}}/tests/visual/verify.sh']
-
-  test:visual:baseline:
-    desc: (Re)record lvim's screens. The only task that starts lvim.
-    cmds: ['{{.TASKFILE_DIR}}/tests/visual/verify.sh --capture']
-
-  dump:visual:
-    desc: Dump this config's highlights, layout options and diagnostics as JSON
-    cmds: ['{{.TASKFILE_DIR}}/tests/visual/pty.sh dump lazyvim {{.CLI_ARGS | default "/tmp/lazyvim-visual.json"}}']
 
   test:startup:
     desc: Fail if startup is slower than the lvim baseline x1.2

@@ -170,6 +170,21 @@ end, { desc = "Quit without saving session" })
 del("n", "<leader>l")
 map("n", "<leader>L", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
+-- The last three of LazyVim's file/find group. The other eleven come from plugin
+-- specs and are moved in lua/plugins/picker.lua; these three are set here, by
+-- LazyVim's own config/keymaps.lua, so they have to be deleted rather than
+-- disabled. Nothing may share the <leader>f prefix -- see picker.lua.
+del("n", "<leader>fn")
+del("n", "<leader>ft")
+del("n", "<leader>fT")
+map("n", "<leader>Fn", "<cmd>enew<cr>", { desc = "New File" })
+map("n", "<leader>Ft", function()
+  Snacks.terminal(nil, { cwd = LazyVim.root() })
+end, { desc = "Terminal (Root Dir)" })
+map("n", "<leader>FT", function()
+  Snacks.terminal()
+end, { desc = "Terminal (cwd)" })
+
 -- -------------------------------------------------------------------- terminal
 
 -- Single escape, as in the legacy config. LazyVim wants it pressed twice.

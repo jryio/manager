@@ -45,9 +45,8 @@ vim.g.snacks_animate = false
 ----------------------------------------------------------------
 -- LAYOUT PARITY
 ----------------------------------------------------------------
--- Every option below was found by diffing the two editors' running state --
--- `tests/visual/pty.sh dump` then `tests/visual/compare.py layout` -- rather
--- than by reading either config, so the list is what actually differed.
+-- Every option below was found by diffing the two editors' running state,
+-- rather than by reading either config, so the list is what actually differed.
 
 -- The command line lives at the bottom of the screen, one row high. LazyVim
 -- hands it to noice, which hides the row entirely (cmdheight 0) and opens a

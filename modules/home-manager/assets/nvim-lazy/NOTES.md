@@ -220,16 +220,17 @@ and nothing extra gets installed.
 
 The earlier phases matched behaviour and left appearance alone, which turned out
 to be most of it: LazyVim was still on tokyonight-moon, and 89 of the 92
-highlight groups a user looks at differed. Appearance is now measured, not
-eyeballed -- `tests/visual/` captures each screen from a real terminal and
-compares it cell by cell. `task test:visual` asserts five screens; all five are
-identical to lvim, glyph for glyph and colour for colour.
+highlight groups a user looks at differed. Appearance was matched by measurement
+rather than by eye: each editor was screenshotted inside tmux, the ANSI was
+parsed back into a grid of coloured cells, and five screens ended up identical
+to lvim, glyph for glyph and colour for colour. That harness has since been
+removed at the operator's request, so the notes below are the record of what it
+found.
 
 - **Nothing about colour can be measured headlessly.** minimal.nvim aborts with
   "&termguicolors must be set", nvim keeps its own palette, and every assertion
-  then compares nvim's defaults against themselves. `tests/visual/pty.sh` runs
-  each editor inside tmux with RGB forced on, which is also the only way to read
-  back what was actually painted.
+  then compares nvim's defaults against themselves. Only a real terminal, with
+  RGB forced on, reports what was actually painted.
 - **Eight statusline glyphs and three separators had been silently emptied.**
   Every icon in `lua/plugins/ui.lua` -- the git diff symbols, the four
   diagnostic symbols, the treesitter tree, and the  and  powerline

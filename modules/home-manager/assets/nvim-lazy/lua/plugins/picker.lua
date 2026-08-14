@@ -9,7 +9,20 @@ return {
     opts = {
       explorer = { replace_netrw = true },
       picker = {
+        -- snacks dims the whole screen behind the picker (snacks.win's default
+        -- backdrop is 60% toward black), which measures as the editor's
+        -- #1D1F21 background dropping to #111213 while the picker is open.
+        -- lvim's telescope never dimmed anything, so turn it off; only the
+        -- `default` preset asks for it, the others already say false.
+        layout = { layout = { backdrop = false } },
         sources = {
+          -- Which tool lists the files is the whole cost of opening the picker:
+          -- the matcher needs 2-4ms for 5,000 paths, but the listing dominates.
+          -- The `fd` on this machine is 8.5.3 from 2022 and takes 85ms to list
+          -- 400 files; ripgrep does the same work in 20ms. snacks prefers fd, so
+          -- ask for rg where it exists and leave the default alone where it does
+          -- not.
+          files = vim.fn.executable("rg") == 1 and { cmd = "rg" } or {},
           explorer = {
             win = {
               list = {
@@ -50,8 +63,13 @@ return {
         desc = "Explorer",
       },
 
-      -- lvim's muscle memory: <leader>f finds files. LazyVim's file group is
-      -- still reachable at <leader>f{f,r,c,...}, and <leader><space> too.
+      -- lvim's muscle memory: <leader>f finds files.
+      --
+      -- Nothing longer may share this prefix. When it does, nvim has to wait out
+      -- `timeoutlen` -- 500ms, per lvim -- on every press to find out whether a
+      -- longer mapping is coming, which it measures as a picker that takes
+      -- 600ms to appear instead of 85ms. LazyVim's file/find group therefore
+      -- lives on <leader>F below, key for key.
       {
         "<leader>f",
         function()
@@ -59,6 +77,30 @@ return {
         end,
         desc = "Find File",
       },
+
+      -- LazyVim's file/find group, moved off <leader>f wholesale.
+      { "<leader>ff", false },
+      { "<leader>fF", false },
+      { "<leader>fg", false },
+      { "<leader>fr", false },
+      { "<leader>fR", false },
+      { "<leader>fb", false },
+      { "<leader>fB", false },
+      { "<leader>fc", false },
+      { "<leader>fe", false },
+      { "<leader>fE", false },
+      { "<leader>fp", false },
+      { "<leader>Ff", LazyVim.pick("files"), desc = "Find Files (Root Dir)" },
+      { "<leader>FF", LazyVim.pick("files", { root = false }), desc = "Find Files (cwd)" },
+      { "<leader>Fg", function() Snacks.picker.git_files() end, desc = "Find Files (git-files)" },
+      { "<leader>Fr", function() Snacks.picker.recent() end, desc = "Recent" },
+      { "<leader>FR", function() Snacks.picker.recent({ filter = { cwd = true } }) end, desc = "Recent (cwd)" },
+      { "<leader>Fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
+      { "<leader>FB", function() Snacks.picker.buffers({ hidden = true, nofile = true }) end, desc = "Buffers (all)" },
+      { "<leader>Fc", LazyVim.pick.config_files(), desc = "Find Config File" },
+      { "<leader>Fe", function() Snacks.explorer({ cwd = LazyVim.root() }) end, desc = "Explorer Snacks (root dir)" },
+      { "<leader>FE", function() Snacks.explorer() end, desc = "Explorer Snacks (cwd)" },
+      { "<leader>Fp", function() Snacks.picker.projects() end, desc = "Projects" },
 
       {
         "<leader>P",

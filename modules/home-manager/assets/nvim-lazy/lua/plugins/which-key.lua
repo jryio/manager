@@ -13,6 +13,9 @@ return {
         { "<leader>n", group = "Explorer" },
         { "<leader>l", group = "LSP" },
         { "<leader>a", group = "AI", mode = { "n", "v" } },
+        -- LazyVim labels <leader>f "file/find", but <leader>f is a command here
+        -- and the group moved to <leader>F. See lua/plugins/picker.lua.
+        { "<leader>F", group = "file/find" },
       },
     },
   },

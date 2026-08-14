@@ -7,16 +7,14 @@ deliberately not done: it waits until you have driven this for a while.
     lvim               # unchanged, still the daily driver and the rollback
     task test          # everything, from the config directory
     task test:keymaps  # just the 296 mapping assertions
-    task test:visual   # five screens, compared to lvim's cell by cell
     task sync          # install exactly what lazy-lock.json pins
 
 It should look exactly like lvim now, not merely work like it: same
 minimal-base16 colours, same statusline arrows and icons, same winbar
 breadcrumbs, same minimap, same start screen, and the command line back at the
-bottom of the screen where lvim keeps it. `task test:visual` is the proof --
-five screens, every cell, against recordings of lvim's own screens in
-`tests/visual/baseline/`. If something looks off, that task will name the
-screen and print the offending cells. See "Looking like lvim" in NOTES.md.
+bottom of the screen where lvim keeps it. That was verified screen by screen
+against lvim's own output; the harness has since been removed, so what is left
+is the config and the account of it under "Looking like lvim" in NOTES.md.
 
 ## Ten things to try
 
@@ -46,10 +44,6 @@ that "exists" can still feel wrong.
 Also worth a look: the statusline (nord, `[n/N]` search counter, scrollbar
 glyph, `+` when modified), and `<leader>L` for Lazy — `<leader>l` is the LSP
 group now.
-
-One thing to re-record before lvim goes away: `task test:visual:baseline` is the
-only task that starts lvim, and after the cutover there is nothing left to
-capture. The visual check skips itself rather than failing once lvim is gone.
 
 ## Known gaps, by design
 

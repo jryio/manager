@@ -57,8 +57,7 @@ local specs = {
   { phase = 6, opt = "formatexpr", want = "" },
 
   -- phase 10: the layout options, each one found by diffing the two editors'
-  -- running state rather than by reading either config. See
-  -- tests/visual/compare.py.
+  -- running state rather than by reading either config.
   --
   -- cmdheight is the command line itself: LazyVim hides the row (0) and lets
   -- noice float a box mid-screen instead.

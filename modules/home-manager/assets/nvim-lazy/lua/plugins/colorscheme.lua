@@ -4,7 +4,7 @@
 -- with the tomorrow-night palette merged in (commit 851a421, "Modify theme to
 -- match old tomorrow night"), so it is pinned rather than tracked.
 --
--- Measured parity, `tests/visual/compare.py theme`: LazyVim's default
+-- Measured parity: LazyVim's default
 -- tokyonight-moon differed from this in 89 of the 92 groups a user looks at.
 return {
   {
