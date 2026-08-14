@@ -1,10 +1,11 @@
-# Driving this before cutover
+# Driving this
 
-Phases 0–8 are done and the whole suite passes. Phase 9, the cutover, is
-deliberately not done: it waits until you have driven this for a while.
+All ten phases are done, including the cutover on 2026-08-13. This tree IS
+`~/.config/nvim`, reached through an out-of-store symlink, so editing a file
+here changes the editor at once with no rebuild.
 
-    lazyvim            # this config, NVIM_APPNAME=nvim-lazy
-    lvim               # unchanged, still the daily driver and the rollback
+    nvim               # this config
+    n, lazyvim         # aliases for nvim
     task test          # everything, from the config directory
     task test:keymaps  # just the 296 mapping assertions
     task sync          # install exactly what lazy-lock.json pins
@@ -55,16 +56,23 @@ group now.
 - Eight legacy bindings were found and deliberately not ported; see NOTES.md.
   Three avante items want a decision, also in NOTES.md.
 
-## Phase 9, when you are ready
+## What the cutover did, and how to get back
 
-1. `editors.nix`: replace the coc-era `xdg.configFile."nvim"` block with
-   `xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink
-   "<home>/manager/modules/home-manager/assets/nvim-lazy"`.
-2. Remove the dotbot symlink `~/.config/nvim` → `~/dotfiles/nvim` and its
-   install-config entry, then `git mv assets/nvim assets/nvim-legacy`.
-3. `rm ~/.config/nvim-lazy` (the hand-made symlink home-manager now replaces),
-   then `nvim --headless "+Lazy! restore" +qa` with `NVIM_APPNAME` unset.
-4. Rerun `task test` with `NVIM_APPNAME` unset.
-5. Flip `shell.nix`'s `n = "lvim"` to `n = "nvim"`. Leave `lvim` and
-   `~/.config/lvim` alone for a grace period — that is the rollback.
-6. `darwin-rebuild switch --flake ~/manager#<host>`.
+1. `editors.nix` points `~/.config/nvim` at this tree with
+   `mkOutOfStoreSymlink`; lazy.nvim writes `lazy-lock.json` into the config
+   directory, so a read-only store copy would break `:Lazy update`.
+2. `assets/lvim` and the old vim-plug/coc `assets/nvim` are deleted, and
+   `shell.nix` maps both `n` and `lazyvim` to `nvim`.
+3. LunarVim is gone from the machine: `~/.local/bin/lvim`,
+   `~/.local/share/lunarvim`, `~/.local/state/lvim`, `~/.cache/lvim`. The
+   dotbot-era `~/dotfiles/lvim` and `~/dotfiles/nvim` are untouched, as is
+   everything else under `~/dotfiles`.
+4. This config's plugin, state and cache directories were moved from the
+   `nvim-lazy` appname onto the default one; the 2024-era originals are kept
+   beside them as `*-legacy-2024`. Mason bakes absolute paths into its shims,
+   so those were rewritten in place -- a package installed before the move that
+   still points at `nvim-lazy` needs `:MasonInstall` again.
+
+Rollback is `git revert` of the cutover commit plus a switch: the old configs
+are in git history, and `~/dotfiles` still holds the pre-Nix originals. There is
+no lvim to fall back to any more.
