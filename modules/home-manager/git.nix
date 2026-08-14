@@ -147,6 +147,11 @@ in
       push.default = "simple";
       pull.rebase = true;
 
+      rerere = {
+        enabled = true;
+        autoupdate = true;
+      };
+
       diff.tool = "difftastic";
       difftool = {
         prompt = false;
