@@ -69,7 +69,10 @@ in
     };
 
     shellAliases = {
-      n = "lvim";
+      n = "lazyvim";
+      # LunarVim is gone; the LazyVim config IS ~/.config/nvim now, so this is
+      # muscle memory rather than a different editor.
+      lazyvim = "nvim";
       la = "ls -la";
       irb = "irb --simple-prompt";
       lg = "lazygit";

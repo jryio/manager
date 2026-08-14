@@ -1,5 +1,5 @@
 -- Dump every global mapping as JSON, for baseline capture and manifest authoring.
---   NVIM_APPNAME=nvim-lazy nvim --headless -c "luafile tests/dump_keymaps.lua" -c qa
+--   nvim --headless -c "luafile tests/dump_keymaps.lua" -c qa
 -- Writes to $NVIM_DUMP_OUT, or stdout when unset. Runs against any config
 -- (including lvim), so every plugin interaction is best-effort.
 pcall(vim.api.nvim_exec_autocmds, "User", { pattern = "VeryLazy", modeline = false })

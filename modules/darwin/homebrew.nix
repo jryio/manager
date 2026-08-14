@@ -54,6 +54,7 @@
       "elixir"
       "exercism"
       "exiftool"
+      "fd" # neovim picker + general search; a stale ~/.cargo/bin/fd 8.5.3 was 4x slower
       "figlet"
       "fluent-bit"
       "flyctl"
@@ -118,6 +119,7 @@
       "python@3.9"
       "rbenv"
       "resvg"
+      "ripgrep" # backs the neovim file picker and its grep (modules/home-manager/assets/nvim-lazy)
       "sevenzip"
       "shared-mime-info"
       "srt"

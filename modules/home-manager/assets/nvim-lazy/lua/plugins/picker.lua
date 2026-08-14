@@ -18,10 +18,10 @@ return {
         sources = {
           -- Which tool lists the files is the whole cost of opening the picker:
           -- the matcher needs 2-4ms for 5,000 paths, but the listing dominates.
-          -- The `fd` on this machine is 8.5.3 from 2022 and takes 85ms to list
-          -- 400 files; ripgrep does the same work in 20ms. snacks prefers fd, so
-          -- ask for rg where it exists and leave the default alone where it does
-          -- not.
+          -- Measured at 20ms for rg against 85ms for the fd that was on PATH (a
+          -- cargo-installed 8.5.3 from 2022, since displaced by the brew one).
+          -- snacks prefers fd, so ask for rg, which modules/darwin/homebrew.nix
+          -- declares; fall back to the default where it is missing.
           files = vim.fn.executable("rg") == 1 and { cmd = "rg" } or {},
           explorer = {
             win = {

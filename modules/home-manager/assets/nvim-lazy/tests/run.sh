@@ -13,7 +13,7 @@ set -uo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SCRIPT="${1:?usage: run.sh <script.lua>}"
-export NVIM_APPNAME="${NVIM_APPNAME:-nvim-lazy}"
+export NVIM_APPNAME="${NVIM_APPNAME:-nvim}"
 
 out="$(nvim --headless -c "luafile $HERE/$SCRIPT" -c "qa" 2>&1)"
 code=$?

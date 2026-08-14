@@ -1,17 +1,14 @@
-{ config, lib, pkgs, ... }:
+{ config, ... }:
+let
+  # lazy.nvim writes lazy-lock.json into the config directory, so a read-only
+  # copy in the Nix store would break `:Lazy update`. This is the one asset tree
+  # that has to stay writable in place; the repo is assumed at ~/manager, the
+  # same assumption the `drs` alias in shell.nix makes.
+  configTree = "${config.home.homeDirectory}/manager/modules/home-manager/assets/nvim-lazy";
+in
 {
-  # Neovim runtime — config tree only; vim-plug bootstraps plugins imperatively on first launch.
-  xdg.configFile."nvim" = {
-    source = ./assets/nvim;
-    recursive = true;
-  };
-
-  # LunarVim — config tree only; lvim installer bootstraps runtime under ~/.local/share/lunarvim imperatively.
-  xdg.configFile."lvim" = {
-    source = ./assets/lvim;
-    recursive = true;
-  };
-
-  # nvim + lvim binaries: nvim comes from the Homebrew bridge per D5; lvim launcher under ~/.local/bin/lvim
-  # is installed by the LunarVim installer and is NOT managed by Nix.
+  # Neovim: LazyVim, replacing both the vim-plug/coc config and LunarVim as of
+  # the 2026-08-13 cutover. `n` and `lazyvim` are aliases for `nvim` now, so
+  # everything lands on this one config and one plugin state directory.
+  xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink configTree;
 }
