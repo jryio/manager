@@ -59,3 +59,9 @@ There exists @DECISIONS.md which you must use upon completing work. What were th
 - NEVER stop before pushing - that leaves work stranded locally
 - NEVER say "ready to push when you are" - YOU must push
 - If push fails, resolve and retry until it succeeds
+
+## Session Log
+
+- [pocket-tts-speak-2026-08-16]: added the managed Gum interface for Kyutai Pocket TTS
+  - `speak` owns the complete Pocket CLI surface: speech generation/playback, persistent settings, local server, and voice export. It runs `uvx pocket-tts` internally; user shells never invoke `uvx` directly.
+  - `scripts/test-speak.sh`, Zsh syntax checks, and AVA/GROT evaluations pass. Testaccount activation did not run: this CASE session cannot authenticate as `testaccount` (`su` rejects the supplied credential); run `darwin-rebuild switch --flake .#AVA` from an authorized testaccount terminal before using `speak`.

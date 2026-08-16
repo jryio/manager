@@ -31,6 +31,7 @@ let
   #  1010  mise.zsh                <- mise activate (after nvm so it wins its dirs)
   #  1020  herdr.zsh               <- hwt worktree + hlo relayout + per-repo layouts
   #  1030  darwin-rebuild.zsh      <- drs/drb, resolved at runtime not build time
+  #  1040  pocket-tts.zsh          <- speak: Gum interface over uvx pocket-tts
   #  1100  shellAliases / global   [HM]
   #  1200  syntaxHighlighting      [HM]
   zshInitContent = lib.mkMerge [
@@ -43,6 +44,7 @@ let
     (lib.mkOrder 1010 (builtins.readFile ./shell/mise.zsh))
     (lib.mkOrder 1020 (builtins.readFile ./shell/herdr.zsh))
     (lib.mkOrder 1030 (builtins.readFile ./shell/darwin-rebuild.zsh))
+    (lib.mkOrder 1040 (builtins.readFile ./shell/pocket-tts.zsh))
   ];
 in
 {
