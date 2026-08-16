@@ -44,13 +44,19 @@ EOF
 cat > "$tmpdir/bin/uvx" <<'EOF'
 #!/bin/zsh
 print -r -- "uvx:$*" >> "$SPEAK_TEST_LOG"
+text_from_stdin=false
 while (( $# )); do
+  if [[ "$1" == --text && "$2" == - ]]; then
+    text_from_stdin=true
+  fi
   if [[ "$1" == --output-path ]]; then
     printf 'RIFF\x24\x00\x00\x00WAVEfmt \x10\x00\x00\x00\x01\x00\x01\x00\x40\x1F\x00\x00\x40\x1F\x00\x00\x01\x00\x08\x00data\x00\x00\x00\x00' > "$2"
-    break
   fi
   shift
 done
+if [[ "$text_from_stdin" == true ]]; then
+  print -r -- "stdin:$(cat)" >> "$SPEAK_TEST_LOG"
+fi
 EOF
 chmod +x "$tmpdir/bin/gum" "$tmpdir/bin/uvx"
 
@@ -68,7 +74,8 @@ speak 'Hello Pocket'
 [[ "$(<"$SPEAK_TEST_LOG")" != *'--max-tokens'* ]]
 
 print -r -- 'Piped Pocket' | speak
-[[ "$(<"$SPEAK_TEST_LOG")" == *'pocket-tts generate --text Piped Pocket'* ]]
+[[ "$(<"$SPEAK_TEST_LOG")" == *'pocket-tts generate --text -'* ]]
+[[ "$(<"$SPEAK_TEST_LOG")" == *'stdin:Piped Pocket'* ]]
 
 mkdir -p "$HOME/.local/state/speak"
 cat > "$HOME/.local/state/speak/settings" <<'EOF'

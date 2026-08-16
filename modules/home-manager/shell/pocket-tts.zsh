@@ -117,17 +117,13 @@ _speak_generate() {
 }
 
 _speak_read_text() {
-  if [[ ! -t 0 ]]; then
-    cat
-  else
-    gum write --placeholder "Text to speak"
-  fi
+  gum write --placeholder "Text to speak"
 }
 
 _speak_play() {
   local text="$1" tmpdir output_path exit_code
 
-  if [[ -z "${text//[[:space:]]/}" ]]; then
+  if [[ "$text" != - && -z "${text//[[:space:]]/}" ]]; then
     print -u2 "speak needs text; pass an argument, pipe input, or use speak generate."
     return 64
   fi
@@ -370,6 +366,9 @@ Usage:
                             Convert a voice sample to safetensors.
   speak -- "settings"       Speak text that is also a command name.
 
+Piped and redirected input is streamed to Pocket, avoiding shell argument
+limits. Pocket splits it into short independent sentence chunks.
+
 All Pocket CLI surfaces are available through generate, serve, export-voice,
 and settings. uvx remains the isolated runner; invoke speak, not uvx.
 EOF
@@ -409,8 +408,12 @@ speak() {
       _speak_play "$*"
       ;;
     '')
-      text="$(_speak_read_text)" || return
-      _speak_play "$text"
+      if [[ -t 0 ]]; then
+        text="$(_speak_read_text)" || return
+        _speak_play "$text"
+      else
+        _speak_play -
+      fi
       ;;
     *)
       _speak_play "$*"
