@@ -61,12 +61,30 @@ export SPEAK_TEST_LOG="$tmpdir/commands.log"
 source "$repo_root/modules/home-manager/shell/pocket-tts.zsh"
 
 speak 'Hello Pocket'
+[[ "$(<"$SPEAK_TEST_LOG")" != *'--lsd-decode-steps'* ]]
+[[ "$(<"$SPEAK_TEST_LOG")" != *'--noise-clamp'* ]]
+[[ "$(<"$SPEAK_TEST_LOG")" != *'--eos-threshold'* ]]
+[[ "$(<"$SPEAK_TEST_LOG")" != *'--frames-after-eos'* ]]
+[[ "$(<"$SPEAK_TEST_LOG")" != *'--max-tokens'* ]]
 
 print -r -- 'Piped Pocket' | speak
 [[ "$(<"$SPEAK_TEST_LOG")" == *'pocket-tts generate --text Piped Pocket'* ]]
 
 mkdir -p "$HOME/.local/state/speak"
 cat > "$HOME/.local/state/speak/settings" <<'EOF'
+max_tokens	300
+noise_clamp	1.0
+eos_threshold	0.5
+EOF
+: > "$SPEAK_TEST_LOG"
+speak 'Migrated Pocket'
+[[ "$(<"$SPEAK_TEST_LOG")" != *'--max-tokens 300'* ]]
+[[ "$(<"$SPEAK_TEST_LOG")" != *'--noise-clamp 1.0'* ]]
+[[ "$(<"$SPEAK_TEST_LOG")" != *'--eos-threshold 0.5'* ]]
+[[ "$(<"$HOME/.local/state/speak/settings")" == *$'settings_version\t2'* ]]
+
+cat > "$HOME/.local/state/speak/settings" <<'EOF'
+settings_version	2
 config	/opt/pocket/custom.yaml
 quantize	true
 temperature	0.7

@@ -4,21 +4,31 @@ _speak_defaults() {
   typeset -gA speak_config
 
   speak_config=(
+    settings_version 2
     voice alba
     language english
     config ''
     device cpu
     quantize false
-    lsd_decode_steps 8
+    lsd_decode_steps ''
     temperature ''
-    noise_clamp 1.0
-    eos_threshold 0.5
-    frames_after_eos 5
-    max_tokens 300
+    noise_clamp ''
+    eos_threshold ''
+    frames_after_eos ''
+    max_tokens ''
     server_host localhost
     server_port 8000
     server_reload false
   )
+}
+
+_speak_reset_generation_settings() {
+  speak_config[lsd_decode_steps]=''
+  speak_config[temperature]=''
+  speak_config[noise_clamp]=''
+  speak_config[eos_threshold]=''
+  speak_config[frames_after_eos]=''
+  speak_config[max_tokens]=''
 }
 
 _speak_settings_file() {
@@ -26,14 +36,24 @@ _speak_settings_file() {
 }
 
 _speak_load_settings() {
-  local settings_file key value
+  local settings_file key value settings_version='' migrated=false
 
   settings_file="$(_speak_settings_file)"
   [[ -r "$settings_file" ]] || return 0
 
   while IFS=$'\t' read -r key value; do
     (( ${+speak_config[$key]} )) && speak_config[$key]="$value"
+    [[ "$key" == settings_version ]] && settings_version="$value"
   done < "$settings_file"
+
+  if [[ "$settings_version" != 2 ]]; then
+    _speak_reset_generation_settings
+    speak_config[settings_version]=2
+    migrated=true
+  fi
+  if [[ "$migrated" == true ]]; then
+    _speak_save_settings
+  fi
 }
 
 _speak_save_settings() {
@@ -82,15 +102,15 @@ _speak_generate() {
     --voice "${speak_config[voice]}"
     "${model_args[@]}"
     --device "${speak_config[device]}"
-    --lsd-decode-steps "${speak_config[lsd_decode_steps]}"
-    --noise-clamp "${speak_config[noise_clamp]}"
-    --eos-threshold "${speak_config[eos_threshold]}"
-    --frames-after-eos "${speak_config[frames_after_eos]}"
-    --max-tokens "${speak_config[max_tokens]}"
     --output-path "$output_path"
   )
 
+  [[ -n "${speak_config[lsd_decode_steps]}" ]] && command+=(--lsd-decode-steps "${speak_config[lsd_decode_steps]}")
   [[ -n "${speak_config[temperature]}" ]] && command+=(--temperature "${speak_config[temperature]}")
+  [[ -n "${speak_config[noise_clamp]}" ]] && command+=(--noise-clamp "${speak_config[noise_clamp]}")
+  [[ -n "${speak_config[eos_threshold]}" ]] && command+=(--eos-threshold "${speak_config[eos_threshold]}")
+  [[ -n "${speak_config[frames_after_eos]}" ]] && command+=(--frames-after-eos "${speak_config[frames_after_eos]}")
+  [[ -n "${speak_config[max_tokens]}" ]] && command+=(--max-tokens "${speak_config[max_tokens]}")
   [[ "${speak_config[quantize]}" == true ]] && command+=(--quantize)
 
   gum spin --title "Generating speech…" -- "${command[@]}"
@@ -134,12 +154,12 @@ _speak_show_settings() {
     printf 'Custom config\t%s\n' "${speak_config[config]:-default}"
     printf 'Device\t%s\n' "${speak_config[device]}"
     printf 'Quantize\t%s\n' "${speak_config[quantize]}"
-    printf 'LSD decode steps\t%s\n' "${speak_config[lsd_decode_steps]}"
-    printf 'Temperature\t%s\n' "${speak_config[temperature]:-model default}"
-    printf 'Noise clamp\t%s\n' "${speak_config[noise_clamp]}"
-    printf 'EOS threshold\t%s\n' "${speak_config[eos_threshold]}"
-    printf 'Frames after EOS\t%s\n' "${speak_config[frames_after_eos]}"
-    printf 'Max tokens\t%s\n' "${speak_config[max_tokens]}"
+    printf 'LSD decode steps\t%s\n' "${speak_config[lsd_decode_steps]:-Pocket default}"
+    printf 'Temperature\t%s\n' "${speak_config[temperature]:-Pocket default}"
+    printf 'Noise clamp\t%s\n' "${speak_config[noise_clamp]:-Pocket default}"
+    printf 'EOS threshold\t%s\n' "${speak_config[eos_threshold]:-Pocket default}"
+    printf 'Frames after EOS\t%s\n' "${speak_config[frames_after_eos]:-Pocket default}"
+    printf 'Max tokens\t%s\n' "${speak_config[max_tokens]:-Pocket default}"
     printf 'Server host\t%s\n' "${speak_config[server_host]}"
     printf 'Server port\t%s\n' "${speak_config[server_port]}"
     printf 'Server reload\t%s\n' "${speak_config[server_reload]}"
@@ -217,19 +237,14 @@ _speak_generation_settings() {
       'LSD decode steps' 'Temperature' 'Noise clamp' 'EOS threshold' \
       'Frames after EOS' 'Max tokens' 'Reset generation defaults' 'Back')" || return
     case "$choice" in
-      'LSD decode steps') _speak_set_value lsd_decode_steps "Generation steps" ;;
-      Temperature) _speak_set_value temperature "Temperature (blank uses the model default)" ;;
-      'Noise clamp') _speak_set_value noise_clamp "Noise clamp" ;;
-      'EOS threshold') _speak_set_value eos_threshold "EOS threshold" ;;
-      'Frames after EOS') _speak_set_value frames_after_eos "Frames generated after EOS" ;;
-      'Max tokens') _speak_set_value max_tokens "Maximum tokens per chunk" ;;
+      'LSD decode steps') _speak_set_value lsd_decode_steps "Generation steps (blank uses Pocket default)" ;;
+      Temperature) _speak_set_value temperature "Temperature (blank uses Pocket default)" ;;
+      'Noise clamp') _speak_set_value noise_clamp "Noise clamp (blank uses Pocket default)" ;;
+      'EOS threshold') _speak_set_value eos_threshold "EOS threshold (blank uses Pocket default)" ;;
+      'Frames after EOS') _speak_set_value frames_after_eos "Frames generated after EOS (blank uses Pocket default)" ;;
+      'Max tokens') _speak_set_value max_tokens "Maximum tokens per chunk (blank uses Pocket default)" ;;
       'Reset generation defaults')
-        speak_config[lsd_decode_steps]=8
-        speak_config[temperature]=''
-        speak_config[noise_clamp]=1.0
-        speak_config[eos_threshold]=0.5
-        speak_config[frames_after_eos]=5
-        speak_config[max_tokens]=300
+        _speak_reset_generation_settings
         _speak_save_settings
         ;;
       Back) return ;;

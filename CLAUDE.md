@@ -65,3 +65,6 @@ There exists @DECISIONS.md which you must use upon completing work. What were th
 - [pocket-tts-speak-2026-08-16]: added the managed Gum interface for Kyutai Pocket TTS
   - `speak` owns the complete Pocket CLI surface: speech generation/playback, persistent settings, local server, and voice export. It runs `uvx pocket-tts` internally; user shells never invoke `uvx` directly.
   - `scripts/test-speak.sh`, Zsh syntax checks, and AVA/GROT evaluations pass. Testaccount activation did not run: this CASE session cannot authenticate as `testaccount` (`su` rejects the supplied credential); run `darwin-rebuild switch --flake .#AVA` from an authorized testaccount terminal before using `speak`.
+- [pocket-tts-defaults-fix-2026-08-16]: repaired unsafe stale Pocket generation overrides
+  - `speak` v1 forced values that no longer match Pocket’s upstream defaults: most critically `--max-tokens 300` versus Pocket’s 50-token limit, which can emit skipped/mumbled text; EOS, noise-clamp, decode-step, and post-EOS overrides were also stale.
+  - The wrapper now omits all generation tuning flags unless explicitly configured, so Pocket owns its current defaults. It migrates every v1 settings file by resetting only generation tuning and recording `settings_version=2`; voice, model, device, quantization, and server settings remain intact.
