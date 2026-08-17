@@ -31,7 +31,7 @@ let
   #  1010  mise.zsh                <- mise activate (after nvm so it wins its dirs)
   #  1020  herdr.zsh               <- hwt worktree + hlo relayout + per-repo layouts
   #  1030  darwin-rebuild.zsh      <- drs/drb, resolved at runtime not build time
-  #  1040  pocket-tts.zsh          <- speak: Gum interface over uvx pocket-tts
+  #  1040  kyutai-tts.zsh          <- speak: Gum interface over Kyutai TTS (MLX)
   #  1100  shellAliases / global   [HM]
   #  1200  syntaxHighlighting      [HM]
   zshInitContent = lib.mkMerge [
@@ -44,7 +44,7 @@ let
     (lib.mkOrder 1010 (builtins.readFile ./shell/mise.zsh))
     (lib.mkOrder 1020 (builtins.readFile ./shell/herdr.zsh))
     (lib.mkOrder 1030 (builtins.readFile ./shell/darwin-rebuild.zsh))
-    (lib.mkOrder 1040 (builtins.readFile ./shell/pocket-tts.zsh))
+    (lib.mkOrder 1040 (builtins.readFile ./shell/kyutai-tts.zsh))
   ];
 in
 {
@@ -261,4 +261,9 @@ in
   home.sessionVariables = {
     FZF_DEFAULT_COMMAND = "rg --files --hidden --smart-case --follow --glob '!.git/*'";
   };
+
+  # speak runtime: Kyutai TTS generator + ASR verification harness, executed
+  # via `uv run --script` (PEP 723 headers pin their Python dependencies).
+  xdg.configFile."speak/kyutai-tts.py".source = ./assets/speak/kyutai-tts.py;
+  xdg.configFile."speak/speak-verify.py".source = ./assets/speak/speak-verify.py;
 }
