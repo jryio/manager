@@ -24,6 +24,8 @@ return {
           -- declares; fall back to the default where it is missing.
           files = vim.fn.executable("rg") == 1 and { cmd = "rg" } or {},
           explorer = {
+            hidden = true,
+            ignored = true,
             win = {
               list = {
                 keys = {
