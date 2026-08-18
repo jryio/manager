@@ -94,4 +94,23 @@ for _, c in ipairs(cases) do
   end
 end
 
+-- <M-s> is cmd+s, sent by Ghostty as ESC s. A mapping assertion alone cannot
+-- prove the write happened.
+if h.phase() >= 2 then
+  local f = vim.fn.tempname()
+  vim.cmd("edit " .. f)
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, { "via cmd-s" })
+  vim.api.nvim_feedkeys(vim.keycode("<M-s>"), "mtx", false)
+  h.eq(vim.fn.readfile(f), { "via cmd-s" }, "<M-s> writes the buffer from normal mode")
+
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, { "second" })
+  vim.api.nvim_win_set_cursor(0, { 1, 0 })
+  vim.api.nvim_feedkeys(vim.keycode("ix<M-s>"), "mtx", false)
+  h.eq(vim.fn.readfile(f), { "xsecond" }, "<M-s> writes the buffer from insert mode")
+  h.eq(vim.api.nvim_get_mode().mode, "n", "<M-s> from insert mode lands back in normal mode")
+
+  vim.cmd("bwipeout!")
+  vim.fn.delete(f)
+end
+
 h.finish(string.format("behaviour (phase <= %s)", h.phase() == math.huge and "all" or h.phase()))

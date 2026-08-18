@@ -102,6 +102,12 @@ keybind = cmd+w=close_surface
 keybind = cmd+v=paste_from_clipboard
 keybind = cmd+c=copy_to_clipboard
 
+# Keybindings - Save
+# A terminal cannot deliver the super key, so cmd+s goes out as ESC s (<M-s>),
+# which nvim-lazy/lua/config/keymaps.lua maps to :write. Unbound, cmd+s never
+# reaches the pty as a key Neovim can map.
+keybind = cmd+s=text:\x1bs
+
 # Keybindings - Font Size
 keybind = cmd+0=reset_font_size
 keybind = cmd+equal=increase_font_size:1

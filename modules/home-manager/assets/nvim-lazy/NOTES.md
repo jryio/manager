@@ -80,6 +80,12 @@ Later phases should trust this file over the original plan.
 - Keys removed through plugin specs rather than `vim.keymap.del`, because that is
   where they are defined: bufferline's `<S-h>`/`<S-l>`, flash's `S`, snacks'
   `<leader>S`. `[b` and `]b` still cycle buffers.
+- **cmd+s is a two-sided binding.** A terminal cannot deliver the super key, so
+  `assets/ghostty/config` encodes it as `ESC s` (`keybind = cmd+s=text:\x1bs`)
+  and keymaps.lua maps `<M-s>` to `:write` in normal, insert, visual and select
+  modes. Changing the key means changing both files; the Ghostty half lands on
+  a switch plus a config reload (super+shift+,), the nvim half is live
+  immediately thanks to the out-of-store symlink.
 
 ### Legacy bindings found but not ported
 

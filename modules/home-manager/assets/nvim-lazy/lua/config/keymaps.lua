@@ -36,6 +36,10 @@ map("n", "_", "<cmd>bprevious<cr>", { desc = "Prev Buffer" })
 -- Write
 map("n", ",s", "<cmd>w<cr>", { desc = "Save" })
 
+-- cmd+s, which Ghostty sends as ESC s (<M-s>) -- see assets/ghostty/config.
+-- Same action and mode coverage as LazyVim's own <C-s>.
+map({ "n", "i", "x", "s" }, "<M-s>", "<cmd>w<cr><esc>", { desc = "Save" })
+
 -- System clipboard, from the legacy config
 map("n", ",y", '"+y', { desc = "Yank to clipboard" })
 map("v", ",y", '"+y', { desc = "Yank to clipboard" })
