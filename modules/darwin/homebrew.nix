@@ -164,6 +164,7 @@
       "markedit"
       "miniconda"
       "ngrok"
+      "openlogi" # local-first Logi Options+ alternative for HID++ devices (auto_updates)
       # powershell cask removed 2026-07: deleted upstream (Gatekeeper); the
       # `powershell` FORMULA above still provides pwsh. AVA's old cask install
       # stays per cleanup = "none".
