@@ -174,6 +174,49 @@ gcm() {
   git commit -m "$*"
 }
 
+# git log, signed: tig-style one-line log with each commit's signature status.
+# %G? codes: G=good, U=good but untrusted, N=unsigned, B/X/Y/R=bad/expired/
+# revoked, E=uncheckable.
+gls() {
+  git --no-pager log --color=always \
+    --pretty=format:'%G?%x1f%GK%x1f%ad%x1f%an%x1f%p%x1f%C(auto)%D%C(reset)%x1f%s' \
+    --date=format:'%Y-%m-%d %H:%M %z' "$@" \
+    | awk -F '\037' '
+        {
+          sig  = $1; key = $2; date = $3; auth = $4
+          parents = $5; refs = $6; subj = $7
+
+          marker = "o"
+          if (parents == "") marker = "I"
+          else if (parents ~ / /) marker = "M"
+
+          green   = "\033[32m"
+          yellow  = "\033[33m"
+          red     = "\033[1;31m"
+          magenta = "\033[35m"
+          reset   = "\033[0m"
+
+          if (sig == "G")      badge = green   "✓ " key
+          else if (sig == "U") badge = yellow  "✓ " key
+          else if (sig == "N") badge = red     "✗"
+          else if (sig == "B") badge = red     "✗ BAD " key
+          else if (sig == "X") badge = yellow  "✓ EXPIRED " key
+          else if (sig == "Y") badge = yellow  "✓ EXP-KEY " key
+          else if (sig == "R") badge = red     "✓ REVOKED " key
+          else if (sig == "E") badge = magenta "? " key
+          else                 badge = sig " " key
+
+          # %C(auto)%D%C(reset) leaves stray reset codes when refs are empty.
+          plain = refs
+          gsub(/\033\[[0-9;]*m/, "", plain)
+          if (plain != "") refs = refs " "
+
+          printf "%s %s %s%s %s %s%s\n", date, auth, badge, reset, marker, refs, subj
+        }
+      ' \
+    | if [[ -t 1 ]]; then less -FRX; else cat; fi
+}
+
 jjdm() {
   jj describe -m "$*"
 }

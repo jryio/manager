@@ -14,6 +14,7 @@
     ./github.nix
     ./jujutsu.nix
     ./television.nix
+    ./tig.nix
     ./monitoring.nix
     ./vale.nix
     ./editors.nix
