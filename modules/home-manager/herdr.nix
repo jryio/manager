@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 # Home Manager module for herdr (https://herdr.dev).
 #
@@ -8,7 +13,8 @@
 # Homebrew formula or nixpkgs derivation exists). ~/.local/bin is on
 # PATH via home.sessionPath in shell.nix.
 #
-# This module owns ~/.config/herdr/config.toml only. The vendored
+# This module owns ~/.config/herdr/config.toml and the OMP extension that
+# reports native conversation titles to Herdr. The vendored
 # ./assets/herdr/config.toml mirrors the user's tmux key conventions
 # from ./assets/tmux/tmux.conf so the same muscle memory applies in
 # both tools.
@@ -24,6 +30,9 @@ let
   vendoredConfig = ./assets/herdr/config.toml;
 in
 {
+  home.file.".omp/agent/extensions/herdr-omp-conversation-title.ts".source =
+    ./assets/herdr/herdr-omp-conversation-title.ts;
+
   home.activation.herdrConfig = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     mkdir -p "${herdrConfigDir}"
     # rm first: a stale HM symlink would make `install` follow into the
