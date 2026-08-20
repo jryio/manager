@@ -89,13 +89,13 @@ let
         "    allowedSignersFile = ${vars.signing.allowedSignersFile}"
       ];
 
-      # jry predates the 1Password agent migration and still pins its key on
-      # disk; every other identity resolves by fingerprint through the agent
-      # configured in modules/home-manager/ssh.nix.
-      coreBlock = lib.optionals (id == "jry") [
+      # gitego profiles select authorship and signing, not SSH transport
+      # identity. Pointing SSH at the public key constrains the 1Password agent
+      # to the identity authorized for this profile's repositories.
+      coreBlock = lib.optionals (i.sshAuthKeyFile != null) [
         ""
         "[core]"
-        "    sshCommand = ssh -i ${i.sshKey}"
+        "    sshCommand = ssh -o IdentitiesOnly=yes -i ${i.sshAuthKeyFile}"
       ];
     in
     lib.concatStringsSep "\n" (userBlock ++ sshSigningBlock ++ coreBlock) + "\n";
