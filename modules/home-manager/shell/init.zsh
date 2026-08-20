@@ -1,10 +1,7 @@
 export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 
-if [[ -n ${SSH_CONNECTION-} ]]; then
-  export EDITOR="vim"
-elif command -v zed >/dev/null 2>&1; then
-  export EDITOR="zed --wait"
-fi
+# The managed nvim configuration is LazyVim.
+export EDITOR="nvim"
 
 prepend_path_if_dir() {
   local dir="$1"
