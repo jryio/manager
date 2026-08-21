@@ -1,0 +1,94 @@
+modelRoles:
+  plan: anthropic/claude-fable-5:max
+  advisor: openai-codex/gpt-5.6-sol:high
+  slow: openai-codex/gpt-5.6-sol
+  smol: openrouter/moonshotai/kimi-k3:max
+  default: openai-codex/gpt-5.6-terra
+  commit: openrouter/moonshotai/kimi-k3
+  tiny: openrouter/deepseek/deepseek-v4-pro-0813:high
+symbolPreset: nerd
+theme:
+  dark: graphite
+  light: graphite
+setupVersion: 2
+display:
+  showTokenUsage: true
+tui:
+  imeSafeCursor: false
+statusLine:
+  preset: custom
+  separator: none
+  transparent: true
+  sessionAccent: false
+  showHookStatus: true
+  compactThinkingLevel: false
+  leftSegments:
+    - model
+    - mode
+    - git
+    - usage
+    - cost
+    - context_pct
+  rightSegments:
+    - session_name
+  segmentOptions:
+    path:
+      maxLength: 30
+      stripWorkPrefix: true
+    git:
+      showBranch: true
+      showStaged: true
+      showUnstaged: true
+      showUntracked: true
+    model:
+      showThinkingLevel: true
+    time:
+      format: 24h
+      showSeconds: false
+colorBlindMode: false
+task:
+  disabledAgents: []
+  agentPrewalk: {}
+hideThinkingBlock: true
+bash:
+  enabled: true
+  autoBackground:
+    enabled: true
+startup:
+  quiet: true
+share:
+  serverUrl: ""
+  redactSecrets: true
+stt:
+  enabled: true
+  modelName: parakeet
+  submitTrigger: never
+recap:
+  idleSeconds: 120
+paste:
+  largeMenuThreshold: 500
+dev:
+  autoqaConsent: denied
+cycleOrder:
+  - tiny
+  - smol
+  - default
+  - slow
+  - plan
+  - advisor
+retry:
+  fallbackChains:
+    advisor:
+      - openai-codex/gpt-5.6-terra
+    plan:
+      - openai-codex/gpt-5.6-terra
+    slow:
+      - anthropic/claude-fable-5
+    smol:
+      - openrouter/deepseek/deepseek-v4-pro-0813
+live:
+  voice: arbor
+composer:
+  shape: claude
+compaction:
+  thresholdTokens: 400000
