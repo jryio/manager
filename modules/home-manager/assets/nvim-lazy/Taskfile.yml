@@ -70,8 +70,8 @@ tasks:
     cmds: ['{{.TASKFILE_DIR}}/tests/run.sh verify_format.lua']
 
   test:blame:
-    desc: Assert every tracked line receives faded inline blame
-    cmds: ['{{.TASKFILE_DIR}}/tests/run.sh verify_inline_blame.lua']
+    desc: Assert one faded blame annotation follows the current line
+    cmds: ['{{.TASKFILE_DIR}}/tests/run.sh verify_current_line_blame.lua']
 
   test:startup:
     desc: Fail if startup is slower than the recorded lvim baseline x1.2
