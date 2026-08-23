@@ -135,10 +135,13 @@ in
         email = identities.${activeProfile}.email;
       };
 
+      # Use the nvim executable: it always loads the managed LazyVim config,
+      # unlike the interactive-only `lazyvim` alias.
       core = {
-        editor = "zed --wait";
+        editor = "nvim";
         excludesfile = "~/.gitignore";
       };
+      sequence.editor = "nvim";
 
       credential.helper = "!gitego credential";
 

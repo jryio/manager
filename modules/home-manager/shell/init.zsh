@@ -1,7 +1,11 @@
 export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 
-# The managed nvim configuration is LazyVim.
+# The managed nvim configuration is LazyVim. Do not inherit an editor from a
+# parent process: agent harnesses often set these to `true` to disable editing.
 export EDITOR="nvim"
+export VISUAL="$EDITOR"
+export GIT_EDITOR="$EDITOR"
+export GIT_SEQUENCE_EDITOR="$EDITOR"
 
 prepend_path_if_dir() {
   local dir="$1"
