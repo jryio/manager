@@ -23,6 +23,7 @@ tasks:
       - task: test:behaviour
       - task: test:lsp
       - task: test:format
+      - task: test:blame
       - task: test:startup
 
   sync:
@@ -67,6 +68,10 @@ tasks:
   test:format:
     desc: Assert formatter wiring (blackd-client, gq/textwidth)
     cmds: ['{{.TASKFILE_DIR}}/tests/run.sh verify_format.lua']
+
+  test:blame:
+    desc: Assert every tracked line receives faded inline blame
+    cmds: ['{{.TASKFILE_DIR}}/tests/run.sh verify_inline_blame.lua']
 
   test:startup:
     desc: Fail if startup is slower than the recorded lvim baseline x1.2
