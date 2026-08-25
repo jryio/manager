@@ -16,9 +16,11 @@
     # core), so tapping them fails on a fresh machine. They remain tapped
     # locally on AVA per cleanup = "none"; that is harmless.
     taps = [
+            "agavra/tap"
       "can1357/tap"
       "charmbracelet/tap"
       "docker/tap"
+            "hashicorp/tap"
       "heroku/brew"
       "neovim/neovim"
       "oven-sh/bun"
@@ -29,10 +31,13 @@
     ];
 
     brews = [
+            "agavra/tap/tuicr" # TUI code review (shadows the new core `tuicr` formula by design)
       "agent-browser"
       "avro-tools"
       "awk"
+            "ast-grep"
       "azure-cli"
+            "awscli"
       "bat"
       "black"
       "blueutil"
@@ -76,11 +81,13 @@
       "grep"
       "grpcurl"
       "harper"
+            "hashicorp/tap/vault"
       "helix"
       "helm"
       "heroku"
       "hf"
       # htop: Nix-managed via programs.htop in modules/home-manager/monitoring.nix (D5)
+      "hunk" # review-first diff viewer for agent changesets
       "hugo"
       "hyperfine"
       "imagemagick"
@@ -102,6 +109,7 @@
       "mysql"
       "neovim"
       "nmap"
+            "nono" # capability-based sandbox shell for AI agents
       "nushell"
       "oha"
       "opentofu"
@@ -109,6 +117,7 @@
       "oven-sh/bun/bun"
       "pinentry-mac"
       "pipx"
+            "poppler" 
       "portaudio"
       "postgresql@14"
       "powershell"
@@ -141,6 +150,7 @@
       "wget"
       "yarn"
       "yt-dlp"
+            "z3" 
       "zeromq"
       "zola"
     ];
