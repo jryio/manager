@@ -9,6 +9,11 @@
   # "Notes for Topic 07" section are encoded here verbatim. The 4 caveat
   # categories are explicitly left as operator-managed.
 
+  system.keyboard = {
+    enableKeyMapping = true;
+    remapCapsLockToControl = true;
+  };
+
   system.defaults = {
 
     NSGlobalDomain = {
