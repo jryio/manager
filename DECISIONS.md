@@ -274,5 +274,5 @@
   - `modules/home-manager/packages.nix` installs `pkgs.gum`. The function needs no repository-specific paths or service registry, so it works for every local port after `drs` and a new Zsh session.
 
 - [caps-lock-control-2026-08-25]: declare Caps Lock as Control
-  - `modules/darwin/defaults.nix` enables the nix-darwin HID key mapping for AVA and GROT. System builds and rendered mappings pass.
-  - `nixfmt` was absent. `nix run nixpkgs#nixfmt -- --check` reports a pre-existing multiline function-argument style in `defaults.nix`, so the unrelated reformat remains excluded.
+  - `modules/darwin/defaults.nix` enables the nix-darwin HID key mapping for AVA and GROT. Both render it, AVA builds, and a testaccount switch left the live `hidutil` mapping active.
+  - Home Manager later stopped on the pre-existing `/Users/CASE/.omp/agent/config.yml.hm-backup` collision. No unrelated OMP state was changed; remove or archive that stale backup before the next full switch.
