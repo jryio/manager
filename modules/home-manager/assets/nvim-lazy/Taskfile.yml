@@ -24,6 +24,8 @@ tasks:
       - task: test:lsp
       - task: test:format
       - task: test:blame
+      - task: test:markdown
+
       - task: test:startup
 
   sync:
@@ -60,6 +62,10 @@ tasks:
   test:behaviour:
     desc: Exercise bindings whose effect is an edit, not just a mapping
     cmds: ['{{.TASKFILE_DIR}}/tests/run.sh verify_behaviour.lua']
+  test:markdown:
+    desc: Assert Markdown stays raw except rendered pipe tables
+    cmds: ['{{.TASKFILE_DIR}}/tests/run.sh verify_markdown.lua']
+
 
   test:lsp:
     desc: Assert the expected server attaches per language fixture

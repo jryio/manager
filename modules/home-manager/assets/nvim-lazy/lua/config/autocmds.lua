@@ -55,14 +55,20 @@ vim.api.nvim_create_autocmd("ColorScheme", {
 })
 apply_links()
 
--- LazyVim soft-wraps prose filetypes; neither lvim nor the legacy config ever
--- did, and `wrap` with textwidth=80 mostly hides where lines really end. Keep
--- the spell half, which the legacy config had for markdown.
+-- Retain legacy spelling for prose without LazyVim's broad soft wrapping.
 pcall(vim.api.nvim_del_augroup_by_name, "lazyvim_wrap_spell")
 vim.api.nvim_create_autocmd("FileType", {
   group = vim.api.nvim_create_augroup("jry_spell", { clear = true }),
   pattern = { "text", "plaintex", "typst", "gitcommit", "markdown" },
   callback = function()
     vim.opt_local.spell = true
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("jry_markdown_wrap", { clear = true }),
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.wrap = true
   end,
 })
