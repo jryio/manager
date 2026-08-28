@@ -91,6 +91,7 @@ in
       grba = "LEFTHOOK=0 git rebase --abort";
       grbc = "LEFTHOOK=0 git rebase --continue";
       grbsign = "LEFTHOOK=0 git rebase --exec 'git commit --amend --no-edit -n -S' --update-refs -i";
+      grbsign_auto = "LEFTHOOK=0 git rebase --gpg-sign --update-refs";
       ggpush = "git push -u origin $(git_current_branch)";
       grs = "git restore --staged";
       jjgi = "jj git init --colocate";
