@@ -32,7 +32,7 @@ let
   #  1020  herdr.zsh               <- hwt worktree + hlo relayout + per-repo layouts
   #  1030  darwin-rebuild.zsh      <- drs/drb, resolved at runtime not build time
   #  1040  kyutai-tts.zsh          <- speak: Gum interface over Kyutai TTS (MLX)
-  #  1100  shellAliases / global   [HM]
+  #  1050  omp-config.zsh          <- import mutable OMP config into this repo
   #  1200  syntaxHighlighting      [HM]
   zshInitContent = lib.mkMerge [
     (lib.mkOrder 525 (builtins.readFile ./shell/homebrew.zsh))
@@ -45,6 +45,7 @@ let
     (lib.mkOrder 1020 (builtins.readFile ./shell/herdr.zsh))
     (lib.mkOrder 1030 (builtins.readFile ./shell/darwin-rebuild.zsh))
     (lib.mkOrder 1040 (builtins.readFile ./shell/kyutai-tts.zsh))
+    (lib.mkOrder 1050 (builtins.readFile ./shell/omp-config.zsh))
   ];
 in
 {
