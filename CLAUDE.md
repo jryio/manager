@@ -129,3 +129,6 @@ There exists @DECISIONS.md which you must use upon completing work. What were th
 - [omp-commit-wrapper-2026-09-03]: added `ompcommit` for policy-bound OMP commits
   - `modules/home-manager/shell/omp-commit.zsh` calls `omp commit` with `--push`, `--no-changelog`, and the supplied conventional-commit context. It accepts no user flags, so real invocations cannot disable those defaults.
   - The function uses Bash-compatible syntax inside the managed Zsh startup. Syntax and mocked argument forwarding pass. Home Manager activation was not run.
+- [git-auto-setup-remote-2026-09-03]: declare automatic upstream setup for first pushes
+  - `git.nix` sets `push.autoSetupRemote = true` with the existing `push.default = "simple"`, so `git push` on a new branch creates the `origin/<branch>` tracking upstream.
+  - The rendered AVA setting evaluates to `true`. Home Manager activation was not run.

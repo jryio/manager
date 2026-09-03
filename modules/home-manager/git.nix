@@ -148,6 +148,7 @@ in
       init.defaultBranch = "main";
 
       push.default = "simple";
+      push.autoSetupRemote = true;
       pull.rebase = true;
 
       rerere = {
