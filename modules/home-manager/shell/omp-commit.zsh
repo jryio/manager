@@ -1,6 +1,6 @@
 # Commit the current worktree through OMP with the repository commit policy.
 # The function has no user flags so every real invocation pushes and skips changelogs.
-ompcommit() {
+commit() {
   omp commit --push --no-changelog --context '
 YOU MUST intelligently inspect staged and unstaged files in this branch or worktree with git status. Read their contents, then batch related changes into logical commits.
 

@@ -132,3 +132,6 @@ There exists @DECISIONS.md which you must use upon completing work. What were th
 - [git-auto-setup-remote-2026-09-03]: declare automatic upstream setup for first pushes
   - `git.nix` sets `push.autoSetupRemote = true` with the existing `push.default = "simple"`, so `git push` on a new branch creates the `origin/<branch>` tracking upstream.
   - The rendered AVA setting evaluates to `true`. Home Manager activation was not run.
+- [omp-commit-name-2026-09-03]: renamed the OMP commit wrapper to `commit`
+  - The managed shell function is now `commit`, replacing `ompcommit`; it keeps the same forced `--push`, `--no-changelog`, and commit-policy context.
+  - Bash and Zsh syntax checks pass. A mocked OMP invocation receives the required arguments.
