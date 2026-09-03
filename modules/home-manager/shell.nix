@@ -33,7 +33,7 @@ let
   #  1030  darwin-rebuild.zsh      <- drs/drb, resolved at runtime not build time
   #  1040  kyutai-tts.zsh          <- speak: Gum interface over Kyutai TTS (MLX)
   #  1050  omp-config.zsh          <- import mutable OMP config into this repo
-  #  1200  syntaxHighlighting      [HM]
+  #  1060  omp-commit.zsh          <- policy-bound OMP commit wrapper
   zshInitContent = lib.mkMerge [
     (lib.mkOrder 525 (builtins.readFile ./shell/homebrew.zsh))
     (lib.mkOrder 550 (builtins.readFile ./shell/completion-styles.zsh))
@@ -46,6 +46,7 @@ let
     (lib.mkOrder 1030 (builtins.readFile ./shell/darwin-rebuild.zsh))
     (lib.mkOrder 1040 (builtins.readFile ./shell/kyutai-tts.zsh))
     (lib.mkOrder 1050 (builtins.readFile ./shell/omp-config.zsh))
+    (lib.mkOrder 1060 (builtins.readFile ./shell/omp-commit.zsh))
   ];
 in
 {

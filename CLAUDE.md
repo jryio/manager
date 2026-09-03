@@ -126,3 +126,6 @@ There exists @DECISIONS.md which you must use upon completing work. What were th
 - [markdown-table-only-2026-08-28]: Markdown stays raw except for rendered pipe tables
   - `render-markdown.nvim` now disables every non-table renderer and anti-conceal, so source markup never changes on hover; `pipe_table` remains full-width rendered. Markdown buffers also always set local `wrap`.
   - `verify_markdown.lua` asserts all 18 component, anti-conceal, and wrap invariants; the full LazyVim suite passes (boot 60, options 28, keymaps 304, behaviour 19, LSP 12, format 7, blame 3, Markdown 18, startup 28.461ms).
+- [omp-commit-wrapper-2026-09-03]: added `ompcommit` for policy-bound OMP commits
+  - `modules/home-manager/shell/omp-commit.zsh` calls `omp commit` with `--push`, `--no-changelog`, and the supplied conventional-commit context. It accepts no user flags, so real invocations cannot disable those defaults.
+  - The function uses Bash-compatible syntax inside the managed Zsh startup. Syntax and mocked argument forwarding pass. Home Manager activation was not run.
