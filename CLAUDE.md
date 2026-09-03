@@ -123,3 +123,6 @@ There exists @DECISIONS.md which you must use upon completing work. What were th
   - `omp.nix` seeds `~/.omp/agent/config.yml` only when absent and removes only the old Nix-store symlink. Home Manager no longer backs up or replaces a live OMP edit, so the existing `.hm-backup` collision cannot recur.
   - `omp-config-import [--yes] [repo-path]` shows the live-to-repo diff, then copies the approved live file into `modules/home-manager/assets/omp/config.yml`. No other module pulls application changes back automatically: Neovim writes directly through its out-of-store link, Zed seeds once, and Herdr overwrites its config each switch.
   - `zsh -n`, an isolated import with changed YAML, and AVA/GROT activation-script evaluations pass. The privileged switch remains operator-run.
+- [markdown-table-only-2026-08-28]: Markdown stays raw except for rendered pipe tables
+  - `render-markdown.nvim` now disables every non-table renderer and anti-conceal, so source markup never changes on hover; `pipe_table` remains full-width rendered. Markdown buffers also always set local `wrap`.
+  - `verify_markdown.lua` asserts all 18 component, anti-conceal, and wrap invariants; the full LazyVim suite passes (boot 60, options 28, keymaps 304, behaviour 19, LSP 12, format 7, blame 3, Markdown 18, startup 28.461ms).
