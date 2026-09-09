@@ -276,3 +276,7 @@
 - [caps-lock-control-2026-08-25]: declare Caps Lock as Control
   - `modules/darwin/defaults.nix` enables the nix-darwin HID key mapping for AVA and GROT. Both render it, AVA builds, and a testaccount switch left the live `hidutil` mapping active.
   - Home Manager later stopped on the pre-existing `/Users/CASE/.omp/agent/config.yml.hm-backup` collision. No unrelated OMP state was changed; remove or archive that stale backup before the next full switch.
+
+- [brew-qt-dotnet9-2026-09-09]: retained `qt` and `dotnet@9`; both remain required by installed declared formulae
+  - `brew uses --installed qt` reports `gnuplot` and `gpsbabel`; `brew uses --installed dotnet@9` reports `powershell`. All three are declared in `modules/darwin/homebrew.nix`.
+  - Neither root formula is declared directly. Removing either with ignored dependencies would break its dependents; remove or migrate those dependents first, then uninstall under the configured macOS validation account.
