@@ -6,7 +6,7 @@ This repository is the source of truth for the macOS setup. Determinate provides
 - Non-mutating checks such as reading files, shell syntax checks, or documentation updates may run as the current user.
 - This repo runs on multiple machines with different usernames. NEVER hard-code a specific username or home directory (e.g. `/Users/CASE`) in modules, assets, or scripts. Usernames and home paths belong only in `hosts/<name>/default.nix`; everything else derives them from `host.*` / `vars` / `config.home.homeDirectory` in Nix, or `$HOME` in shell/asset files. See "Portability Rule" in `README.md`.
 ## Overall Approach
-- Make conventional commits for all work. Do not push.
+- Make conventional commits for all work.
 
 - Treat `.ai/plan/` as the full migration surface. Bootstrap is only the entrypoint, not the whole design.
 - Keep `AGENTS.md` and `CLAUDE.md` focused on cross-cutting rules that will still matter later. Keep topic-specific decisions in `.ai/plan/`, `README.md`, module files, and code comments where appropriate.
@@ -30,37 +30,8 @@ This repository is the source of truth for the macOS setup. Determinate provides
 - Validate the bootstrap path on a clean macOS install before relying on higher-level modules.
 - If Nix is not yet installed on the active machine, expect validation to be limited to static checks until a real install is performed under `testaccount`.
 
-## Decision Log
 
-There exists @DECISIONS.md which you must use upon completing work. What were the major changes that others should know about. What worked? What did not work? Why did it not work? What should others know about your attempt and what should they do differently. You MUST add to this at the end of every single completed session.
-
-## Landing the Plane (Session Completion)
-
-**When ending a work session**, you MUST complete ALL steps below. Work is NOT complete until `git push` succeeds.
-             something
-
-**MANDATORY WORKFLOW:**
-
-1. **File issues for remaining work** - Create issues for anything that needs follow-up
-2. **Run quality gates** (if code changed) - Tests, linters, builds
-3. **Update issue status** - Close finished work, update in-progress items
-4. **PUSH TO REMOTE** - This is MANDATORY:
-   ```bash
-   git pull --rebase
-   git push
-   git status  # MUST show "up to date with origin"
-   ```
-5. **Clean up** - Clear stashes, prune remote branches
-6. **Verify** - All changes committed AND pushed
-7. **Hand off** - Provide context for next session
-
-**CRITICAL RULES:**
-- Work is NOT complete until `git push` succeeds
-- NEVER stop before pushing - that leaves work stranded locally
-- NEVER say "ready to push when you are" - YOU must push
-- If push fails, resolve and retry until it succeeds
-
-## Session Log
+## Historical notes
 
 - [pocket-tts-speak-2026-08-16]: added the managed Gum interface for Kyutai Pocket TTS
   - `speak` owns the complete Pocket CLI surface: speech generation/playback, persistent settings, local server, and voice export. It runs `uvx pocket-tts` internally; user shells never invoke `uvx` directly.
@@ -86,7 +57,7 @@ There exists @DECISIONS.md which you must use upon completing work. What were th
   - Suite: keymaps 296→304, behaviour 16→19 (new checks drive a real `:w` through `<M-s>` from normal and insert, asserting file contents and resulting mode). AVA + GROT eval clean; testaccount-driven switch clean (178 brew deps, HM activation for CASE clean).
   - Gotcha: the harness's `bash` shadows shell `grep` with REGEX semantics — pattern `cmd+s` silently means `cm` + `d+` + `s` and never matches the literal string. Escape it (`cmd\+s`) or use the grep tool when checking literal config lines from the shell.
 - [openlogi-cask-2026-08-19]: declared the openlogi cask
-  - `modules/darwin/homebrew.nix` adds `openlogi` (cask 0.7.1, auto_updates) to the base casks list — a local-first Logi Options+ alternative for HID++ devices. Placed in the base list, not the `guiAppCasks` optionals: openlogi is already brew-managed on AVA (`brew install --cask` on request today), so there is no manual-.app collision, and it stays tracked on a fresh AVA/GROT. `logi-options-plus` left untouched in the guiAppCasks optionals. Validated: `nix eval` of `config.homebrew.casks` contains `"openlogi"` for both AVA and GROT; `nixfmt --check` clean. Committed; not pushed per the "Do not push" rule.
+  - `modules/darwin/homebrew.nix` adds `openlogi` (cask 0.7.1, auto_updates) to the base casks list — a local-first Logi Options+ alternative for HID++ devices. Placed in the base list, not the `guiAppCasks` optionals: openlogi is already brew-managed on AVA (`brew install --cask` on request today), so there is no manual-.app collision, and it stays tracked on a fresh AVA/GROT. `logi-options-plus` left untouched in the guiAppCasks optionals. Validated: `nix eval` of `config.homebrew.casks` contains `"openlogi"` for both AVA and GROT; `nixfmt --check` clean. Committed locally.
 - [gls-signed-log-2026-08-19]: added the `gls` signed-log function and a tig signature binding
   - `gls` (`shell/init.zsh`) prints a tig-style one-line log — date, author, signature badge, I/M/o marker, refs, subject — color-coded from `%G?`: green `✓` (G), yellow `✓` (U/untrusted), red `✗` (N/unsigned), plus bad/expired/revoked/uncheckable states. Merge/initial markers derived from `%p`. Pages via `less -FRX` only on a tty; passes args through to `git log`.
   - `modules/home-manager/tig.nix` (new, imported in `base.nix`) writes `~/.config/tig/config` binding `V` in the main view to `sh -c 'git verify-commit "$1" 2>&1 && echo SIGNED || echo UNSIGNED …' sh %(commit)`. tig's main view has no signature column (only author/date/commit-title/id/line-number/ref), so on-demand display is the tig-native option. `verify-commit` (exit 0 ⇔ good signature) is used instead of `git show --show-signature`, which just omits the signature block on unsigned commits without an explicit marker.
@@ -145,3 +116,8 @@ There exists @DECISIONS.md which you must use upon completing work. What were th
   - Why a fork needs more than a push: `herdr/install.sh` hardcodes `REPO` and downloads `releases/download/v<manifest version>/…` — installing an unmodified fork silently runs *upstream's* binary. Fork `main` = upstream `v0.36.2` + three commits: `feat(theme)` (tuicr-dark), `docs(fork)` (`install.sh` → jryio, `FORK.md`, README banner/links), `chore(release): 0.36.2-jry.1`. Version scheme `<upstream>-jry.<n>` (semver prerelease; Cargo, `create-gh-release-action`, and herdr all accept it). `FORK.md` carries the rebase + release procedure; `release.yml` fails without a matching CHANGELOG section, so every fork cut needs one.
   - **GitHub trap**: a fresh fork reports every workflow `state=active` and `actions/permissions enabled=true`, yet neither the `main` push nor the tag triggered anything. `PUT repos/<fork>/actions/permissions enabled=true` followed by deleting and re-pushing the tag got `release.yml` running (no release object existed yet, so the tag name was still free). Release built all four targets in ~10 min, published as pre-release.
   - Validated the real install path: `herdr plugin uninstall` → `herdr plugin install jryio/herdr-reviewr --yes` → CI-built arm64 binary at `0.36.2-jry.1` containing `tuicr-dark`; tmux capture through that binary shows tuicr's `#00230c` fill, zero khaki, Base16 Eighties tokens. Reviewr pane must still be toggled off/on to run it.
+
+- [homebrew-v7-sync-2026-09-14]: refreshed the declarative Homebrew ledger and live inventory after the Homebrew 7 upgrade
+  - `homebrew.nix` now uses core `tuicr` and `codexbar`, adds `clickhouse` and `yfedoseev/tap/pdf-oxide`, adds the `yfedoseev/tap` dependency, and drops the removed `hunk` declaration plus the obsolete `agavra/tap`.
+  - Refreshed `.ai/inventory/brew-{formula-full,leaves,casks,taps}.txt` and `brew-summary.md` from AVA: 317 formulas, 121 leaves, 21 casks, and 17 taps on Homebrew 7.0.1. The legacy `powershell` cask and `steveyegge/beads/bd` shim remain installed only because `cleanup = "none"` preserves existing state.
+  - `nix fmt -- --check` and AVA/GROT `system.drvPath` evaluations pass. All 114 declared formulas, 20 declared casks, and 11 declared taps are present. `brew bundle check` reports installed packages as needing upgrades because it treats outdated versions as unsatisfied; do not use it as a presence check while `onActivation.upgrade = false`.
