@@ -1,17 +1,20 @@
 # command: brew leaves
-# captured-at: 2026-05-18 (YYYY-MM-DD)
+# captured-at: 2026-09-14 (YYYY-MM-DD)
 # machine: AVA (macOS 15.5, brew at /opt/homebrew)
-# captured-by: inventory-brew agent
+# captured-by: Homebrew v7 synchronization
 
 agent-browser
+ast-grep
 avro-tools
 awk
+awscli
 azure-cli
 bat
 black
 blueutil
 btop
 caddy
+can1357/tap/omp
 cask
 ccusage
 charmbracelet/tap/crush
@@ -27,6 +30,7 @@ eksctl
 elixir
 exercism
 exiftool
+fd
 figlet
 fluent-bit
 flyctl
@@ -37,7 +41,6 @@ gemini-cli
 gh
 git
 git-who
-gnupg
 gnuplot
 go-task
 gobject-introspection
@@ -48,6 +51,8 @@ graphviz
 grep
 grpcurl
 harper
+hashicorp/tap/vault
+helix
 helm
 heroku
 hf
@@ -66,11 +71,14 @@ libfido2
 libmagic
 librist
 markdownlint-cli
+mas
 mintoolkit
+mise
 mosh
 mysql
 neovim
 nmap
+nono
 nushell
 oha
 opentofu
@@ -78,6 +86,7 @@ openvino
 oven-sh/bun/bun
 pinentry-mac
 pipx
+poppler
 portaudio
 postgresql@14
 powershell
@@ -88,18 +97,21 @@ pyenv
 python@3.9
 rbenv
 resvg
+ripgrep
 sevenzip
 shared-mime-info
 srt
 sshpass
 steveyegge/beads/bd
 stripe/stripe-cli/stripe
+tailscale
 television
 tesseract
 tig
 tmux
 tree
 trivy
+tuicr
 uv
 vale
 vegeta
@@ -107,6 +119,8 @@ vhs
 vim
 wget
 yarn
+yfedoseev/tap/pdf-oxide
 yt-dlp
+z3
 zeromq
 zola

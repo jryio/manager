@@ -1,19 +1,22 @@
 # command: brew list --formula
-# captured-at: 2026-05-18 (YYYY-MM-DD)
+# captured-at: 2026-09-14 (YYYY-MM-DD)
 # machine: AVA (macOS 15.5, brew at /opt/homebrew)
-# captured-by: inventory-brew agent
+# captured-by: Homebrew v7 synchronization
 
 abseil
 ada-url
 agent-browser
 aom
 assimp
+ast-grep
 autoconf
 avro-tools
 awk
+awscli
 azure-cli
 bat
 bd
+beads
 black
 blueutil
 boost
@@ -27,6 +30,7 @@ cairo
 cask
 ccusage
 certifi
+cffi
 cjson
 cloc
 cmake
@@ -39,6 +43,7 @@ deno
 difftastic
 docker-slim
 doctl
+dolt
 dos2unix
 dotnet@9
 double-conversion
@@ -51,6 +56,7 @@ exercism
 exiftool
 fb303
 fbthrift
+fd
 ffmpeg
 figlet
 fizz
@@ -88,6 +94,8 @@ go-task
 gobject-introspection
 golangci-lint
 goreleaser
+gpgme
+gpgmepp
 gpsbabel
 graphite2
 graphviz
@@ -97,6 +105,7 @@ gts
 harfbuzz
 harper
 hdrhistogram_c
+helix
 helm
 heroku
 hf
@@ -188,10 +197,12 @@ lz4
 lzo
 m4
 markdownlint-cli
+mas
 mbedtls
 md4c
 merve
 mintoolkit
+mise
 mosh
 mpdecimal
 mpfr
@@ -203,10 +214,14 @@ netpbm
 nettle
 nmap
 node
+nono
 npth
+nspr
+nss
 numpy
 nushell
 oha
+omp
 oniguruma
 openblas
 openexr
@@ -220,11 +235,13 @@ opus
 p11-kit
 pango
 pcre2
+pdf-oxide
 pinentry
 pinentry-mac
 pipx
 pixman
 pkgconf
+poppler
 portaudio
 postgresql@14
 powershell
@@ -234,6 +251,7 @@ protobuf
 protobuf@29
 pstree
 pugixml
+pycparser
 pyenv
 python-certifi
 python-packaging
@@ -261,6 +279,7 @@ srt
 sshpass
 stripe
 svt-av1
+tailscale
 tbb
 television
 terminal-notifier
@@ -271,13 +290,16 @@ tree
 tree-sitter
 trivy
 ttyd
+tuicr
 unbound
 unibilium
 unixodbc
+usage
 utf8proc
 uv
 uvwasi
 vale
+vault
 vegeta
 vhs
 vim
@@ -293,6 +315,7 @@ xxhash
 xz
 yarn
 yt-dlp
+z3
 zeromq
 zlib
 zola

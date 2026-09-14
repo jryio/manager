@@ -16,28 +16,27 @@
     # core), so tapping them fails on a fresh machine. They remain tapped
     # locally on AVA per cleanup = "none"; that is harmless.
     taps = [
-            "agavra/tap"
       "can1357/tap"
       "charmbracelet/tap"
       "docker/tap"
-            "hashicorp/tap"
+      "hashicorp/tap"
       "heroku/brew"
       "neovim/neovim"
       "oven-sh/bun"
       "rbenv/tap"
-      "steipete/tap"
       "steveyegge/beads"
       "stripe/stripe-cli"
+      "yfedoseev/tap"
     ];
 
     brews = [
-            "agavra/tap/tuicr" # TUI code review (shadows the new core `tuicr` formula by design)
+      "tuicr"
       "agent-browser"
       "avro-tools"
       "awk"
-            "ast-grep"
+      "ast-grep"
       "azure-cli"
-            "awscli"
+      "awscli"
       "bat"
       "black"
       "blueutil"
@@ -81,13 +80,12 @@
       "grep"
       "grpcurl"
       "harper"
-            "hashicorp/tap/vault"
+      "hashicorp/tap/vault"
       "helix"
       "helm"
       "heroku"
       "hf"
       # htop: Nix-managed via programs.htop in modules/home-manager/monitoring.nix (D5)
-      "hunk" # review-first diff viewer for agent changesets
       "hugo"
       "hyperfine"
       "imagemagick"
@@ -109,7 +107,7 @@
       "mysql"
       "neovim"
       "nmap"
-            "nono" # capability-based sandbox shell for AI agents
+      "nono" # capability-based sandbox shell for AI agents
       "nushell"
       "oha"
       "opentofu"
@@ -117,7 +115,8 @@
       "oven-sh/bun/bun"
       "pinentry-mac"
       "pipx"
-            "poppler" 
+      "poppler"
+      "yfedoseev/tap/pdf-oxide"
       "portaudio"
       "postgresql@14"
       "powershell"
@@ -150,7 +149,7 @@
       "wget"
       "yarn"
       "yt-dlp"
-            "z3" 
+      "z3"
       "zeromq"
       "zola"
     ];
@@ -164,6 +163,7 @@
       # (claude-code CLI is NOT a cask: the native installer self-updates, the
       # cask does not -- see modules/home-manager/ai-tools.nix)
       "claude" # Claude Desktop (auto_updates: brew installs once, app updates itself)
+      "clickhouse"
       "codex"
       "codex-app" # Codex desktop (deprecated upstream 2026-07; Homebrew suggests `chatgpt` cask as replacement)
       "gcloud-cli"
@@ -178,7 +178,7 @@
       # powershell cask removed 2026-07: deleted upstream (Gatekeeper); the
       # `powershell` FORMULA above still provides pwsh. AVA's old cask install
       # stays per cleanup = "none".
-      "steipete/tap/codexbar" # menu-bar usage meter for Codex/Claude CLI sessions
+      "codexbar" # menu-bar usage meter for Codex/Claude CLI sessions
       "timemachineeditor"
       "vagrant"
       "wireshark-app"
