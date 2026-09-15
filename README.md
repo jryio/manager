@@ -89,6 +89,11 @@ The shell migration keeps ownership split deliberately:
 - `nix-darwin` owns machine-level zsh facts, including enabling zsh and keeping the login shell at `/bin/zsh`.
 - Home Manager owns the user zsh files and interactive behavior.
 
+`git-prune-branches` refreshes remote-tracking branches, then offers local
+branches with no remote and either a closed GitHub pull request or a gone
+upstream. It excludes every checked-out worktree branch and uses
+`git branch --delete`, so Git keeps unmerged work.
+
 The temporary local-only shell hook is:
 
 ```sh

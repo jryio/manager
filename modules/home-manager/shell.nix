@@ -23,6 +23,7 @@ let
   #   700  autosuggestion source   [HM]
   #   720  zsh-options.zsh         <- setopts, keybinds, take/mkcd
   #   750  git-aliases.zsh         <- vendored OMZ git plugin + helpers
+  #   760  git-prune-branches.zsh  <- GitHub-aware interactive stale branch cleanup
   #   900  plugin sourcing         [HM, fzf-tab]
   #   910  history setopts         [HM]
   #   950  user setOptions         [HM, unused]
@@ -40,6 +41,7 @@ let
     (lib.mkOrder 580 (builtins.readFile ./shell/completions.zsh))
     (lib.mkOrder 720 (builtins.readFile ./shell/zsh-options.zsh))
     (lib.mkOrder 750 (builtins.readFile ./shell/git-aliases.zsh))
+    (lib.mkOrder 760 (builtins.readFile ./shell/git-prune-branches.zsh))
     (lib.mkOrder 1000 (builtins.readFile ./shell/init.zsh))
     (lib.mkOrder 1010 (builtins.readFile ./shell/mise.zsh))
     (lib.mkOrder 1020 (builtins.readFile ./shell/herdr.zsh))
