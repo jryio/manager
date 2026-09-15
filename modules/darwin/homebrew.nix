@@ -252,7 +252,6 @@
       "Habits" = 1514915737;
       "Health Auto Export" = 1115567069;
       "iA Writer" = 775737590;
-      "iMovie" = 408981434;
       "Instapaper Save" = 1481302432;
       "iStat Mini" = 927292435;
       "Keynote" = 409183694;
