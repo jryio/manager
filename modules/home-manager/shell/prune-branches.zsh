@@ -1,6 +1,6 @@
 # Interactively delete local branches whose remote no longer exists and whose
 # upstream vanished or GitHub PR has closed. Safe deletion leaves unmerged work.
-git-prune-branches() {
+prune-branches() {
   setopt localoptions no_aliases pipefail
 
   local repository owner name closed_prs query mode selected branch number state
@@ -10,28 +10,28 @@ git-prune-branches() {
   local failures=0
 
   if ! command git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    print -u2 'git-prune-branches: run this inside a Git repository'
+    print -u2 'prune-branches: run this inside a Git repository'
     return 2
   fi
 
   if (( ! $+commands[gh] )); then
-    print -u2 'git-prune-branches: gh is required'
+    print -u2 'prune-branches: gh is required'
     return 127
   fi
 
   if (( ! $+commands[gum] )); then
-    print -u2 'git-prune-branches: gum is required'
+    print -u2 'prune-branches: gum is required'
     return 127
   fi
 
   print -r -- 'Refreshing remote-tracking branches…'
   if ! command git fetch --all --prune; then
-    print -u2 'git-prune-branches: could not refresh remote-tracking branches'
+    print -u2 'prune-branches: could not refresh remote-tracking branches'
     return 1
   fi
 
   if ! repository="$(command gh repo view --json nameWithOwner --jq .nameWithOwner)"; then
-    print -u2 'git-prune-branches: could not identify this GitHub repository'
+    print -u2 'prune-branches: could not identify this GitHub repository'
     return 1
   fi
   owner=${repository%%/*}
@@ -50,7 +50,7 @@ git-prune-branches() {
     -f name="$name" \
     -f query="$query" \
     --jq '.data.repository.pullRequests.nodes[] | [.headRefName, (.number | tostring), (if .mergedAt then "merged" else "closed" end)] | @tsv')"; then
-    print -u2 'git-prune-branches: could not retrieve closed GitHub pull requests'
+    print -u2 'prune-branches: could not retrieve closed GitHub pull requests'
     return 1
   fi
 
@@ -120,7 +120,7 @@ git-prune-branches() {
 
   for branch in "${selected_branches[@]}"; do
     if ! command git branch --delete -- "$branch"; then
-      print -u2 "git-prune-branches: kept $branch (not safely deletable; inspect it, then use git branch -D if intended)"
+      print -u2 "prune-branches: kept $branch (not safely deletable; inspect it, then use git branch -D if intended)"
       failures=1
     fi
   done

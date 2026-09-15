@@ -2,7 +2,7 @@
 set -euo pipefail
 
 repo_root=${0:A:h:h}
-tmpdir=$(mktemp -d "${TMPDIR:-/tmp}/git-prune-branches-test.XXXXXX")
+tmpdir=$(mktemp -d "${TMPDIR:-/tmp}/prune-branches-test.XXXXXX")
 trap 'rm -rf "$tmpdir"' EXIT
 mkdir -p "$tmpdir/bin"
 
@@ -110,10 +110,10 @@ chmod +x "$tmpdir/bin/git" "$tmpdir/bin/gh" "$tmpdir/bin/gum"
 export PATH="$tmpdir/bin:$PATH"
 export GIT_PRUNE_TEST_LOG="$tmpdir/commands.log"
 export GIT_PRUNE_TEST_SELECTIONS="$tmpdir/selections.txt"
-source "$repo_root/modules/home-manager/shell/git-prune-branches.zsh"
+source "$repo_root/modules/home-manager/shell/prune-branches.zsh"
 
 : > "$GIT_PRUNE_TEST_LOG"
-GIT_PRUNE_TEST_MODE=choose git-prune-branches
+GIT_PRUNE_TEST_MODE=choose prune-branches
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" == *'fetch:fetch --all --prune'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" == *'gh:api graphql --paginate'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" == *'delete:branch --delete -- merged'* ]]
@@ -128,11 +128,11 @@ GIT_PRUNE_TEST_MODE=choose git-prune-branches
 [[ "$(<"$GIT_PRUNE_TEST_SELECTIONS")" != *$'worktree\t'* ]]
 
 : > "$GIT_PRUNE_TEST_LOG"
-GIT_PRUNE_TEST_MODE=all git-prune-branches
+GIT_PRUNE_TEST_MODE=all prune-branches
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" == *'delete:branch --delete -- merged'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" == *'delete:branch --delete -- closed'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" == *'delete:branch --delete -- gone'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" != *'delete:branch --delete -- live'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" != *'delete:branch --delete -- worktree'* ]]
 
-print -r -- 'git-prune-branches: PASS'
+print -r -- 'prune-branches: PASS'
