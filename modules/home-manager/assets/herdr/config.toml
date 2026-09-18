@@ -77,6 +77,12 @@ open_notification_target = "prefix+o"
 # split_horizontal binding.
 settings = "prefix+shift+s"
 
+# Toggle the installed Reviewr plugin without entering prefix mode.
+[[keys.command]]
+key = "cmd+r"
+type = "plugin_action"
+command = "persiyanov.reviewr.toggle"
+
 [experimental]
 # Do not retain pane screen history across server restarts.
 pane_history = false
