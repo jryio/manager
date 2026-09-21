@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.11-darwin";
+    nixpkgs-neovim.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
@@ -13,18 +14,24 @@
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, ... }:
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      nix-darwin,
+      home-manager,
+      ...
+    }:
     let
       lib = nixpkgs.lib;
       hostsDir = ./hosts;
       hostEntries = builtins.readDir hostsDir;
       hostNames = lib.filter (
-        name:
-          hostEntries.${name} == "directory"
-          && builtins.pathExists (hostsDir + "/${name}/default.nix")
+        name: hostEntries.${name} == "directory" && builtins.pathExists (hostsDir + "/${name}/default.nix")
       ) (builtins.attrNames hostEntries);
 
-      mkDarwinConfiguration = hostName:
+      mkDarwinConfiguration =
+        hostName:
         let
           hostDir = hostsDir + "/${hostName}";
           host = import (hostDir + "/default.nix");
@@ -35,7 +42,12 @@
         nix-darwin.lib.darwinSystem {
           system = host.system;
           specialArgs = {
-            inherit inputs host hostName vars;
+            inherit
+              inputs
+              host
+              hostName
+              vars
+              ;
           };
           modules = [
             inputs.determinate.darwinModules.default
@@ -48,17 +60,25 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = {
-                inherit inputs host hostName vars;
+                inherit
+                  inputs
+                  host
+                  hostName
+                  vars
+                  ;
               };
-              home-manager.users.${host.username} = { ... }: {
-                imports =
-                  [ inputs.determinate.homeManagerModules.default
+              home-manager.users.${host.username} =
+                { ... }:
+                {
+                  imports = [
+                    inputs.determinate.homeManagerModules.default
                     ./modules/home-manager/base.nix
                   ]
                   ++ lib.optionals (builtins.pathExists hostHomeModule) [ hostHomeModule ];
-              };
+                };
             }
-          ] ++ lib.optionals (builtins.pathExists hostDarwinModule) [ hostDarwinModule ];
+          ]
+          ++ lib.optionals (builtins.pathExists hostDarwinModule) [ hostDarwinModule ];
         };
     in
     {

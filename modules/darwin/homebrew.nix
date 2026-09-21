@@ -105,7 +105,6 @@
       "mise"
       "mosh"
       "mysql"
-      "neovim"
       "nmap"
       "nono" # capability-based sandbox shell for AI agents
       "nushell"
