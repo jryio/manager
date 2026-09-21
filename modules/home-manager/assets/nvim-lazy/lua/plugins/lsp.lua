@@ -100,6 +100,26 @@ return {
     end,
   },
 
+  -- rustaceanvim is a filetype plugin, so it must be on runtimepath before a
+  -- Rust buffer raises FileType. Its async root lookup does not auto-attach
+  -- reliably under LazyVim; start the plugin-owned client from that event.
+  {
+    "mrcjkb/rustaceanvim",
+    lazy = false,
+    init = function()
+      vim.g.rustaceanvim = vim.tbl_deep_extend("force", vim.g.rustaceanvim or {}, {
+        server = { auto_attach = false },
+      })
+      vim.api.nvim_create_autocmd("FileType", {
+        group = vim.api.nvim_create_augroup("jry_rustaceanvim", { clear = true }),
+        pattern = "rust",
+        callback = function(event)
+          require("rustaceanvim.lsp").start(event.buf)
+        end,
+      })
+    end,
+  },
+
   -- lvim's LSP group. LazyVim's own <leader>c group stays.
   {
     "neovim/nvim-lspconfig",

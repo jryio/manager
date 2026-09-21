@@ -20,6 +20,9 @@ require("lazy").setup({
     { import = "plugins" },
   },
   defaults = { lazy = false, version = false },
+  -- Native plugin builds (notably Avante's Rust bridge) exceed Lazy's 120s
+  -- default on a cold Cargo cache.
+  git = { timeout = 600 },
   install = { colorscheme = { "tokyonight", "habamax" } },
   -- Updates come from an explicit `task sync`; the lockfile is the source of truth.
   checker = { enabled = false },
