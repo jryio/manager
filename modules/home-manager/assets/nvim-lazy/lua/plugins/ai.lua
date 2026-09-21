@@ -19,7 +19,9 @@ return {
       return not is_mac_volume()
     end,
     version = false,
-    build = "make BUILD_FROM_SOURCE=true",
+    -- Cargo emits linker-signed arm64 dylibs; macOS rejects those pages when
+    -- Neovim dlopens them unless they are re-signed after the final copy.
+    build = "make BUILD_FROM_SOURCE=true && codesign --force --sign - lua/*.so",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "stevearc/dressing.nvim",

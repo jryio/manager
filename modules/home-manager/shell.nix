@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   homeDir = config.home.homeDirectory;
@@ -37,6 +42,11 @@ let
   #  1060  omp-commit.zsh          <- policy-bound OMP commit wrapper
   zshInitContent = lib.mkMerge [
     (lib.mkOrder 525 (builtins.readFile ./shell/homebrew.zsh))
+    (lib.mkOrder 526 ''
+      # Homebrew shellenv prepends its bin directory. Keep Home Manager-owned
+      # tools authoritative while retaining Homebrew-only commands on PATH.
+      path=("${config.home.profileDirectory}/bin" $path)
+    '')
     (lib.mkOrder 550 (builtins.readFile ./shell/completion-styles.zsh))
     (lib.mkOrder 580 (builtins.readFile ./shell/completions.zsh))
     (lib.mkOrder 720 (builtins.readFile ./shell/zsh-options.zsh))
@@ -135,15 +145,28 @@ in
       command_timeout = 1000;
 
       format = lib.concatStrings [
-        "$username" "$hostname" "$directory"
-        "$git_branch" "$git_state" "$git_status"
-        "$fill" "$cmd_duration"
-        "$line_break" "$character"
+        "$username"
+        "$hostname"
+        "$directory"
+        "$git_branch"
+        "$git_state"
+        "$git_status"
+        "$fill"
+        "$cmd_duration"
+        "$line_break"
+        "$character"
       ];
 
       right_format = lib.concatStrings [
-        "$status" "$jobs" "$direnv"
-        "$nodejs" "$bun" "$golang" "$rust" "$python" "$haskell"
+        "$status"
+        "$jobs"
+        "$direnv"
+        "$nodejs"
+        "$bun"
+        "$golang"
+        "$rust"
+        "$python"
+        "$haskell"
       ];
 
       character = {
@@ -228,16 +251,36 @@ in
         format = "[direnv:$loaded/$allowed]($style) ";
       };
 
-      nodejs  = { format = "[$symbol($version )]($style)"; symbol = " "; style = "green"; };
-      bun     = { format = "[$symbol($version )]($style)"; symbol = "🍞 "; style = "yellow"; };
-      golang  = { format = "[$symbol($version )]($style)"; symbol = " "; style = "cyan"; };
-      rust    = { format = "[$symbol($version )]($style)"; symbol = " "; style = "red"; };
-      python  = {
+      nodejs = {
+        format = "[$symbol($version )]($style)";
+        symbol = " ";
+        style = "green";
+      };
+      bun = {
+        format = "[$symbol($version )]($style)";
+        symbol = "🍞 ";
+        style = "yellow";
+      };
+      golang = {
+        format = "[$symbol($version )]($style)";
+        symbol = " ";
+        style = "cyan";
+      };
+      rust = {
+        format = "[$symbol($version )]($style)";
+        symbol = " ";
+        style = "red";
+      };
+      python = {
         format = "[\${symbol}\${pyenv_prefix}(\${version} )(\\($virtualenv\\) )]($style)";
         symbol = " ";
         style = "yellow";
       };
-      haskell = { format = "[$symbol($version )]($style)"; symbol = " "; style = "magenta"; };
+      haskell = {
+        format = "[$symbol($version )]($style)";
+        symbol = " ";
+        style = "magenta";
+      };
 
       aws.disabled = true;
       gcloud.disabled = true;
