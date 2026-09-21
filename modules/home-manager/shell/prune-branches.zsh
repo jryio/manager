@@ -1,10 +1,10 @@
-# Interactively delete local branches whose remote no longer exists and whose
-# upstream vanished or GitHub PR has closed. Safe deletion leaves unmerged work.
+# Interactively delete local branches absent from origin whose GitHub PR has
+# closed or whose origin upstream vanished. Safe deletion leaves unmerged work.
 prune-branches() {
   setopt localoptions no_aliases pipefail
 
   local repository owner name closed_prs query mode selected branch number state
-  local ref remote_ref remote_branch tracking reason
+  local ref remote_branch upstream_remote tracking reason
   local -a local_branches remote_refs candidates selected_branches reasons
   local -A checked_out remote_exists pr_reason upstream_gone
   local failures=0
@@ -24,9 +24,9 @@ prune-branches() {
     return 127
   fi
 
-  print -r -- 'Refreshing remote-tracking branches…'
-  if ! command git fetch --all --prune; then
-    print -u2 'prune-branches: could not refresh remote-tracking branches'
+  print -r -- 'Refreshing origin remote-tracking branches…'
+  if ! command git fetch --prune origin; then
+    print -u2 'prune-branches: could not refresh origin remote-tracking branches'
     return 1
   fi
 
@@ -64,17 +64,16 @@ prune-branches() {
     checked_out[${ref#branch refs/heads/}]=1
   done < <(command git worktree list --porcelain)
 
-  remote_refs=("${(@f)$(command git for-each-ref --format='%(refname)' refs/remotes)}")
+  remote_refs=("${(@f)$(command git for-each-ref --format='%(refname)' refs/remotes/origin)}")
   for ref in "${remote_refs[@]}"; do
-    remote_ref=${ref#refs/remotes/}
-    remote_branch=${remote_ref#*/}
-    [[ "$remote_ref" != "$remote_branch" && "$remote_branch" != HEAD ]] || continue
+    remote_branch=${ref#refs/remotes/origin/}
+    [[ "$remote_branch" != "$ref" && "$remote_branch" != HEAD ]] || continue
     remote_exists[$remote_branch]=1
   done
 
-  while IFS=$'\t' read -r branch tracking; do
-    [[ "$tracking" == *'[gone]'* ]] && upstream_gone[$branch]=1
-  done < <(LC_ALL=C command git for-each-ref --format='%(refname:short)%09%(upstream:track)' refs/heads)
+  while IFS=$'\t' read -r branch upstream_remote tracking; do
+    [[ "$upstream_remote" == origin && "$tracking" == *'[gone]'* ]] && upstream_gone[$branch]=1
+  done < <(LC_ALL=C command git for-each-ref --format='%(refname:short)%09%(upstream:remotename)%09%(upstream:track)' refs/heads)
 
   local_branches=("${(@f)$(command git for-each-ref --format='%(refname:short)' refs/heads)}")
   for branch in "${local_branches[@]}"; do
