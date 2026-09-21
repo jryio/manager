@@ -92,8 +92,11 @@ The shell migration keeps ownership split deliberately:
 `prune-branches` refreshes only the `origin` remote-tracking branches. It
 ignores other configured remotes. It then offers local branches absent from
 `origin` when their GitHub pull request is closed or their `origin` upstream is
-gone. It excludes every checked-out worktree branch and uses
-`git branch --delete`, so Git keeps unmerged work.
+gone. It excludes every checked-out worktree branch. When GitHub records a PR
+as merged and its `headRefOid` exactly matches the local branch tip, it uses
+`git branch --delete --force`: this handles squash and rebase merges, whose
+integrated commits are not Git ancestors. All other candidates use
+`git branch --delete`, so Git keeps unmerged or newer local work.
 
 The temporary local-only shell hook is:
 

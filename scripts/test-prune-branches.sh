@@ -41,14 +41,15 @@ case "$1" in
         print -r -- $'worktree\t\t'
         print -r -- $'perf-gone\tperf-node\t[gone]'
         ;;
-      *'%(refname:short)'*'refs/heads')
-        print -r -- main
-        print -r -- merged
-        print -r -- closed
-        print -r -- gone
-        print -r -- live
-        print -r -- worktree
-        print -r -- perf-gone
+      *'%(refname:short)%09%(objectname)'*'refs/heads')
+        print -r -- $'main\t00000000'
+        print -r -- $'merged\taaaaaaaa'
+        print -r -- $'closed\tbbbbbbbb'
+        print -r -- $'gone\tcccccccc'
+        print -r -- $'live\tdddddddd'
+        print -r -- $'worktree\teeeeeeee'
+        print -r -- $'perf-gone\tffffffff'
+        print -r -- $'merged-stale\t99999999'
         ;;
       *)
         print -u2 "unexpected for-each-ref: $*"
@@ -74,9 +75,10 @@ case "$1" in
     ;;
   api)
     print -r -- "gh:$*" >> "$GIT_PRUNE_TEST_LOG"
-    print -r -- $'merged\t101\tmerged'
-    print -r -- $'closed\t102\tclosed'
-    print -r -- $'worktree\t103\tmerged'
+    print -r -- $'merged\t101\tmerged\taaaaaaaa'
+    print -r -- $'closed\t102\tclosed\tbbbbbbbb'
+    print -r -- $'worktree\t103\tmerged\teeeeeeee'
+    print -r -- $'merged-stale\t104\tmerged\t11111111'
     ;;
   *)
     print -u2 "unexpected gh: $*"
@@ -122,7 +124,8 @@ source "$repo_root/modules/home-manager/shell/prune-branches.zsh"
 GIT_PRUNE_TEST_MODE=choose prune-branches
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" == *'fetch:fetch --prune origin'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" == *'gh:api graphql --paginate'* ]]
-[[ "$(<"$GIT_PRUNE_TEST_LOG")" == *'delete:branch --delete -- merged'* ]]
+[[ "$(<"$GIT_PRUNE_TEST_LOG")" == *'delete:branch --delete --force -- merged'* ]]
+[[ "$(<"$GIT_PRUNE_TEST_LOG")" != *'delete:branch --delete -- merged'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" != *'delete:branch --delete -- closed'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" != *'delete:branch --delete -- gone'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" != *'delete:branch --delete -- live'* ]]
@@ -130,15 +133,18 @@ GIT_PRUNE_TEST_MODE=choose prune-branches
 [[ "$(<"$GIT_PRUNE_TEST_SELECTIONS")" == *$'merged\tPR #101 merged'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_SELECTIONS")" == *$'closed\tPR #102 closed'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_SELECTIONS")" == *$'gone\tupstream gone'* ]]
+[[ "$(<"$GIT_PRUNE_TEST_SELECTIONS")" == *$'merged-stale\tPR #104 merged'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_SELECTIONS")" != *$'live\t'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_SELECTIONS")" != *$'perf-gone\t'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_SELECTIONS")" != *$'worktree\t'* ]]
 
 : > "$GIT_PRUNE_TEST_LOG"
 GIT_PRUNE_TEST_MODE=all prune-branches
-[[ "$(<"$GIT_PRUNE_TEST_LOG")" == *'delete:branch --delete -- merged'* ]]
+[[ "$(<"$GIT_PRUNE_TEST_LOG")" == *'delete:branch --delete --force -- merged'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" == *'delete:branch --delete -- closed'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" == *'delete:branch --delete -- gone'* ]]
+[[ "$(<"$GIT_PRUNE_TEST_LOG")" == *'delete:branch --delete -- merged-stale'* ]]
+[[ "$(<"$GIT_PRUNE_TEST_LOG")" != *'delete:branch --delete --force -- merged-stale'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" != *'delete:branch --delete -- live'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" != *'delete:branch --delete -- worktree'* ]]
 [[ "$(<"$GIT_PRUNE_TEST_LOG")" != *'delete:branch --delete -- perf-gone'* ]]
