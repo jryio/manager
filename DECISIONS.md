@@ -280,3 +280,7 @@
 - [brew-qt-dotnet9-2026-09-09]: retained `qt` and `dotnet@9`; both remain required by installed declared formulae
   - `brew uses --installed qt` reports `gnuplot` and `gpsbabel`; `brew uses --installed dotnet@9` reports `powershell`. All three are declared in `modules/darwin/homebrew.nix`.
   - Neither root formula is declared directly. Removing either with ignored dependencies would break its dependents; remove or migrate those dependents first, then uninstall under the configured macOS validation account.
+
+- [rustup-native-arm64-2026-09-20]: rustup reinstalled natively for arm64 on AVA; D14 unchanged (rustup stays self-managed, undeclared in Nix/Homebrew)
+  - Same-path reinstall via `rustup-init -y --no-modify-path --default-host aarch64-apple-darwin` (never `rustup self uninstall`, which wipes `~/.cargo`). Default host `aarch64-apple-darwin`, `stable` 1.98.1 + `nightly`, six x86_64 toolchains removed (7.7 GB → 3.4 GB), 13/14 cargo crates rebuilt arm64 at pinned versions, cargo `fd` dropped for brew `fd`, `cargo-leptos` 0.0.8 left x86_64 (no longer compiles). Proof: fresh `cargo build` → arm64.
+  - Repo change is documentation only: `.ai/inventory/runtime-managers.md` rustup section + summary row, `CLAUDE.md` historical note superseding the `[reviewr-tuicr-dark-2026-09-11]` machine finding. `--no-modify-path` is the standing rule for any future `rustup-init` run because HM owns the zsh startup files.

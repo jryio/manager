@@ -1,6 +1,6 @@
 # Runtime manager inventory
 
-- captured-at: 2026-05-18
+- captured-at: 2026-05-18 (rustup section re-captured 2026-09-20 after the native arm64 reinstall)
 - machine: AVA (macOS 15.5)
 - captured-by: inventory-runtime agent
 - target decisions: D14 (drop pyenv+rbenv from shell startup), D29 (nvm = current LTS only)
@@ -93,42 +93,61 @@
 ## rustup
 
 - Install path: `~/.cargo` + `~/.rustup`. Installed via the upstream `rustup-init`
-  script (not via brew — `brew leaves | grep rustup` returns nothing).
+  script (not via brew or Nix — `brew leaves | grep rustup` returns nothing).
+  Re-run natively on 2026-09-20 to replace the Intel-era install; the correct
+  invocation on any machine is
+  `rustup-init -y --no-modify-path --default-host aarch64-apple-darwin --default-toolchain stable`.
+  `--no-modify-path` is mandatory: Home Manager owns `~/.zshenv`/`~/.zprofile`/
+  `~/.zshrc` as read-only store symlinks, and the PATH hook already lives in
+  `modules/home-manager/shell/env.zsh`.
+- rustup binary: 1.29.1, `Mach-O 64-bit executable arm64` (was x86_64 under
+  Rosetta until 2026-09-20). Default host tuple `aarch64-apple-darwin`
+  (`~/.rustup/settings.toml`), no overrides.
 - Toolchains (`rustup toolchain list`):
-  - `stable-x86_64-apple-darwin` (active, default)
-  - `nightly-x86_64-apple-darwin`
-  - `1.72.1-x86_64-apple-darwin`
-  - `1.83-x86_64-apple-darwin`
-  - **Architecture caveat**: rustup itself warns it is running under x86_64
-    Rosetta emulation, not native arm64. Reinstalling for native CPU is a
-    follow-up worth flagging but out of scope for D14/D29.
-- Default: `stable-x86_64-apple-darwin`.
-- Components for stable (`rustup component list --installed --toolchain stable`,
-  full list — 10 entries, no trimming needed):
-  - `cargo-x86_64-apple-darwin`
-  - `clippy-x86_64-apple-darwin`
-  - `rust-docs-x86_64-apple-darwin`
+  - `stable-aarch64-apple-darwin` (active, default) — rustc 1.98.1
+  - `nightly-aarch64-apple-darwin`
+  - The six Intel toolchains (`stable`, `nightly`, `1.72.1`, `1.83`, `1.97.0`,
+    `1.97.1`, all `-x86_64-apple-darwin`) were uninstalled; `~/.rustup` went
+    7.7 GB → 3.4 GB. Projects pinning a channel in `rust-toolchain.toml`
+    (`herdr-reviewr` 1.97.0, `hnalert` stable, `merkletreehouse` nightly) pull the
+    aarch64 build automatically on first `cargo` invocation; none pins an explicit
+    x86_64 triple.
+- Components for stable (`rustup component list --installed`, 11 entries):
+  - `cargo-aarch64-apple-darwin`
+  - `clippy-aarch64-apple-darwin`
+  - `rust-analyzer-aarch64-apple-darwin` (new; rustaceanvim in nvim-lazy uses it)
+  - `rust-docs-aarch64-apple-darwin`
   - `rust-src`
   - `rust-std-aarch64-apple-darwin`
   - `rust-std-wasm32-unknown-unknown`
   - `rust-std-wasm32-wasip1`
-  - `rust-std-x86_64-apple-darwin`
-  - `rustc-x86_64-apple-darwin`
-  - `rustfmt-x86_64-apple-darwin`
-- Shell hook: `~/.cargo/env` exists and is sourced from `~/.zshenv`
-  (`. "$HOME/.cargo/env"`, single line). The HM `shell/env.zsh` is intentionally
-  empty of runtime-manager hooks today, so cargo env is currently only loaded
-  through the home-level `~/.zshenv` file — that file is not a symlink into
-  `~/dotfiles` and will need to move into HM (or be re-emitted) when the HM
-  shell module takes over.
-- Cargo-installed binaries under `~/.cargo/bin/` include `cargo-chef`,
-  `cargo-expand`, `cargo-generate`, `cargo-leptos`, `cargo-make`, `cargo-miri`,
-  `cargo-pretty-test`, `cargo-sqlx`, `cargo-watch`, `cross`, `cross-util`, `fd`,
-  `makers`, `rls`, `rust-analyzer`, `rustfmt`, `sea`, `sea-orm-cli`, `sqlx`,
-  `code-minimap` (plus the toolchain entries). Useful context for Topic 01 and
-  for per-project devShell migration under D14.
-- D14 disposition: **KEEP.** rustup stays as the rust toolchain manager; D14
-  explicitly retains it.
+  - `rust-std-x86_64-apple-darwin` (kept as a cross-compilation target)
+  - `rustc-aarch64-apple-darwin`
+  - `rustfmt-aarch64-apple-darwin`
+- Components for nightly: default profile plus `rust-src`; targets
+  `wasm32-unknown-unknown` and `x86_64-apple-darwin`.
+- Shell hook: `~/.cargo/env` (prepends `~/.cargo/bin` to PATH) is sourced by the
+  HM `modules/home-manager/shell/env.zsh`. The legacy home-level `~/.zshenv`
+  line no longer exists; `~/.zshenv` is HM-managed.
+- Cargo-installed binaries (`cargo install --list`, 15 crates), rebuilt as arm64
+  on 2026-09-20 at their previously installed versions with `--locked`:
+  `cargo-chef` 0.1.45, `cargo-expand` 1.0.34, `cargo-generate` 0.17.3,
+  `cargo-make` 0.37.10 (`cargo-make`, `makers`), `cargo-nextest` 0.9.136,
+  `cargo-pretty-test` 0.2.4, `cargo-watch` 8.4.1, `code-minimap` 0.6.8 (also
+  built by the nvim-lazy minimap plugin), `cross` 0.2.5 (`cross`, `cross-util`),
+  `sea-orm-cli` 0.12.10 (`sea`, `sea-orm-cli`), `sqlx-cli` 0.6.2 (`cargo-sqlx`,
+  `sqlx`), `trunk` 0.17.5, `vibebox` 0.3.2 (`vibebox`, `vibebox-supervisor`),
+  `worker-build` 0.7.4 (`worker-build`, `worker-codegen`).
+  - `cargo-leptos` 0.0.8 is the one remaining x86_64 binary: that 2022 release
+    no longer compiles on rustc 1.98 (locked: `lightningcss` E0659; unlocked:
+    its own `src/run/sass.rs` E0308). It still runs under Rosetta. The only
+    Leptos project (`merkletreehouse`, leptos 0.5.1) needs a current
+    `cargo-leptos` anyway; upgrading is a deliberate version change, not done.
+  - `fd-find` 8.5.3 was uninstalled from cargo; brew's `fd` (declared in
+    `modules/darwin/homebrew.nix`) is the only `fd` on PATH.
+- D14 disposition: **KEEP.** rustup stays as the rust toolchain manager, now
+  arm64-native; D14 explicitly retains it. Nothing about rustup is declared in
+  Nix or Homebrew — this section is the record of that mutable state.
 
 ## Bun
 
@@ -218,9 +237,9 @@ from the HM surface**. The cutover from legacy `~/dotfiles/shell/zshrc` to the
 HM shell module therefore lands D14 by construction — the work is the cutover
 itself (`darwin-rebuild switch` plus removing or no longer sourcing the
 `~/dotfiles/shell/*` symlinks), not editing the HM module shape. The cargo env
-hook is the only HM gap: `env.zsh` needs the `. "$HOME/.cargo/env"` line (or
-equivalent) added before cutover to preserve rustup PATH semantics, since
-`~/.zshenv` will likely be regenerated by HM and lose the manual cargo line.
+hook was the only HM gap at capture time; it has since been closed —
+`env.zsh` sources `$HOME/.cargo/env` when present, and `~/.zshenv` is now the
+HM-generated file.
 
 ## Summary
 
@@ -229,7 +248,7 @@ equivalent) added before cutover to preserve rustup PATH semantics, since
 | nvm     | 34 node versions; default `22` → `v22.22.2`; LTS aliases for argon→krypton | **KEEP** (D29: HM activation installs only current LTS; older 33 versions accumulate on demand) |
 | pyenv   | 3 (`3.11.11`, `3.12.9`, `3.12.10`); global `3.12` | **REMOVE-FROM-SHELL** (D14; brew formula may stay on disk for manual invocation) |
 | rbenv   | 2 (`1.9.3-p551`, `3.2.2`); global `3.2.2` | **REMOVE-FROM-SHELL** (D14; brew formula may stay on disk for manual invocation) |
-| rustup  | 4 toolchains (`stable`/`nightly`/`1.72.1`/`1.83`); default `stable-x86_64-apple-darwin` | **KEEP** (D14; cargo env hook needs to move into HM `env.zsh` at cutover) |
+| rustup  | 2 toolchains (`stable` 1.98.1 / `nightly`, both `aarch64-apple-darwin`); default host `aarch64-apple-darwin`; native arm64 rustup 1.29.1 since 2026-09-20 | **KEEP** (D14; cargo env hook lives in HM `env.zsh`) |
 | Bun     | 1 (`1.3.1`, brew formula) | **KEEP** (D14; HM `init.zsh` already covers it) |
 | Deno    | 1 active (`2.7.5`, brew formula); legacy `~/.deno/` stub | **REVIEW** (D14 silent; pending Topic 01 / `manager-4.5`) |
 | Go      | 1 active (`go1.26.3`, brew formula); GOPATH `~/go` | **REVIEW** (D14 silent; pending Topic 01 / `manager-4.5`) |
