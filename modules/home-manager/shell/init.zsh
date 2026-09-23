@@ -44,18 +44,30 @@ if [[ -s "$NVM_DIR/nvm.sh" ]]; then
     local node_version
     local nvmrc_node_version
     local nvmrc_path
+    local nvm_use_status
 
     node_version="$(nvm version)"
     nvmrc_path="$(nvm_find_nvmrc)"
 
+    # NVM's discarded status message otherwise launches `npm --version`.
     if [[ -n "$nvmrc_path" ]]; then
       nvmrc_node_version="$(nvm version "$(cat "$nvmrc_path")")"
 
       if [[ "$nvmrc_node_version" != "N/A" && "$nvmrc_node_version" != "$node_version" ]]; then
-        nvm use >/dev/null
+        nvm use --silent >/dev/null
+        nvm_use_status=$?
+        if (( nvm_use_status != 0 )); then
+          print -u2 "nvm: failed to activate $nvmrc_node_version from $nvmrc_path (status $nvm_use_status)"
+          return "$nvm_use_status"
+        fi
       fi
     elif [[ "$node_version" != "$(nvm version default)" ]]; then
-      nvm use default >/dev/null
+      nvm use --silent default >/dev/null
+      nvm_use_status=$?
+      if (( nvm_use_status != 0 )); then
+        print -u2 "nvm: failed to activate the default Node version (status $nvm_use_status)"
+        return "$nvm_use_status"
+      fi
     fi
   }
 
