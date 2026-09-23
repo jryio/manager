@@ -39,7 +39,7 @@ prune-branches() {
 
   query='query($owner: String!, $name: String!, $endCursor: String) {
     repository(owner: $owner, name: $name) {
-      pullRequests(first: 100, states: CLOSED, after: $endCursor) {
+      pullRequests(first: 100, states: [CLOSED, MERGED], after: $endCursor) {
       nodes { number headRefName headRefOid mergedAt }
         pageInfo { hasNextPage endCursor }
       }
@@ -127,7 +127,7 @@ prune-branches() {
     return 0
   fi
 
-  if ! gum confirm "Delete ${#selected_branches[@]} local branch(es) with git branch --delete?"; then
+  if ! gum confirm "Delete ${#selected_branches[@]} local branch(es)? Exact merged PR tips use --force; others use safe deletion."; then
     return 0
   fi
 

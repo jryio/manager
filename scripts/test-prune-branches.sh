@@ -75,10 +75,12 @@ case "$1" in
     ;;
   api)
     print -r -- "gh:$*" >> "$GIT_PRUNE_TEST_LOG"
-    print -r -- $'merged\t101\tmerged\taaaaaaaa'
     print -r -- $'closed\t102\tclosed\tbbbbbbbb'
-    print -r -- $'worktree\t103\tmerged\teeeeeeee'
-    print -r -- $'merged-stale\t104\tmerged\t11111111'
+    if [[ "$*" == *'states: [CLOSED, MERGED]'* ]]; then
+      print -r -- $'merged\t101\tmerged\taaaaaaaa'
+      print -r -- $'worktree\t103\tmerged\teeeeeeee'
+      print -r -- $'merged-stale\t104\tmerged\t11111111'
+    fi
     ;;
   *)
     print -u2 "unexpected gh: $*"
