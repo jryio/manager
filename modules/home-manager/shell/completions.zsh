@@ -14,3 +14,11 @@ _incur_complete_codex_security() {
     fi
 }
 compdef _incur_complete_codex_security codex-security
+
+# Homebrew installs git-spice as `git-spice` (bare `gs` collides with
+# Ghostscript). Its site-functions file lacks #compdef, so compinit never
+# registers it; eval the bashcompinit hook here. `gs` completes via alias expansion.
+if (( $+commands[git-spice] )); then
+    alias gs=git-spice
+    eval "$(git-spice shell completion zsh)"
+fi

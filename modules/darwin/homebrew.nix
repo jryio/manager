@@ -68,6 +68,7 @@
       "gemini-cli"
       # gh: Nix-managed via programs.gh in modules/home-manager/github.nix (D5)
       # git: Nix-managed via programs.git in modules/home-manager/git.nix (D5)
+      "git-spice" # stacked branches; `gs` alias + completion in home-manager/shell/completions.zsh
       "git-who"
       "gnupg"
       "gnuplot"
