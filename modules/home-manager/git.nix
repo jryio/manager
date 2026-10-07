@@ -151,6 +151,17 @@ in
       push.autoSetupRemote = true;
       pull.rebase = true;
 
+      # git-spice defaults for the cloudx stack workflow (~/.claude/skills/git-spice).
+      # Signing needs no spice key: restacks run `git rebase`, which honours commit.gpgsign.
+      spice = {
+        branchCreate.prefix = "jryio/";
+        submit = {
+          draft = true;
+          navigationComment = "multiple";
+        };
+        rebaseContinue.edit = false;
+      };
+
       rerere = {
         enabled = true;
         autoupdate = true;
