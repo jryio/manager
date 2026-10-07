@@ -38,6 +38,7 @@ if h.phase() >= 4 then
   if h.check(ok, "statusline renders", not ok and tostring(rendered) or nil) then
     h.check(type(rendered) == "string" and rendered ~= "", "statusline is not empty", "got: " .. vim.inspect(rendered))
   end
+
 end
 
 -- checkhealth renders into a scratch buffer; scrape it for ERROR lines.
@@ -54,5 +55,6 @@ for _, target in ipairs({ "lazy", "vim.lsp", "vim.treesitter" }) do
     pcall(vim.cmd, "bwipeout!")
   end
 end
+
 
 h.finish("boot")
