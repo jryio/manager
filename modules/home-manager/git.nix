@@ -157,7 +157,7 @@ in
         branchCreate.prefix = "jryio/";
         submit = {
           draft = true;
-          navigationComment = "multiple";
+          navigationComment = false;
         };
         rebaseContinue.edit = false;
       };
