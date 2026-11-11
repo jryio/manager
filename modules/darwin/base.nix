@@ -9,6 +9,7 @@
     ./defaults.nix
     ./launchd.nix
     ./user-picture.nix
+    ./server.nix
   ];
 
   determinateNix.enable = true;
