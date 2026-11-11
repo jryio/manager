@@ -4,6 +4,9 @@
   # GROT is an always-on, Tailscale-only remote server (modules/darwin/server.nix).
   server = {
     enable = true;
+    # Off while Rippling adopts Tailscale.app and 1Password (2026-11-11): the
+    # watchdog reopens them within 120 s of any quit. Set true to restore.
+    appWatchdog.enable = false;
     authorizedKeys = [
       # "GROT SSH key" in 1Password.
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKD/Izhbyw+nLG4I5SR+EQZQsxdehD46adBqBKE8pc8I GROT SSH key"

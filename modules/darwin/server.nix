@@ -24,6 +24,8 @@
 #   load-bearing.
 # - A user agent relaunches Tailscale.app and 1Password if they exit;
 #   1Password must be running and unlocked for the SSH agent and `op`.
+#   `server.appWatchdog.enable = false` drops it, e.g. while an MDM (Rippling)
+#   needs both apps to stay quit long enough to adopt them.
 # - `server-doctor` verifies every invariant above; run it after any change.
 # - Every machine change is recorded with `server-ledger <category> <msg>` in
 #   an append-only (kernel `sappnd`), hash-chained log; see server-ledger.sh.
@@ -109,6 +111,16 @@ in
       default = [ ];
       description = "SSH public keys allowed to log in as the primary user.";
     };
+
+    appWatchdog.enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = ''
+        Relaunch Tailscale.app and 1Password every 120 s if they are not running.
+        Disable when something else (e.g. an MDM) must manage or adopt them,
+        since the watchdog reopens them within two minutes of any quit.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -152,10 +164,12 @@ in
     };
 
     # ── Keep remote-access apps alive in the login session ─────────────────
-    launchd.user.agents.server-app-watchdog.serviceConfig = {
-      ProgramArguments = [ "${appWatchdog}" ];
-      RunAtLoad = true;
-      StartInterval = 120;
+    launchd.user.agents.server-app-watchdog = lib.mkIf cfg.appWatchdog.enable {
+      serviceConfig = {
+        ProgramArguments = [ "${appWatchdog}" ];
+        RunAtLoad = true;
+        StartInterval = 120;
+      };
     };
 
     environment.systemPackages = [
